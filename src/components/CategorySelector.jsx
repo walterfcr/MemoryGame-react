@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from './Layout';
-import { gsap } from 'gsap'; // Import GSAP for animation
+import { gsap } from 'gsap'; 
 import "./CategorySelector.css";
+import { useTranslation } from 'react-i18next';
 
 const CategorySelector = () => {
+  const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState(
     localStorage.getItem("selectedCategory") || "heroes"
   );
@@ -40,32 +42,32 @@ const CategorySelector = () => {
   };
 
   return (
-    <Layout title="Select Category" onBackClick={() => navigate("/")}>
+    <Layout title={t("SelectCategory")} onBackClick={() => navigate("/")}>
       <div ref={containerRef} className="categoryContainer">
         <img src={getLogoByCategory(selectedCategory)} alt="Logo" />
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("heroes")}
         >
-          Heroes and Villians
+         {t("heroes")}
         </button>
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("movies")}
         >
-          Movies and series
+          {t("movies")}
         </button>
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("musicians")}
         >
-          Musicians
+          {t("musicians")}
         </button>
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("videogames")}
         >
-          Video Games
+          {t("videogames")}
         </button>
       </div>
     </Layout>

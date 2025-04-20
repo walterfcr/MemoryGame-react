@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import Layout from './Layout'; // Reuse the Layout for consistent title/back UI
 import { gsap } from 'gsap';
+import { useTranslation } from 'react-i18next';
 
 export function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
@@ -17,7 +19,7 @@ export function Login() {
   }, []);
 
   return (
-    <Layout title="Login" onBackClick={() => navigate("/")}>
+    <Layout title={t("login")} onBackClick={() => navigate("/")}>
       <div ref={containerRef} className="loginContent">
         {/* Your login content goes here */}
         <p>Login form goes here.</p>

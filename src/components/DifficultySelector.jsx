@@ -3,8 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import Layout from './Layout'; 
 import "./DifficultySelector.css";
+import { useTranslation } from 'react-i18next';
 
 const DifficultySelector = ({ onSelect }) => {
+  const { t } = useTranslation();
   const [selectedDifficulty, setSelectedDifficulty] = useState(
     localStorage.getItem("selectedDifficulty") || null
   );
@@ -42,20 +44,20 @@ const DifficultySelector = ({ onSelect }) => {
 
   return (
     <Layout
-      title="Select Difficulty" // Only set title here
+      title={t("SelectDifficulty")} // Only set title here
       onBackClick={() => navigate("/")} // Back button to navigate to home
     >
       <div className="difficultyContainer" ref={containerRef}>
         {/* Render the difficulty logos and options */}
         <img src={getLogoByDifficulty(selectedDifficulty)} alt="Logo" />
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Easy")}>
-          Easy
+        {t("easy")}
         </button>
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Medium")}>
-          Medium
+        {t("medium")}
         </button>
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Hard")}>
-          Hard
+        {t("hard")}
         </button>
       </div>
     </Layout>

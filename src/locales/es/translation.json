@@ -1,0 +1,20 @@
+{
+  "play": "Jugar",
+  "language": "Idioma",
+  "category": "Categoría",
+  "difficulty": "Dificultad",
+  "selectLanguage": "Seleccionar idioma",
+  "SelectCategory": "Selecciona la Categoría",
+  "heroes": "Heroes y Villanos",
+  "movies": "Películas y Series",
+  "musicians": "Artistas Musicales",
+  "videogames": "Videojuegos",
+  "SelectDifficulty": "Selecciona la Dificultad",
+  "easy": "Fácil",
+  "medium": "Medio",
+  "hard": "Difícil",
+  "back": "Volver",
+  "score": "Marcador",
+  "credits": "Créditos",
+  "login": "Iniciar Sesion"
+}

@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import Layout from './Layout';
 import { gsap } from 'gsap';
+import { useTranslation } from 'react-i18next';
 
 export function ScoreBoard() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
@@ -17,7 +19,7 @@ export function ScoreBoard() {
   }, []);
 
   return (
-    <Layout title="Score Board" onBackClick={() => navigate("/")}>
+    <Layout title={t("score")} onBackClick={() => navigate("/")}>
       <div ref={containerRef} className="scoreboardContent">
         {/* Replace with actual scoreboard display */}
         <p>High scores will be shown here.</p>

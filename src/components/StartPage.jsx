@@ -2,8 +2,10 @@ import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import './StartPage.css';
+import { useTranslation } from 'react-i18next';
 
 const StartPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef();
 
@@ -29,21 +31,21 @@ const StartPage = () => {
   return (
     <main>
   <div className="titleHeader">
-    <h2>Memory Gamne</h2>
+    <h2>Memory Game</h2>
   </div>
     <div className="startPageContainer" ref={containerRef}>
       <img src="/images/logo.png" alt="Logo" className="logoImage" />
 
       <div className="tabsContainer">
-        <button onClick={() => handleNavigate("/login")} className="tabButton">Login</button>
-        <button onClick={() => handleNavigate("/difficulty")} className="tabButton">Difficulty</button>
-        <button onClick={() => handleNavigate("/categories")} className="tabButton">Categories</button>
-        <button onClick={() => handleNavigate("/score")} className="tabButton">Score</button>
-        <button onClick={() => handleNavigate("/language")} className="tabButton">Language</button>
-        <button onClick={() => handleNavigate("/credits")} className="tabButton">Credits</button>
+        <button onClick={() => handleNavigate("/login")} className="tabButton">{t("login")}</button>
+        <button onClick={() => handleNavigate("/difficulty")} className="tabButton">{t("difficulty")}</button>
+        <button onClick={() => handleNavigate("/categories")} className="tabButton">{t("category")}</button>
+        <button onClick={() => handleNavigate("/score")} className="tabButton">{t("score")}</button>
+        <button onClick={() => handleNavigate("/language")} className="tabButton">{t("language")}</button>
+        <button onClick={() => handleNavigate("/credits")} className="tabButton">{t("credits")}</button>
       </div>
 
-      <button onClick={() => handleNavigate("/play")} className="playButton">Play</button>
+      <button onClick={() => handleNavigate("/play")} className="playButton">{t("play")}</button>
     </div>
     </main>
   );

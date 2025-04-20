@@ -1,14 +1,16 @@
 import React from "react";
 import './Layout.css'; // for consistent styling
+import { useTranslation } from 'react-i18next';
 
 const Layout = ({ children, title, onBackClick }) => {
+  const { t } = useTranslation();
   return (
     <div className="layoutContainer">
       <div className="titleHeader">
         {/* Conditionally render the back button if onBackClick is provided */}
         {onBackClick && (
           <button className="backButton" onClick={onBackClick}>
-            ⬅ Back
+            ⬅ {t("back")}
           </button>
         )}
         {/* Render the title */}

@@ -1,0 +1,20 @@
+{
+  "play": "Play",
+  "language": "Language",
+  "category": "Category",
+  "difficulty": "Difficulty",
+  "selectLanguage": "Select Language",
+  "SelectCategory": "Select Category",
+  "heroes": "Heroes and Villians",
+  "movies": "Movies and Series",
+  "musicians": "Musicians",
+  "videogames": "Videogames",
+  "SelectDifficulty": "Select Difficulty",
+  "easy": "Easy",
+  "medium": "Medium",
+  "hard": "Hard",
+  "back": "Back",
+  "score": "Score Board",
+  "credits": "Credits",
+  "login": "Login"
+}

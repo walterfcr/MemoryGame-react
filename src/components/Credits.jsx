@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import Layout from './Layout'; // Import the Layout component
 import { gsap } from 'gsap'; // Import GSAP for animation
+import { useTranslation } from 'react-i18next';
 
 export function Credits() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null); // Ref for animation
 
@@ -18,7 +20,7 @@ export function Credits() {
 
   return (
     <Layout
-      title="Credits" // Layout handles the title
+      title={t("credits")} // Layout handles the title
       onBackClick={() => navigate("/")} // Back button functionality
     >
       <div ref={containerRef} className="creditsContent">
