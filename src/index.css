@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
+}
+
+/* Your variables and other styles go here */
+:root {
+  --main-background-color: #2E578B;
+  --primary-color: #072b5b;
+  --secondary-color: #B2025D;
+  --complementary-color: #8a7580;
+  --navbar-container-height: 70px;
+  --button-color: #fff;
+  --button-background-color: var(--secondary-color);
+  --play-view-hub-height: 60px;
+}
+
+.mainContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--main-background-color);
+  overflow: hidden;
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--navbar-container-height);
+  width: 100%;
+  background-color: var(--primary-color);
+}
+
+.navbarContainer-back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--navbar-container-height) - 30px);
+  height: calc(var(--navbar-container-height) - 30px);
+  color: var(--button-color);
+  position: fixed;
+  left: 10px;
+  font-size: 3rem;
+  padding: 5px 5px 0 0;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: var(--button-background-color);
+}
+
+.navbarContainer-title {
+  color: var(--button-color);
+  font-size: 30px;
+}
+
+.contentContainer {
+  height: calc(100% - var(--navbar-container-height));
+  width: 100%;
+  background-color: var(--main-background-color);
+}
+
+
+.titleHeader {
+  position:relative;
+  background-color: var(--primary-color);
+  padding: 1rem 0;
+  width: 100%;
+  text-align: center;
+}
+
+.titleHeader h2 {
+  color: white;
+  font-size: 2rem;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.1rem;
+}
+
+.backButton {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent; /* ✅ Correct way to remove background */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 2rem;
+  border: none; /* Optional: removes the border if there's any */
+}
+
+.backButton:hover {
+  color: #ddd;
+}

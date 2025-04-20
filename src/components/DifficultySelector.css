@@ -1,0 +1,31 @@
+.difficultyContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+  
+  /* Tab button styles */
+  .tabButtonDifficulty {
+    width: 400px;
+    height: 60px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 60px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  
+  .tabButtonDifficulty:hover {
+    background-color: #8c014a;
+  }
