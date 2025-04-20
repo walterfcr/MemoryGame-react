@@ -1,23 +1,51 @@
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link to handle navigation
-import './StartPage.css'; // We'll create this for scoped styling
+import React, { useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
+import './StartPage.css';
 
 const StartPage = () => {
+  const navigate = useNavigate();
+  const containerRef = useRef();
+
+  const handleNavigate = (path) => {
+    gsap.to(containerRef.current, {
+      x: "-100vw",     // slide out to the left
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.inOut",
+      onComplete: () => navigate(path),
+    });
+  };
+
+  useEffect(() => {
+    gsap.from(containerRef.current, {
+      opacity: 0,
+      y: 30,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+  }, []);
+
   return (
-    <div className="startPageContainer">
-    
+    <main>
+  <div className="titleHeader">
+    <h2>Memory Gamne</h2>
+  </div>
+    <div className="startPageContainer" ref={containerRef}>
       <img src="/images/logo.png" alt="Logo" className="logoImage" />
+
       <div className="tabsContainer">
-        <Link to="/login" className="tabButton">Login</Link>
-        <Link to="/difficulty" className="tabButton">Difficulty</Link>
-        <Link to="/categories" className="tabButton">Categories</Link>
-        <Link to="/score" className="tabButton">Score</Link>
-        <Link to="/language" className="tabButton">Language</Link>
-        <Link to="/credits" className="tabButton">Credits</Link>
+        <button onClick={() => handleNavigate("/login")} className="tabButton">Login</button>
+        <button onClick={() => handleNavigate("/difficulty")} className="tabButton">Difficulty</button>
+        <button onClick={() => handleNavigate("/categories")} className="tabButton">Categories</button>
+        <button onClick={() => handleNavigate("/score")} className="tabButton">Score</button>
+        <button onClick={() => handleNavigate("/language")} className="tabButton">Language</button>
+        <button onClick={() => handleNavigate("/credits")} className="tabButton">Credits</button>
       </div>
 
-      <Link to="/play" className="playButton">Play</Link>
+      <button onClick={() => handleNavigate("/play")} className="playButton">Play</button>
     </div>
+    </main>
   );
 };
 

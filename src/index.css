@@ -72,34 +72,3 @@ body {
 }
 
 
-.titleHeader {
-  position:relative;
-  background-color: var(--primary-color);
-  padding: 1rem 0;
-  width: 100%;
-  text-align: center;
-}
-
-.titleHeader h2 {
-  color: white;
-  font-size: 2rem;
-  font-family: "Bebas Neue", sans-serif;
-  letter-spacing: 0.1rem;
-}
-
-.backButton {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent; /* ✅ Correct way to remove background */
-  color: #fff;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-size: 2rem;
-  border: none; /* Optional: removes the border if there's any */
-}
-
-.backButton:hover {
-  color: #ddd;
-}

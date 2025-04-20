@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from './Layout';
+import { gsap } from 'gsap'; // Import GSAP for animation
 import "./CategorySelector.css";
 
 const CategorySelector = () => {
@@ -13,6 +15,16 @@ const CategorySelector = () => {
   };
 
   const navigate = useNavigate();
+  const containerRef = useRef(null); // Ref for animation
+
+  useEffect(() => {
+    gsap.from(containerRef.current, {
+      x: "100vw",        // Start off-screen to the right
+      opacity: 0,        // Fade in
+      duration: 0.6,     // Animation duration
+      ease: "power3.out" // Easing function for smooth animation
+    });
+  }, []);
 
   const getLogoByCategory = (category) => {
     switch (category) {
@@ -28,26 +40,20 @@ const CategorySelector = () => {
   };
 
   return (
-    <main>
-      <div className="titleHeader">
-        <h2>Select Category</h2>
-        <button className="backButton" onClick={() => navigate("/")}>
-          ⬅ Back
-        </button>
-      </div>
-      <div className="categoryContainer">
+    <Layout title="Select Category" onBackClick={() => navigate("/")}>
+      <div ref={containerRef} className="categoryContainer">
         <img src={getLogoByCategory(selectedCategory)} alt="Logo" />
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("heroes")}
         >
-          Heroes
+          Heroes and Villians
         </button>
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("movies")}
         >
-          Movies
+          Movies and series
         </button>
         <button
           className="tabButtonCategory"
@@ -62,7 +68,7 @@ const CategorySelector = () => {
           Video Games
         </button>
       </div>
-    </main>
+    </Layout>
   );
 };
 

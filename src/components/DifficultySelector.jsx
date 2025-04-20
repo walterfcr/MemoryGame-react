@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap";
+import Layout from './Layout'; 
 import "./DifficultySelector.css";
 
 const DifficultySelector = ({ onSelect }) => {
@@ -7,6 +9,17 @@ const DifficultySelector = ({ onSelect }) => {
     localStorage.getItem("selectedDifficulty") || null
   );
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    document.title = "Memory Game - Select Difficulty"; // Update the browser title
+    gsap.from(containerRef.current, {
+      x: "100vw",
+      opacity: 0,
+      duration: 0.6,
+      ease: "power3.out",
+    });
+  }, []);
 
   const getLogoByDifficulty = (difficulty) => {
     switch (difficulty) {
@@ -28,35 +41,24 @@ const DifficultySelector = ({ onSelect }) => {
   };
 
   return (
-    <main>
-      <div className="titleHeader">
-        <h2>Select Difficulty</h2>
-        <button className="backButton" onClick={() => navigate("/")}>
-          ⬅ Back
-        </button>
-      </div>
-      <div className="difficultyContainer">
+    <Layout
+      title="Select Difficulty" // Only set title here
+      onBackClick={() => navigate("/")} // Back button to navigate to home
+    >
+      <div className="difficultyContainer" ref={containerRef}>
+        {/* Render the difficulty logos and options */}
         <img src={getLogoByDifficulty(selectedDifficulty)} alt="Logo" />
-        <button
-          className="tabButtonDifficulty"
-          onClick={() => handleSelect("Easy")}
-        >
+        <button className="tabButtonDifficulty" onClick={() => handleSelect("Easy")}>
           Easy
         </button>
-        <button
-          className="tabButtonDifficulty"
-          onClick={() => handleSelect("Medium")}
-        >
+        <button className="tabButtonDifficulty" onClick={() => handleSelect("Medium")}>
           Medium
         </button>
-        <button
-          className="tabButtonDifficulty"
-          onClick={() => handleSelect("Hard")}
-        >
+        <button className="tabButtonDifficulty" onClick={() => handleSelect("Hard")}>
           Hard
         </button>
       </div>
-    </main>
+    </Layout>
   );
 };
 

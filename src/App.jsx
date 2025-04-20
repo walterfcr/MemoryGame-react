@@ -8,7 +8,7 @@ import LanguageSelector from './components/LanguageSelector';
 import Credits from './components/Credits';
 import Login from './components/Login';
 import MemoryGame from './components/MemoryGame';
-import './index.css'; 
+import './index.css';
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('musicians');
@@ -29,7 +29,10 @@ function App() {
         <Route path="/language" element={<LanguageSelector />} />
         <Route path="/credits" element={<Credits />} />
         <Route path="/play" element={
-          <MemoryGame category={selectedCategory} difficulty={selectedDifficulty} />
+          <MemoryGame
+            category={selectedCategory}
+            difficulty={selectedDifficulty}
+          />
         } />
       </Routes>
     </div>
@@ -37,4 +40,3 @@ function App() {
 }
 
 export default App;
-
