@@ -24,7 +24,7 @@
   max-width: 800px;
 }
 
-@media (min-width: 400px) and (max-width: 480px) {
+@media (min-width: 320px) and (max-width: 480px) {
   .card-grid.easy {
     max-width: 400px;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
