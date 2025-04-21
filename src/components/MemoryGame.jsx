@@ -27,7 +27,7 @@ const difficultyLabel = t(difficulty.toLowerCase());
   const totalPairs = {
     Easy: 4,
     Medium: 8,
-    Hard: 16,
+    Hard: 12,
   };
 
   const categoryPrefixes = {
