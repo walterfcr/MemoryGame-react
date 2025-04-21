@@ -10,7 +10,7 @@ const Layout = ({ children, title, onBackClick }) => {
         {/* Conditionally render the back button if onBackClick is provided */}
         {onBackClick && (
           <button className="backButton" onClick={onBackClick}>
-            ⬅ {t("back")}
+           {t("back")}
           </button>
         )}
         {/* Render the title */}

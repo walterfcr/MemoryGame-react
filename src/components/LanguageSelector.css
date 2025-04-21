@@ -1,4 +1,4 @@
-.categoryContainer {
+.languageContainer {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -12,7 +12,11 @@
 
   
   /* Tab button styles */
-  .tabButtonCategory {
+  .tabButtonLanguage {
+    display: flex;                   /* Enable flexbox */
+    align-items: center;            /* Vertical centering */
+    justify-content: center;        /* Horizontal centering (text + image together) */
+    gap: 0.8rem;                    /* Space between image and text */
     width: 400px;
     height: 60px;
     background-color: var(--secondary-color);
@@ -21,18 +25,18 @@
     border-radius: 8px;
     font-size: 1.5rem;
     text-align: center;
-    line-height: 60px;
     text-decoration: none;
     transition: background 0.3s ease;
     cursor: pointer;
   }
   
-  .tabButtonCategory:hover {
+  
+  .tabButtonLanguage:hover {
     background-color: #8c014a;
   }
 
   @media (min-width:320px) and (max-width:480px){
-    .tabButtonCategory {
+    .tabButtonLanguage {
         width: 250px;
     }
   }

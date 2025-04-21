@@ -24,8 +24,16 @@
     line-height: 60px;
     text-decoration: none;
     transition: background 0.3s ease;
+    cursor: pointer;
   }
   
   .tabButtonDifficulty:hover {
     background-color: #8c014a;
+  }
+
+
+  @media (min-width:320px) and (max-width:480px){
+    .tabButtonDifficulty {
+        width: 250px;
+    }
   }

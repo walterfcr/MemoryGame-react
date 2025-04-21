@@ -37,6 +37,7 @@
   line-height: 60px;
   text-decoration: none;
   transition: background 0.3s ease;
+  cursor: pointer;
 }
 
 .tabButton:hover {
@@ -59,6 +60,7 @@
   line-height: 70px;
   transition: background 0.3s ease;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .playButton:hover {

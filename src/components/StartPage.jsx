@@ -31,7 +31,7 @@ const StartPage = () => {
   return (
     <main>
   <div className="titleHeader">
-    <h2>Memory Game</h2>
+    <h2>{t("memoryGame")}</h2>
   </div>
     <div className="startPageContainer" ref={containerRef}>
       <img src="/images/logo.png" alt="Logo" className="logoImage" />

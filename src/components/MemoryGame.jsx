@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
+import Layout from './Layout';
+import { gsap } from 'gsap';  // Import GSAP for animation
 import './MemoryGame.css';
 
 const MemoryGame = () => {
@@ -8,6 +10,8 @@ const MemoryGame = () => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameWon, setGameWon] = useState(false);
+  const [time, setTime] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
 
   const { width, height } = useWindowSize();
 
@@ -28,6 +32,18 @@ const MemoryGame = () => {
   };
 
   const flipSound = new Audio('/sounds/flip.mp3');
+  
+  const containerRef = useRef(null); // Ref for GSAP animation
+
+  // GSAP animation for memory game container
+  useEffect(() => {
+    gsap.from(containerRef.current, {
+      opacity: 0,          // Start with opacity 0
+      y: 30,               // Start 30px below the original position
+      duration: 1,         // Animation duration
+      ease: "power3.out"   // Easing for smooth animation
+    });
+  }, []);
 
   const loadImages = () => {
     const { prefix, count } = categoryPrefixes[category];
@@ -66,10 +82,14 @@ const MemoryGame = () => {
     setMatchedPairs(0);
     setFlippedCards([]);
     setGameWon(false);
+    setTime(0);
+    setClickCount(0);
   };
 
   const handleCardClick = (index) => {
     if (flippedCards.length === 2 || cards[index].flipped || cards[index].matched) return;
+
+    setClickCount((prev) => prev + 1);
 
     const updatedCards = [...cards];
     updatedCards[index].flipped = true;
@@ -82,41 +102,37 @@ const MemoryGame = () => {
     setFlippedCards(newFlipped);
 
     if (newFlipped.length === 2) {
-        const [firstIdx, secondIdx] = newFlipped;
-        const firstCard = updatedCards[firstIdx];
-        const secondCard = updatedCards[secondIdx];
+      const [firstIdx, secondIdx] = newFlipped;
+      const firstCard = updatedCards[firstIdx];
+      const secondCard = updatedCards[secondIdx];
 
-        // Delay the match sound and the background color change
-        setTimeout(() => {
-            if (firstCard.image === secondCard.image) {
-                updatedCards[firstIdx].matched = true;
-                updatedCards[secondIdx].matched = true;
-                setMatchedPairs((prev) => prev + 1);
-                setCards(updatedCards);
-                setFlippedCards([]);
-                
-                // Play the match sound after a short delay (to let flip animation complete)
-                const matchSound = new Audio("/sounds/match-sound.wav");
-                matchSound.play();
+      setTimeout(() => {
+        if (firstCard.image === secondCard.image) {
+          updatedCards[firstIdx].matched = true;
+          updatedCards[secondIdx].matched = true;
+          setMatchedPairs((prev) => prev + 1);
+          setCards(updatedCards);
+          setFlippedCards([]);
 
-                // Change the background color of matched cards to yellow
-                setTimeout(() => {
-                    updatedCards[firstIdx].background = "#17f5d7"; // Color when matched
-                    updatedCards[secondIdx].background = "#17f5d7";
-                    setCards([...updatedCards]);
-                }, 500); // Delay the background color change after the sound
+          const matchSound = new Audio("/sounds/match-sound.wav");
+          matchSound.play();
 
-            } else {
-                setTimeout(() => {
-                    updatedCards[firstIdx].flipped = false;
-                    updatedCards[secondIdx].flipped = false;
-                    setCards([...updatedCards]);
-                    setFlippedCards([]);
-                }, 1000);
-            }
-        }, 500); // Match logic happens after 500ms (just after the card flip animation)
+          setTimeout(() => {
+            updatedCards[firstIdx].background = "#17f5d7";
+            updatedCards[secondIdx].background = "#17f5d7";
+            setCards([...updatedCards]);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            updatedCards[firstIdx].flipped = false;
+            updatedCards[secondIdx].flipped = false;
+            setCards([...updatedCards]);
+            setFlippedCards([]);
+          }, 1000);
+        }
+      }, 500);
     }
-};
+  };
 
   useEffect(() => {
     loadImages();
@@ -132,37 +148,54 @@ const MemoryGame = () => {
     }
   }, [matchedPairs, difficulty]);
 
-  return (
-    <div className="memory-game">
-      {gameWon && (
-        <>
-          <Confetti width={width} height={height} />
-          <div className="win-message">
-            <h2>🎉 You won! 🎉</h2>
-            <button onClick={loadImages}>Play Again</button>
-          </div>
-        </>
-      )}
+  useEffect(() => {
+    let timer;
+    if (!gameWon) {
+      timer = setInterval(() => {
+        setTime((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [gameWon]);
 
-      <div className={`card-grid ${gameWon ? 'blurred' : ''}`}>
-        {cards.map((card, index) => (
-          <div
-            key={card.id}
-            className="card"
-            onClick={() => handleCardClick(index)}
-          >
-            <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
-              <div className={`card-front ${card.matched ? 'matched' : ''}`}>
-                <img src={card.image} alt="front" />
-              </div>
-              <div className="card-back">
-                <img src="/images/placeholder.png" alt="back" />
+  return (
+    <Layout title="Play" onBackClick={() => window.history.back()}>
+      <div ref={containerRef} className="memory-game">
+        {gameWon && (
+          <>
+            <Confetti width={width} height={height} />
+            <div className="win-message">
+              <h2>🎉 You won! 🎉</h2>
+              <button onClick={loadImages}>Play Again</button>
+            </div>
+          </>
+        )}
+
+        <div className="stats-bar">
+          <p>🕒 Time: {time}s</p>
+          <p>🖱️ Clicks: {clickCount}</p>
+        </div>
+
+        <div className={`card-grid ${gameWon ? 'blurred' : ''}`}>
+          {cards.map((card, index) => (
+            <div
+              key={card.id}
+              className="card"
+              onClick={() => handleCardClick(index)}
+            >
+              <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
+                <div className={`card-front ${card.matched ? 'matched' : ''}`}>
+                  <img src={card.image} alt="front" />
+                </div>
+                <div className="card-back">
+                  <img src="/images/placeholder.png" alt="back" />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

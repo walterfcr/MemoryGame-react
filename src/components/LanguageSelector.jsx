@@ -4,6 +4,7 @@ import Layout from './Layout';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { useEffect, useRef } from 'react';
+import './LanguageSelector.css';
 
 function LanguageSelector() {
   const { i18n, t } = useTranslation();
@@ -26,9 +27,10 @@ function LanguageSelector() {
 
   return (
     <Layout title={t("selectLanguage")} onBackClick={() => navigate("/")}>
-      <div ref={containerRef} className="languageSelector">
-        <button onClick={() => changeLanguage('en')}>English</button>
-        <button onClick={() => changeLanguage('es')}>Español</button>
+      <div ref={containerRef} className="languageContainer">
+        <img src="/images/language-logo.png" alt="Logo" className="logoImage" />
+        <button className="tabButtonLanguage" onClick={() => changeLanguage('en')}><img src="/images/eu.webp" width="40" style={{ marginRight: '8px' }} />English</button>
+        <button className="tabButtonLanguage" onClick={() => changeLanguage('es')}><img src="/images/es.webp" width="40" style={{ marginRight: '8px' }} />Español</button>
       </div>
     </Layout>
   );
