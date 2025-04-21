@@ -3,9 +3,18 @@ import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Layout from './Layout';
 import { gsap } from 'gsap';  // Import GSAP for animation
+import { useTranslation } from 'react-i18next';
 import './MemoryGame.css';
 
 const MemoryGame = () => {
+  const { t } = useTranslation();
+  
+  const category = localStorage.getItem("selectedCategory") || "musicians";
+  const difficulty = localStorage.getItem("selectedDifficulty") || "Easy";
+
+const categoryLabel = t(category);
+const difficultyLabel = t(difficulty.toLowerCase()); 
+
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
@@ -15,13 +24,10 @@ const MemoryGame = () => {
 
   const { width, height } = useWindowSize();
 
-  const category = localStorage.getItem("selectedCategory") || "musicians";
-  const difficulty = localStorage.getItem("selectedDifficulty") || "Easy";
-
   const totalPairs = {
     Easy: 4,
     Medium: 8,
-    Hard: 12,
+    Hard: 16,
   };
 
   const categoryPrefixes = {
@@ -159,43 +165,46 @@ const MemoryGame = () => {
   }, [gameWon]);
 
   return (
-    <Layout title="Play" onBackClick={() => window.history.back()}>
-      <div ref={containerRef} className="memory-game">
-        {gameWon && (
-          <>
-            <Confetti width={width} height={height} />
-            <div className="win-message">
-              <h2>🎉 You won! 🎉</h2>
-              <button onClick={loadImages}>Play Again</button>
-            </div>
-          </>
-        )}
-
-        <div className="stats-bar">
-          <p>🕒 Time: {time}s</p>
-          <p>🖱️ Clicks: {clickCount}</p>
-        </div>
-
-        <div className={`card-grid ${gameWon ? 'blurred' : ''}`}>
-          {cards.map((card, index) => (
-            <div
-              key={card.id}
-              className="card"
-              onClick={() => handleCardClick(index)}
-            >
-              <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
-                <div className={`card-front ${card.matched ? 'matched' : ''}`}>
-                  <img src={card.image} alt="front" />
-                </div>
-                <div className="card-back">
-                  <img src="/images/placeholder.png" alt="back" />
-                </div>
+    <Layout title={`${t('play')} - ${categoryLabel} ( ${difficultyLabel} )`}
+    onBackClick={() => window.history.back()}>
+    {/* NEW: Stats container moved outside memory-game */}
+    <div className="stats-container">
+      <p>🕒 Time: {time}s</p>
+      <p>🖱️ Clicks: {clickCount}</p>
+    </div>
+  
+    <div ref={containerRef} className="memory-game">
+      {gameWon && (
+        <>
+          <Confetti width={width} height={height} />
+          <div className="win-message">
+            <h2>🎉 You won! 🎉</h2>
+            <button onClick={loadImages}>Play Again</button>
+          </div>
+        </>
+      )}
+  
+      <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? 'blurred' : ''}`}>
+        {cards.map((card, index) => (
+          <div
+            key={card.id}
+            className="card"
+            onClick={() => handleCardClick(index)}
+          >
+            <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
+              <div className={`card-front ${card.matched ? 'matched' : ''}`}>
+                <img src={card.image} alt="front" />
+              </div>
+              <div className="card-back">
+                <img src="/images/placeholder.png" alt="back" />
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    </Layout>
+    </div>
+  </Layout>
+  
   );
 };
 
