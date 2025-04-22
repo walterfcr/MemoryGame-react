@@ -1,0 +1,21 @@
+{
+  "memoryGame": "Jeu de mémoire",
+  "play": "Jouer",
+  "language": "Langue",
+  "category": "Catégorie",
+  "difficulty": "Niveau",
+  "selectLanguage": "Choisir la langue",
+  "SelectCategory": "Choisir la catégorie",
+  "heroes": "Héros et Méchants",
+  "movies": "Films et Séries",
+  "musicians": "Artistes musicaux",
+  "videogames": "Jeux vidéo",
+  "SelectDifficulty": "Choisir la difficulté",
+  "easy": "Facile",
+  "medium": "Moyen",
+  "hard": "Difficile",
+  "back": "Retour",
+  "score": "Score",
+  "credits": "Crédits",
+  "login": "Connexion"
+}

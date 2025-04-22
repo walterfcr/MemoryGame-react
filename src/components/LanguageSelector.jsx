@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -10,6 +10,7 @@ function LanguageSelector() {
   const navigate = useNavigate();
   const containerRef = useRef(null);
   const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const [language, setLanguage] = useState(i18n.language || 'en');
 
   useEffect(() => {
     gsap.from(containerRef.current, {
@@ -32,21 +33,35 @@ function LanguageSelector() {
 
   const changeLanguage = (lng) => {
     playClickSound();
+    setLanguage(lng);
     i18n.changeLanguage(lng);
     localStorage.setItem('lang', lng);
+  };
+
+  const getLogoImage = () => {
+    switch (language) {
+      case 'es':
+        return '/images/language-logo2.png';
+      case 'fr':
+        return '/images/language-logo3.png';
+      case 'en':
+      default:
+        return '/images/language-logo1.png';
+    }
   };
 
   return (
     <Layout title={t("selectLanguage")} onBackClick={handleBack}>
       <div ref={containerRef} className="languageContainer">
-        <img src="/images/language-logo.png" alt="Logo" className="logoImage" />
+        <img src={getLogoImage()} alt="Language Logo" className="logoImage" />
         <button className="tabButtonLanguage" onClick={() => changeLanguage('en')}>
-          <img src="/images/eu.webp" width="40" style={{ marginRight: '8px' }} />
           English
         </button>
         <button className="tabButtonLanguage" onClick={() => changeLanguage('es')}>
-          <img src="/images/es.webp" width="40" style={{ marginRight: '8px' }} />
           Español
+        </button>
+        <button className="tabButtonLanguage" onClick={() => changeLanguage('fr')}>
+          Français
         </button>
       </div>
     </Layout>
