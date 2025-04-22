@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import Layout from './Layout';
-import { gsap } from 'gsap';  // Import GSAP for animation
+import { gsap } from 'gsap';
 import { useTranslation } from 'react-i18next';
 import './MemoryGame.css';
 
 const MemoryGame = () => {
   const { t } = useTranslation();
-  
+
   const category = localStorage.getItem("selectedCategory") || "musicians";
   const difficulty = localStorage.getItem("selectedDifficulty") || "Easy";
 
-const categoryLabel = t(category);
-const difficultyLabel = t(difficulty.toLowerCase()); 
+  const categoryLabel = t(category);
+  const difficultyLabel = t(difficulty.toLowerCase());
 
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
@@ -38,16 +38,16 @@ const difficultyLabel = t(difficulty.toLowerCase());
   };
 
   const flipSound = new Audio('/sounds/flip.mp3');
-  
-  const containerRef = useRef(null); // Ref for GSAP animation
+  const clickSound = useRef(new Audio("/sounds/click.mp3"));
 
-  // GSAP animation for memory game container
+  const containerRef = useRef(null);
+
   useEffect(() => {
     gsap.from(containerRef.current, {
-      opacity: 0,          // Start with opacity 0
-      y: 30,               // Start 30px below the original position
-      duration: 1,         // Animation duration
-      ease: "power3.out"   // Easing for smooth animation
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      ease: "power3.out"
     });
   }, []);
 
@@ -164,47 +164,50 @@ const difficultyLabel = t(difficulty.toLowerCase());
     return () => clearInterval(timer);
   }, [gameWon]);
 
+  const handleBack = () => {
+    clickSound.current.currentTime = 0;
+    clickSound.current.play();
+    window.history.back();
+  };
+
   return (
-    <Layout title={`${t('play')} - ${categoryLabel} ( ${difficultyLabel} )`}
-    onBackClick={() => window.history.back()}>
-    {/* NEW: Stats container moved outside memory-game */}
-    <div className="stats-container">
-      <p>🕒 Time: {time}s</p>
-      <p>🖱️ Clicks: {clickCount}</p>
-    </div>
-  
-    <div ref={containerRef} className="memory-game">
-      {gameWon && (
-        <>
-          <Confetti width={width} height={height} />
-          <div className="win-message">
-            <h2>🎉 You won! 🎉</h2>
-            <button onClick={loadImages}>Play Again</button>
-          </div>
-        </>
-      )}
-  
-      <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? 'blurred' : ''}`}>
-        {cards.map((card, index) => (
-          <div
-            key={card.id}
-            className="card"
-            onClick={() => handleCardClick(index)}
-          >
-            <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
-              <div className={`card-front ${card.matched ? 'matched' : ''}`}>
-                <img src={card.image} alt="front" />
-              </div>
-              <div className="card-back">
-                <img src="/images/placeholder.png" alt="back" />
+    <Layout title={`${categoryLabel} - ${difficultyLabel}`} onBackClick={handleBack}>
+      <div className="stats-container">
+        <p>🕒 {t("time")}: {time}s</p>
+        <p>🖱️ {t("clicks")}: {clickCount}</p>
+      </div>
+
+      <div ref={containerRef} className="memory-game">
+        {gameWon && (
+          <>
+            <Confetti width={width} height={height} />
+            <div className="win-message">
+              <h2>🎉 {t("youWon")} 🎉</h2>
+              <button onClick={loadImages}>{t("playAgain")}</button>
+            </div>
+          </>
+        )}
+
+        <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? 'blurred' : ''}`}>
+          {cards.map((card, index) => (
+            <div
+              key={card.id}
+              className="card"
+              onClick={() => handleCardClick(index)}
+            >
+              <div className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}>
+                <div className={`card-front ${card.matched ? 'matched' : ''}`}>
+                  <img src={card.image} alt="front" />
+                </div>
+                <div className="card-back">
+                  <img src="/images/placeholder.png" alt="back" />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </Layout>
-  
+    </Layout>
   );
 };
 

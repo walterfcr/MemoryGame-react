@@ -9,6 +9,15 @@ export function ScoreBoard() {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
+  // Sound setup
+  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+
+  const playSoundAndGoBack = () => {
+    clickSound.current.currentTime = 0;
+    clickSound.current.play();
+    navigate("/");
+  };
+
   useEffect(() => {
     gsap.from(containerRef.current, {
       x: "100vw",
@@ -19,7 +28,7 @@ export function ScoreBoard() {
   }, []);
 
   return (
-    <Layout title={t("score")} onBackClick={() => navigate("/")}>
+    <Layout title={t("score")} onBackClick={playSoundAndGoBack}>
       <div ref={containerRef} className="scoreboardContent">
         {/* Replace with actual scoreboard display */}
         <p>High scores will be shown here.</p>

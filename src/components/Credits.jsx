@@ -8,6 +8,7 @@ export function Credits() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null); // Ref for animation
+  const clickSound = useRef(new Audio("/sounds/click.mp3")); // Sound reference
 
   useEffect(() => {
     gsap.from(containerRef.current, {
@@ -18,10 +19,16 @@ export function Credits() {
     });
   }, []);
 
+  const handleBack = () => {
+    clickSound.current.currentTime = 0;
+    clickSound.current.play();
+    navigate("/");
+  };
+
   return (
     <Layout
       title={t("credits")} // Layout handles the title
-      onBackClick={() => navigate("/")} // Back button functionality
+      onBackClick={handleBack} // Back button with sound
     >
       <div ref={containerRef} className="creditsContent">
         <p>Some credits or information about the game.</p>

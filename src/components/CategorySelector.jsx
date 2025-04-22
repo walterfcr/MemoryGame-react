@@ -7,17 +7,31 @@ import { useTranslation } from 'react-i18next';
 
 const CategorySelector = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const containerRef = useRef(null); // Ref for animation
+
   const [selectedCategory, setSelectedCategory] = useState(
     localStorage.getItem("selectedCategory") || "heroes"
   );
 
+  // Button click sound using useRef to avoid reloading
+  const buttonClickSound = useRef(new Audio('/sounds/click.mp3'));
+
+  const playSound = () => {
+    buttonClickSound.current.currentTime = 0;
+    buttonClickSound.current.play();
+  };
+
   const handleSelect = (category) => {
+    playSound();
     setSelectedCategory(category);
     localStorage.setItem("selectedCategory", category);
   };
 
-  const navigate = useNavigate();
-  const containerRef = useRef(null); // Ref for animation
+  const handleBackClick = () => {
+    playSound();
+    setTimeout(() => navigate("/"), 150); // Delay navigation to let sound play
+  };
 
   useEffect(() => {
     gsap.from(containerRef.current, {
@@ -42,14 +56,14 @@ const CategorySelector = () => {
   };
 
   return (
-    <Layout title={t("SelectCategory")} onBackClick={() => navigate("/")}>
+    <Layout title={t("SelectCategory")} onBackClick={handleBackClick}>
       <div ref={containerRef} className="categoryContainer">
         <img src={getLogoByCategory(selectedCategory)} alt="Logo" />
         <button
           className="tabButtonCategory"
           onClick={() => handleSelect("heroes")}
         >
-         {t("heroes")}
+          {t("heroes")}
         </button>
         <button
           className="tabButtonCategory"

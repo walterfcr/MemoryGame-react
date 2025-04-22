@@ -7,14 +7,23 @@ import { useTranslation } from 'react-i18next';
 
 const DifficultySelector = ({ onSelect }) => {
   const { t } = useTranslation();
-  const [selectedDifficulty, setSelectedDifficulty] = useState(
-    localStorage.getItem("selectedDifficulty") || null
-  );
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
+  const [selectedDifficulty, setSelectedDifficulty] = useState(
+    localStorage.getItem("selectedDifficulty") || null
+  );
+
+  // Sound effect
+  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+
+  const playSound = () => {
+    clickSound.current.currentTime = 0;
+    clickSound.current.play();
+  };
+
   useEffect(() => {
-    document.title = "Memory Game - Select Difficulty"; // Update the browser title
+    document.title = "Memory Game - Select Difficulty";
     gsap.from(containerRef.current, {
       x: "100vw",
       opacity: 0,
@@ -35,6 +44,7 @@ const DifficultySelector = ({ onSelect }) => {
   };
 
   const handleSelect = (difficulty) => {
+    playSound();
     setSelectedDifficulty(difficulty);
     localStorage.setItem("selectedDifficulty", difficulty);
     if (onSelect) {
@@ -42,22 +52,26 @@ const DifficultySelector = ({ onSelect }) => {
     }
   };
 
+  const handleBackClick = () => {
+    playSound();
+    setTimeout(() => navigate("/"), 150); // Slight delay to let the sound play
+  };
+
   return (
     <Layout
-      title={t("SelectDifficulty")} // Only set title here
-      onBackClick={() => navigate("/")} // Back button to navigate to home
+      title={t("SelectDifficulty")}
+      onBackClick={handleBackClick}
     >
       <div className="difficultyContainer" ref={containerRef}>
-        {/* Render the difficulty logos and options */}
         <img src={getLogoByDifficulty(selectedDifficulty)} alt="Logo" />
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Easy")}>
-        {t("easy")}
+          {t("easy")}
         </button>
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Medium")}>
-        {t("medium")}
+          {t("medium")}
         </button>
         <button className="tabButtonDifficulty" onClick={() => handleSelect("Hard")}>
-        {t("hard")}
+          {t("hard")}
         </button>
       </div>
     </Layout>

@@ -9,7 +9,16 @@ const StartPage = () => {
   const navigate = useNavigate();
   const containerRef = useRef();
 
+  // Sound effect
+  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+
+  const playSound = () => {
+    clickSound.current.currentTime = 0;
+    clickSound.current.play();
+  };
+
   const handleNavigate = (path) => {
+    playSound();
     gsap.to(containerRef.current, {
       x: "-100vw",     // slide out to the left
       opacity: 0,
@@ -30,23 +39,23 @@ const StartPage = () => {
 
   return (
     <main>
-  <div className="titleHeader">
-    <h2>{t("memoryGame")}</h2>
-  </div>
-    <div className="startPageContainer" ref={containerRef}>
-      <img src="/images/logo.png" alt="Logo" className="logoImage" />
-
-      <div className="tabsContainer">
-        <button onClick={() => handleNavigate("/login")} className="tabButton">{t("login")}</button>
-        <button onClick={() => handleNavigate("/difficulty")} className="tabButton">{t("difficulty")}</button>
-        <button onClick={() => handleNavigate("/categories")} className="tabButton">{t("category")}</button>
-        <button onClick={() => handleNavigate("/score")} className="tabButton">{t("score")}</button>
-        <button onClick={() => handleNavigate("/language")} className="tabButton">{t("language")}</button>
-        <button onClick={() => handleNavigate("/credits")} className="tabButton">{t("credits")}</button>
+      <div className="titleHeader">
+        <h2>{t("memoryGame")}</h2>
       </div>
+      <div className="startPageContainer" ref={containerRef}>
+        <img src="/images/logo.png" alt="Logo" className="logoImage" />
 
-      <button onClick={() => handleNavigate("/play")} className="playButton">{t("play")}</button>
-    </div>
+        <div className="tabsContainer">
+          <button onClick={() => handleNavigate("/login")} className="tabButton">{t("login")}</button>
+          <button onClick={() => handleNavigate("/difficulty")} className="tabButton">{t("difficulty")}</button>
+          <button onClick={() => handleNavigate("/categories")} className="tabButton">{t("category")}</button>
+          <button onClick={() => handleNavigate("/score")} className="tabButton">{t("score")}</button>
+          <button onClick={() => handleNavigate("/language")} className="tabButton">{t("language")}</button>
+          <button onClick={() => handleNavigate("/credits")} className="tabButton">{t("credits")}</button>
+        </div>
+
+        <button onClick={() => handleNavigate("/play")} className="playButton">{t("play")}</button>
+      </div>
     </main>
   );
 };
