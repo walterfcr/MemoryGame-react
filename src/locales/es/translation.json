@@ -17,5 +17,8 @@
   "back": "Volver",
   "score": "Marcador",
   "credits": "Créditos",
-  "login": "Iniciar Sesion"
+  "login": "Iniciar Sesion",
+  "youWon": "Has Ganado",
+  "yourScore": "Tu Puntaje",
+  "playAgain": "Juega de Nuevo"
 }

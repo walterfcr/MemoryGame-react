@@ -17,5 +17,8 @@
   "back": "Retour",
   "score": "Score",
   "credits": "Crédits",
-  "login": "Connexion"
+  "login": "Connexion",
+  "youWon": "Tu as gagné",
+  "yourScore": "Ton score",
+  "playAgain": "Rejouer"
 }

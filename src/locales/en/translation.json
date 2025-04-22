@@ -17,5 +17,8 @@
   "back": "Back",
   "score": "Score Board",
   "credits": "Credits",
-  "login": "Login"
+  "login": "Login",
+  "youWon": "You Won",
+  "yourScore": "Your Score",
+  "playAgain": "Play Again"
 }

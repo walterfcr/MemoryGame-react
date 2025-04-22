@@ -9,20 +9,22 @@ import './MemoryGame.css';
 const MemoryGame = () => {
   const { t } = useTranslation();
 
-  const category = localStorage.getItem("selectedCategory") || "musicians";
-  const difficulty = localStorage.getItem("selectedDifficulty") || "Easy";
-
-  const categoryLabel = t(category);
-  const difficultyLabel = t(difficulty.toLowerCase());
-
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameWon, setGameWon] = useState(false);
   const [time, setTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
+  const [score, setScore] = useState(0);
 
   const { width, height } = useWindowSize();
+
+  const category = localStorage.getItem("selectedCategory") || "musicians";
+  const difficulty = localStorage.getItem("selectedDifficulty") || "Easy";
+
+  const categoryLabel = t(category);
+  const difficultyLabel = t(difficulty.toLowerCase());
+  const playerName = localStorage.getItem("playerName") || t("guest");
 
   const totalPairs = {
     Easy: 4,
@@ -38,6 +40,7 @@ const MemoryGame = () => {
   };
 
   const flipSound = new Audio('/sounds/flip.mp3');
+  const winSound = new Audio('/sounds/win.wav');
   const clickSound = useRef(new Audio("/sounds/click.mp3"));
 
   const containerRef = useRef(null);
@@ -90,6 +93,7 @@ const MemoryGame = () => {
     setGameWon(false);
     setTime(0);
     setClickCount(0);
+    setScore(0);
   };
 
   const handleCardClick = (index) => {
@@ -148,11 +152,14 @@ const MemoryGame = () => {
     if (matchedPairs === totalPairs[difficulty]) {
       setTimeout(() => {
         setGameWon(true);
-        localStorage.removeItem("selectedCategory");
-        localStorage.removeItem("selectedDifficulty");
+        winSound.play();
+        const scoreCalc = Math.max(1000 - (time * 5 + clickCount * 2), 0);
+        setScore(scoreCalc);
+        //localStorage.removeItem("selectedCategory");
+       // localStorage.removeItem("selectedDifficulty");
       }, 300);
     }
-  }, [matchedPairs, difficulty]);
+  }, [matchedPairs, difficulty, time, clickCount]);
 
   useEffect(() => {
     let timer;
@@ -182,7 +189,8 @@ const MemoryGame = () => {
           <>
             <Confetti width={width} height={height} />
             <div className="win-message">
-              <h2>🎉 {t("youWon")} 🎉</h2>
+              <h2>🎉 {t("youWon")}, {playerName}! 🎉</h2>
+              <p>🏆 {t("yourScore")}: {score}</p>
               <button onClick={loadImages}>{t("playAgain")}</button>
             </div>
           </>
