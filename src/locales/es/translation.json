@@ -23,5 +23,8 @@
   "start": "Iniciar",
   "youWon": "Has Ganado",
   "yourScore": "Tu Puntaje",
-  "playAgain": "Juega de Nuevo"
+  "playAgain": "Juega de Nuevo",
+  "guest": "Invitado",
+  "time": "Tiempo",
+  "clicks": "Clicks"
 }

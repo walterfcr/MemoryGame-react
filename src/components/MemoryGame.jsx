@@ -148,6 +148,8 @@ const MemoryGame = () => {
     loadImages();
   }, []);
 
+  //localStorage.clear();
+
   useEffect(() => {
     if (matchedPairs === totalPairs[difficulty]) {
       setTimeout(() => {
@@ -155,11 +157,25 @@ const MemoryGame = () => {
         winSound.play();
         const scoreCalc = Math.max(1000 - (time * 5 + clickCount * 2), 0);
         setScore(scoreCalc);
-        //localStorage.removeItem("selectedCategory");
-       // localStorage.removeItem("selectedDifficulty");
+
+        // Save score to localStorage
+        const newScore = {
+          playerName,
+          score: scoreCalc,
+          difficulty,
+          category,
+          time,
+          clicks: clickCount,
+          date: new Date().toISOString(),
+        };
+
+        const existingScores = JSON.parse(localStorage.getItem("memoryGameScores")) || [];
+        const updatedScores = [newScore, ...existingScores].sort((a, b) => b.score - a.score).slice(0, 10); // keep top 10
+        localStorage.setItem("memoryGameScores", JSON.stringify(updatedScores));
+
       }, 300);
     }
-  }, [matchedPairs, difficulty, time, clickCount]);
+  }, [matchedPairs, difficulty, time, clickCount, category, playerName]);
 
   useEffect(() => {
     let timer;
