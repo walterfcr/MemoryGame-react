@@ -31,7 +31,7 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: transparent; /* ✅ Correct way to remove background */
-    color: #fff;
+    color: var(--complementary-color);
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 2rem;
@@ -40,4 +40,14 @@
   
   .backButton:hover {
     color: #ddd;
+  }
+
+  @media (max-width: 768px) {
+    .titleHeader h2 {
+      font-size: 1rem;
+    }
+
+    .backButton {
+      font-size: 1rem;
+    }
   }

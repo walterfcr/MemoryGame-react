@@ -39,4 +39,12 @@
     .tabButtonLanguage {
         width: 250px;
     }
+
+    .languageContainer {
+      justify-content: none;
+      height: auto;
+      padding-top: 30px !important;
+    }
   }
+
+
