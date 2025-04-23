@@ -41,22 +41,22 @@ export function ScoreBoard() {
             <thead>
               <tr>
                 <th>{t("yourName")}</th>
-                <th>{t("score")}</th>
+                <th className="hide-on-mobile">{t("difficulty")}</th>
+                <th className="hide-on-mobile">{t("category")}</th>
                 <th>{t("time")}</th>
                 <th>{t("clicks")}</th>
-                <th>{t("difficulty")}</th>
-                <th>{t("category")}</th>
+                <th>{t("score")}</th>
               </tr>
             </thead>
             <tbody>
               {scores.map((entry, idx) => (
                 <tr key={idx}>
                   <td>{entry.playerName}</td>
-                  <td>{entry.score}</td>
+                  <td className="hide-on-mobile">{t(entry.difficulty.toLowerCase())}</td>
+                  <td className="hide-on-mobile">{t(entry.category)}</td>
                   <td>{entry.time}s</td>
                   <td>{entry.clicks}</td>
-                  <td>{t(entry.difficulty.toLowerCase())}</td>
-                  <td>{t(entry.category)}</td>
+                  <td>{entry.score}</td>
                 </tr>
               ))}
             </tbody>
