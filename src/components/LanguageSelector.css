@@ -38,12 +38,20 @@
   @media (min-width:320px) and (max-width:480px){
     .tabButtonLanguage {
         width: 250px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 50px;
     }
 
     .languageContainer {
       justify-content: none;
       height: auto;
       padding-top: 30px !important;
+      gap: 1.4rem;
+    }
+
+    .languageContainer img{
+      width:80%;
     }
   }
 

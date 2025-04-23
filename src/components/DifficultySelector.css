@@ -38,9 +38,17 @@
       justify-content: none;
       height: auto;
       padding-top: 30px !important;
+      gap: 1.5rem;
+    }
+
+    .difficultyContainer img{
+      width:60%;
     }
 
     .tabButtonDifficulty {
         width: 250px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 50px;
     }
   } 

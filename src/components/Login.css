@@ -55,7 +55,11 @@ form {
     .loginContent {
       justify-content: none;
       height: auto;
-      padding-top: 100px !important;
+      padding-top: 50px !important;
+    }
+
+    .loginContent img{
+      width:60%;
     }
 
   }
