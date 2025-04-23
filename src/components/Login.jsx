@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from './Layout';
 import { gsap } from 'gsap';
 import { useTranslation } from 'react-i18next';
+import './Login.css';
 
 export function Login() {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ export function Login() {
   return (
     <Layout title={t("login")} onBackClick={handleBack}>
       <div ref={containerRef} className="loginContent">
+        <img src="/images/login-logo.png" alt="Logo" className="logoImage" />
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">{t("enterYourName")}:</label>
           <input

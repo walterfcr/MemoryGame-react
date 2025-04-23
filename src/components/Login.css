@@ -1,0 +1,51 @@
+.loginContent {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+    color:#fff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Optional: vertically centers within parent if needed */
+    gap: 1rem;
+    width: 100%;
+    max-width: 300px; /* Or any width you want */
+  }
+  
+  form label,
+  form input,
+  form button {
+    width: 100%;
+    text-align: center; /* Centers label text */
+  }
+  
+  form input,
+  form button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  form button {
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  
+  form button:hover {
+    background-color: var(--hover-color);
+  }
+  

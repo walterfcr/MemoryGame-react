@@ -18,6 +18,9 @@
   "score": "Score Board",
   "credits": "Credits",
   "login": "Login",
+  "enterYourName": "Enter Your User ID",
+  "yourName": "Your User ID",
+  "start": "Start",
   "youWon": "You Won",
   "yourScore": "Your Score",
   "playAgain": "Play Again"

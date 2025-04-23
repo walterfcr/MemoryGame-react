@@ -18,6 +18,9 @@
   "score": "Score",
   "credits": "Crédits",
   "login": "Connexion",
+  "enterYourName": "Entrez votre nom d'utilisateur",
+  "yourName": "Votre nom d'utilisateur",
+  "start": "Commencer",
   "youWon": "Tu as gagné",
   "yourScore": "Ton score",
   "playAgain": "Rejouer"

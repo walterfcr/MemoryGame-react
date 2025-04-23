@@ -8,6 +8,7 @@
   box-sizing: border-box;
 }
 
+
 /* Logo styles */
 .logoImage {
 
@@ -65,4 +66,18 @@
 
 .playButton:hover {
   background-color: #8c014a;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .startPageContainer {
+    justify-content: none;
+    height: auto;
+    padding-top: 100px !important;
+  }
+
+  .playButton {
+    max-width: 320px; /* Three buttons width + gaps */
+
+  }
+  
 }
