@@ -16,6 +16,7 @@ const MemoryGame = () => {
   const [time, setTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [score, setScore] = useState(0);
+  const [scoreSaved, setScoreSaved] = useState(false); // NEW STATE
 
   const { width, height } = useWindowSize();
 
@@ -94,6 +95,7 @@ const MemoryGame = () => {
     setTime(0);
     setClickCount(0);
     setScore(0);
+    setScoreSaved(false); // RESET
   };
 
   const handleCardClick = (index) => {
@@ -148,17 +150,19 @@ const MemoryGame = () => {
     loadImages();
   }, []);
 
-  //localStorage.clear();
-
   useEffect(() => {
-    if (matchedPairs === totalPairs[difficulty]) {
-      setTimeout(() => {
+    if (scoreSaved) return;
+  
+    const allMatched = cards.length > 0 && cards.every(card => card.matched);
+    if (allMatched) {
+      // Wait for the last flip animation to complete
+      const timeout = setTimeout(() => {
         setGameWon(true);
         winSound.play();
+  
         const scoreCalc = Math.max(1000 - (time * 5 + clickCount * 2), 0);
         setScore(scoreCalc);
-
-        // Save score to localStorage
+  
         const newScore = {
           playerName,
           score: scoreCalc,
@@ -168,14 +172,19 @@ const MemoryGame = () => {
           clicks: clickCount,
           date: new Date().toISOString(),
         };
-
+  
         const existingScores = JSON.parse(localStorage.getItem("memoryGameScores")) || [];
-        const updatedScores = [newScore, ...existingScores].sort((a, b) => b.score - a.score).slice(0, 10); // keep top 10
+        const updatedScores = [newScore, ...existingScores]
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10);
+  
         localStorage.setItem("memoryGameScores", JSON.stringify(updatedScores));
-
-      }, 300);
+        setScoreSaved(true);
+      }, 800); // this delay allows flip animation to finish
+  
+      return () => clearTimeout(timeout);
     }
-  }, [matchedPairs, difficulty, time, clickCount, category, playerName]);
+  }, [cards, time, clickCount, difficulty, category, playerName, scoreSaved]);
 
   useEffect(() => {
     let timer;
