@@ -49,3 +49,13 @@ form {
     background-color: var(--hover-color);
   }
   
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    
+    .loginContent {
+      justify-content: none;
+      height: auto;
+      padding-top: 100px !important;
+    }
+
+  }

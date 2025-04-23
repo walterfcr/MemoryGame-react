@@ -33,6 +33,13 @@
 
 
   @media (min-width:320px) and (max-width:480px){
+
+    .difficultyContainer {
+      justify-content: none;
+      height: auto;
+      padding-top: 30px !important;
+    }
+
     .tabButtonDifficulty {
         width: 250px;
     }
