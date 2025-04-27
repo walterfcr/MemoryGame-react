@@ -61,7 +61,7 @@ const MemoryGame = () => {
 
     const allImages = Array.from({ length: count }, (_, i) => {
       const num = String(i + 1).padStart(3, '0');
-      return `${prefix}-${num}.png`;
+      return `${prefix}-${num}.webp`;
     });
 
     const selectedImages = allImages
