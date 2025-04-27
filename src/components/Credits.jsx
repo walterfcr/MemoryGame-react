@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from './Layout'; // Import the Layout component
 import { gsap } from 'gsap'; // Import GSAP for animation
 import { useTranslation } from 'react-i18next';
+import './Credits.css';
 
 export function Credits() {
   const { t } = useTranslation();
@@ -27,12 +28,19 @@ export function Credits() {
 
   return (
     <Layout
-      title={t("credits")} // Layout handles the title
-      onBackClick={handleBack} // Back button with sound
+      title={t("credits")} 
+      onBackClick={handleBack}
     >
       <div ref={containerRef} className="creditsContent">
-        <p>Some credits or information about the game.</p>
-        {/* You can add more content here related to the credits */}
+      <img src="/images/credits-logo.png" alt="Logo" className="logoImage" />
+        
+        <p>{t("inspired")}</p>
+        <p>{t("project")}</p>
+        <p>{t("developed")}</p>
+        <p>{t("version")}</p>
+        <p>{t("built")}</p>
+        <p>{t("sound")}</p>
+        <p>{t("contact")}</p>
       </div>
     </Layout>
   );

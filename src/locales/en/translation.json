@@ -16,7 +16,6 @@
   "hard": "Hard",
   "back": "Back",
   "score": "Score Board",
-  "credits": "Credits",
   "login": "Login",
   "enterYourName": "Enter Your User ID",
   "yourName": "Your User ID",
@@ -26,5 +25,13 @@
   "playAgain": "Play Again",
   "guest": "Guest",
   "time": "Time",
-  "clicks": "Clicks"
+  "clicks": "Clicks",
+  "credits": "Credits",
+  "inspired": "Inspired by classic memory games and modern web designs",
+  "project": "This project is for educational and personal use!",
+  "developed": "Developed by Walter Fallas",
+  "version": "Version 1.0.0 - Released in April 2025.",
+  "built": "Built with React, GSAP, React Router, and i18next.",
+  "sound": "Sound effects obtained from freesound.org",
+  "contact": "Feel free to contact me at info@walterfallascr.com"
 }
