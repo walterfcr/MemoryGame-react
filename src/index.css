@@ -18,10 +18,10 @@ body {
 
 /* Your variables and other styles go here */
 :root {
-  --main-background-color: #2E578B;
+  --main-background-color: #3c95f5;
   --primary-color: #072b5b;
-  --secondary-color: #B2025D;
-  --hover-color: #8c014a;
+  --secondary-color: #f12357 ;
+  --hover-color: #c9224b;
   --complementary-color: #b2d1fa;
   --navbar-container-height: 70px;
   --button-color: #fff;
