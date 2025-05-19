@@ -41,7 +41,7 @@
 }
 
 .tabButton:hover {
-  background-color: #8c014a;
+  background-color: var(--hover-color);
 }
 
 /* Play button styles */
@@ -64,7 +64,7 @@
 }
 
 .playButton:hover {
-  background-color: #8c014a;
+  background-color: var(--hover-color);
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
