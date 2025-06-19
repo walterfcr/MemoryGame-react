@@ -15,7 +15,7 @@ const CategorySelector = () => {
   );
 
   // Button click sound using useRef to avoid reloading
-  const buttonClickSound = useRef(new Audio('/sounds/click.mp3'));
+  const buttonClickSound = useRef(new Audio('/sounds/click.wav'));
 
   const playSound = () => {
     buttonClickSound.current.currentTime = 0;

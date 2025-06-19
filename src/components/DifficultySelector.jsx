@@ -15,7 +15,7 @@ const DifficultySelector = ({ onSelect }) => {
   );
 
   // Sound effect
-  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"));
 
   const playSound = () => {
     clickSound.current.currentTime = 0;

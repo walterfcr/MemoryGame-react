@@ -9,7 +9,7 @@ export function Login() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"));
 
   const [name, setName] = useState('');
 

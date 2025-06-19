@@ -42,7 +42,7 @@ const MemoryGame = () => {
 
   const flipSound = new Audio('/sounds/flip.mp3');
   const winSound = new Audio('/sounds/win.wav');
-  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const clickSound = useRef(new Audio("/sounds/clicks.mp3"));
 
   const containerRef = useRef(null);
 

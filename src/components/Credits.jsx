@@ -9,7 +9,7 @@ export function Credits() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null); // Ref for animation
-  const clickSound = useRef(new Audio("/sounds/click.mp3")); // Sound reference
+  const clickSound = useRef(new Audio("/sounds/click.wav")); // Sound reference
 
   useEffect(() => {
     gsap.from(containerRef.current, {

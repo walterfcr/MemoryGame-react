@@ -11,7 +11,7 @@ export function ScoreBoard() {
   const containerRef = useRef(null);
   const [scores, setScores] = useState([]);
 
-  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"));
 
   const playSoundAndGoBack = () => {
     clickSound.current.currentTime = 0;

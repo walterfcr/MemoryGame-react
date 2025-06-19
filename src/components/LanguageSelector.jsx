@@ -9,7 +9,7 @@ function LanguageSelector() {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const containerRef = useRef(null);
-  const clickSound = useRef(new Audio("/sounds/click.mp3"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"));
   const [language, setLanguage] = useState(i18n.language || 'en');
 
   useEffect(() => {
