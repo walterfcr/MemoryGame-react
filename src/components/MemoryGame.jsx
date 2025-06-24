@@ -34,8 +34,8 @@ const MemoryGame = () => {
   };
 
   const categoryPrefixes = {
-    heroes: { prefix: "TM01", count: 30 },
-    movies: { prefix: "TM02", count: 24 },
+    heroes: { prefix: "TM01", count: 31 },
+    movies: { prefix: "TM02", count: 31 },
     musicians: { prefix: "TM03", count: 30 },
     videogames: { prefix: "TM04", count: 36 },
   };
