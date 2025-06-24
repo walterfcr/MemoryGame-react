@@ -35,9 +35,9 @@ const MemoryGame = () => {
 
   const categoryPrefixes = {
     heroes: { prefix: "TM01", count: 31 },
-    movies: { prefix: "TM02", count: 31 },
-    musicians: { prefix: "TM03", count: 30 },
-    videogames: { prefix: "TM04", count: 36 },
+    movies: { prefix: "TM02", count: 35 },
+    musicians: { prefix: "TM03", count: 40 },
+    videogames: { prefix: "TM04", count: 37 },
   };
 
   const flipSound = new Audio('/sounds/flip.mp3');
