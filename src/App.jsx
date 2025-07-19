@@ -8,7 +8,14 @@ import LanguageSelector from './components/LanguageSelector';
 import Credits from './components/Credits';
 import Login from './components/Login';
 import MemoryGame from './components/MemoryGame';
+import TestConnection from "./TestConnection";
+import EnhancedMemoryGame from './components/EnhancedMemoryGame';
+import EnhancedMemoryGameUpdated from './components/EnhancedMemoryGameUpdated';
+import Leaderboard from './components/Leaderboard';
 import './index.css';
+
+
+
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState('musicians');
@@ -16,6 +23,7 @@ function App() {
 
   return (
     <div className="mainContainer">
+      {/* <TestConnection /> */}  {/* Commented out - keep for testing later */}
       <Routes>
         <Route path="/" element={<StartPage />} />
         <Route path="/login" element={<Login />} />
@@ -26,10 +34,11 @@ function App() {
           <CategorySelector setCategory={setSelectedCategory} />
         } />
         <Route path="/score" element={<ScoreBoard />} />
+        <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/language" element={<LanguageSelector />} />
         <Route path="/credits" element={<Credits />} />
         <Route path="/play" element={
-          <MemoryGame
+          <EnhancedMemoryGameUpdated
             category={selectedCategory}
             difficulty={selectedDifficulty}
           />

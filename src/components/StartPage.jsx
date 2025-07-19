@@ -49,7 +49,7 @@ const StartPage = () => {
           <button onClick={() => handleNavigate("/login")} className="tabButton">{t("login")}</button>
           <button onClick={() => handleNavigate("/difficulty")} className="tabButton">{t("difficulty")}</button>
           <button onClick={() => handleNavigate("/categories")} className="tabButton">{t("category")}</button>
-          <button onClick={() => handleNavigate("/score")} className="tabButton">{t("score")}</button>
+          <button onClick={() => handleNavigate("/Leaderboard")} className="tabButton">{t("Leaderboard")}</button>
           <button onClick={() => handleNavigate("/language")} className="tabButton">{t("language")}</button>
           <button onClick={() => handleNavigate("/credits")} className="tabButton">{t("credits")}</button>
         </div>
