@@ -11,7 +11,7 @@ export const saveGameScore = async (scoreData) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(scoreData),
+      body: JSON.stringify(scoreData), 
     })
 
     const result = await response.json()
@@ -36,6 +36,7 @@ export const getScores = async () => {
     if (!response.ok) {
       throw new Error(result.error || "Failed to fetch scores")
     }
+    
 
     return result.data
   } catch (error) {
