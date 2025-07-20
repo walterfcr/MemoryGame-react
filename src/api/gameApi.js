@@ -36,7 +36,7 @@ export const getScores = async () => {
     if (!response.ok) {
       throw new Error(result.error || "Failed to fetch scores")
     }
-    
+
 
     return result.data
   } catch (error) {
