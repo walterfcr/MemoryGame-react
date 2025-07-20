@@ -1,0 +1,308 @@
+:root {
+  --text-color: #333;
+  --light-gray: #f8f9fa;
+  --border-color: #dee2e6;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  gap: 2rem; /* Space between sections */
+  padding: 1rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  min-height: calc(100vh - 60px); /* Adjust for Layout header height if needed */
+  max-width: 1200px; /* Keep max-width for content */
+  margin: 0 auto; /* Center the container itself */
+}
+
+.leaderboard-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Status messages (loading/error) */
+.status-message {
+  text-align: center;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.status-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: #dc3545;
+}
+
+/* Primary Button Style (matching tabButtonLanguage) */
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 200px; /* Adjusted for general use, can be overridden */
+  height: 50px; /* Adjusted for general use */
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  padding: 0 15px; /* Add padding for text */
+}
+
+.primary-button:hover {
+  background-color: #8c014a; /* Darker purple on hover */
+}
+
+/* Filters Section */
+.filters {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  width: 100%; /* Allow filters to take full width */
+  max-width: 600px; /* Limit filter section width */
+}
+
+.filter-label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  background-color: white;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+/* Stats Summary */
+.stats-summary {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 800px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 15px;
+  background-color: var(--light-gray);
+  border-radius: 10px;
+  flex: 1; /* Allow cards to grow */
+  min-width: 150px; /* Minimum width for cards */
+  box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color); /* Use primary color for values */
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+/* No Scores Message */
+.no-scores-message {
+  text-align: center;
+  padding: 40px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.no-scores-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+/* Scores Table */
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%; /* Ensure it doesn't overflow its parent */
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--secondary-color);
+  color:#fff;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  border-radius: 10px;
+  overflow: hidden; /* Ensures rounded corners apply to content */
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 15px;
+  text-align: left;
+  font-weight: normal;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.leaderboard-table th {
+  background-color: var(--secondary-color);
+  font-weight: bold;
+  color: #fff;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: var(--secondary-color);
+}
+
+.leaderboard-table tr:nth-child(-n + 3) {
+  background-color: var(--hover-color); /* Light yellow for top 3 */
+  color: #fff;
+}
+
+.rank-cell {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.player-name-cell {
+  font-weight: bold;
+  color: #fff;
+}
+
+.category-emoji {
+  margin-right: 8px;
+}
+
+.difficulty-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block; /* Ensures padding and background work correctly */
+}
+
+.time-cell {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.moves-cell {
+  text-align: center;
+}
+
+.date-cell {
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Footer */
+.leaderboard-footer {
+  text-align: center;
+  margin-top: 30px;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .leaderboard-container {
+    gap: 1.5rem;
+  }
+
+  .filters,
+  .stats-summary {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .filter-select,
+  .primary-button {
+    width: 100%;
+    max-width: 300px; /* Limit width on smaller screens */
+  }
+
+  .stat-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .rank-cell,
+  .player-name-cell,
+  .time-cell {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leaderboard-container {
+    padding: 10px;
+    justify-content: flex-start; /* Align to top on very small screens */
+    height: auto; /* Allow height to adjust */
+    padding-top: 30px; /* Add some top padding */
+  }
+
+  .status-icon,
+  .no-scores-icon {
+    font-size: 36px;
+  }
+
+  .primary-button {
+    height: 45px;
+    font-size: 1rem;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .rank-cell,
+  .player-name-cell,
+  .time-cell {
+    font-size: 14px;
+  }
+}

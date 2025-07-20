@@ -33,5 +33,12 @@
   "version": "Version 1.0.0 - Publiée en avril 2025.",
   "built": "Construit avec React, GSAP, React Router et i18next.",
   "sound": "Effets sonores obtenus sur freesound.org",
-  "contact": "N'hésitez pas à me contacter à info@walterfallascr.com"
+  "contact": "N'hésitez pas à me contacter à info@walterfallascr.com",
+  "player": "joueur",
+  "players": "joueurs",
+  "bestTime": "meilleur temp",
+  "total": "Total",
+  "date": "date",
+  "refresh": "actualiser",
+  "rank": "classement"
 }
