@@ -1,5 +1,7 @@
 // API functions to communicate with your backend
-const API_BASE_URL = "http://localhost:3002/api"
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3002/api";
+
 
 // Save a game score to the backend
 export const saveGameScore = async (scoreData) => {
