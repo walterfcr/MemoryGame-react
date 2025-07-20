@@ -30,6 +30,8 @@ const MemoryGameBackend = ({
 
   const { width, height } = useWindowSize()
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3002/api"
+
   // FIXED: Prioritize localStorage over props (unless props are explicitly different)
   const category = localStorage.getItem("selectedCategory") || propCategory || "musicians"
   const rawDifficulty = localStorage.getItem("selectedDifficulty") || propDifficulty || "Easy"
@@ -210,14 +212,13 @@ const MemoryGameBackend = ({
         moves: scoreData.clicks,
       }
 
-      console.log("📤 SENDING TO BACKEND:", backendScoreData)
-      const response = await fetch("http://localhost:3002/api/scores", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(backendScoreData),
-      })
+    const response = await fetch(`${API_BASE_URL}/scores`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backendScoreData),
+    })
 
       const result = await response.json()
       console.log("🔍 Response status:", response.status)

@@ -11,18 +11,19 @@ function TestConnection() {
     setLoading(true)
     setError(null)
 
-    try {
-      // Call your Node.js server
-      const response = await fetch("http://localhost:3002/api/game-info")
-      const data = await response.json()
-      setServerData(data)
-      console.log("Data from server:", data)
-    } catch (err) {
-      setError("Failed to connect to server: " + err.message)
-      console.error("Connection error:", err)
-    } finally {
-      setLoading(false)
-    }
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3002/api"
+
+try {
+  const response = await fetch(`${API_BASE_URL}/game-info`)
+  const data = await response.json()
+  setServerData(data)
+  console.log("Data from server:", data)
+} catch (err) {
+  setError("Failed to connect to server: " + err.message)
+  console.error("Connection error:", err)
+} finally {
+  setLoading(false)
+}
   }
 
   return (

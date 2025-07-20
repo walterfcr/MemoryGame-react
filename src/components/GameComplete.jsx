@@ -1,11 +1,13 @@
 "use client"
 
-// Component shown when game is completed
 import { useState, useEffect } from "react"
 
 function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, onPlayAgain, onBackToMenu }) {
   const [saveStatus, setSaveStatus] = useState("saving") // 'saving', 'success', 'error'
   const [saveMessage, setSaveMessage] = useState("")
+
+  // Define API base URL from environment variable or fallback to localhost
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3002/api"
 
   useEffect(() => {
     // Automatically save the score when component mounts
@@ -20,7 +22,7 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
         }
 
         console.log("Saving score:", scoreData)
-        const response = await fetch("http://localhost:3002/api/scores", {
+        const response = await fetch(`${API_BASE_URL}/scores`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -49,7 +51,7 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
     }
 
     saveScore()
-  }, [playerName, category, difficulty, gameTime, totalMoves])
+  }, [playerName, category, difficulty, gameTime, totalMoves, API_BASE_URL])
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
