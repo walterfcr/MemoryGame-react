@@ -8,7 +8,7 @@
 .leaderboard-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
+  /* Removed justify-content: center; */
   align-items: center; /* Center content horizontally */
   gap: 2rem; /* Space between sections */
   padding: 1rem;
@@ -17,6 +17,8 @@
   min-height: calc(100vh - 60px); /* Adjust for Layout header height if needed */
   max-width: 1200px; /* Keep max-width for content */
   margin: 0 auto; /* Center the container itself */
+  overflow-y: auto !important;/* ¡Añadido para el scroll vertical! */
+  -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
 }
 
 .leaderboard-title {
@@ -67,7 +69,7 @@
 }
 
 .primary-button:hover {
-  background-color: #8c014a; /* Darker purple on hover */
+  background-color: var(--hover-color); /* Usando la nueva variable */
 }
 
 /* Filters Section */
@@ -84,7 +86,7 @@
 .filter-label {
   margin-right: 10px;
   font-weight: bold;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio a blanco */
 }
 
 .filter-select {
@@ -140,7 +142,7 @@
 .no-scores-message {
   text-align: center;
   padding: 40px;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio a blanco */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,8 +164,8 @@
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--secondary-color);
-  color:#fff;
+  background-color: var(--secondary-color); /* Manteniendo tu cambio */
+  color: #fff; /* Manteniendo tu cambio */
   box-shadow: 0 4px 6px var(--shadow-color);
   border-radius: 10px;
   overflow: hidden; /* Ensures rounded corners apply to content */
@@ -178,29 +180,29 @@
 }
 
 .leaderboard-table th {
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color); /* Manteniendo tu cambio */
   font-weight: bold;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio */
 }
 
 .leaderboard-table tr:nth-child(even) {
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color); /* Manteniendo tu cambio */
 }
 
 .leaderboard-table tr:nth-child(-n + 3) {
-  background-color: var(--hover-color); /* Light yellow for top 3 */
-  color: #fff;
+  background-color: var(--hover-color); /* Usando la nueva variable */
+  color: #fff; /* Manteniendo tu cambio */
 }
 
 .rank-cell {
   font-size: 18px;
   font-weight: bold;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio */
 }
 
 .player-name-cell {
   font-weight: bold;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio */
 }
 
 .category-emoji {
@@ -227,7 +229,7 @@
 }
 
 .date-cell {
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio */
   font-size: 14px;
 }
 
@@ -235,7 +237,7 @@
 .leaderboard-footer {
   text-align: center;
   margin-top: 30px;
-  color: #fff;
+  color: #fff; /* Manteniendo tu cambio */
   font-size: 14px;
 }
 
@@ -279,9 +281,9 @@
 @media (max-width: 480px) {
   .leaderboard-container {
     padding: 10px;
-    justify-content: flex-start; /* Align to top on very small screens */
-    height: auto; /* Allow height to adjust */
-    padding-top: 30px; /* Add some top padding */
+    justify-content: flex-start; /* Re-añadido para asegurar que el contenido empiece arriba en móviles */
+    height: auto; /* Re-añadido para que la altura se ajuste al contenido */
+    padding-top: 30px !important; /* Ajustado para tu padding-top */
   }
 
   .status-icon,

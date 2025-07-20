@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 * {
   margin: 0;
@@ -16,11 +16,21 @@ body {
   letter-spacing: 0.2rem;
 }
 
+html,
+body {
+  height: 100%; /* Asegura que ocupen toda la altura disponible */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Previene el scroll horizontal no deseado */
+  overflow-y: auto; /* ¡Permite el scroll vertical en toda la página! */
+  -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
+}
+
 /* Your variables and other styles go here */
 :root {
   --main-background-color: #2a3a5d;
   --primary-color: #1f2a47;
-  --secondary-color: #cf0973 ;
+  --secondary-color: #cf0973;
   --hover-color: #9b0555;
   --complementary-color: #b2d1fa;
   --navbar-container-height: 70px;
@@ -31,9 +41,9 @@ body {
 
 .mainContainer {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh; /* CAMBIO CLAVE: de height a min-height */
   background-color: var(--main-background-color);
-  overflow: hidden;
+  /* CAMBIO CLAVE: Eliminado overflow: hidden; */
 }
 
 .navbarContainer {
@@ -70,6 +80,8 @@ body {
   height: calc(100% - var(--navbar-container-height));
   width: 100%;
   background-color: var(--main-background-color);
+  /* Si el contenido de contentContainer es muy largo,
+     y quieres que el scroll sea solo dentro de contentContainer,
+     añade aquí: overflow-y: auto;
+     Pero si quieres que toda la página haga scroll, no añadas nada aquí. */
 }
-
-

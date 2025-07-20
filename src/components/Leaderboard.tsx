@@ -100,8 +100,8 @@ const Leaderboard = () => {
   const getDifficultyColor = (difficulty: string) => {
     const colors: Record<string, string> = {
       easy: "#28a745", // Green
-      medium: "#ffc107", // Yellow
-      hard: "#dc3545", // Red
+      medium: "#46219cff", // Yellow
+      hard: "#1b156eff", // Red
     }
     return colors[difficulty] || "#6c757d" // Grey
   }
