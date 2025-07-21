@@ -31,7 +31,7 @@
   "project": "Ce projet est destiné à un usage éducatif et personnel !",
   "developed": "Développé par Walter Fallas",
   "version": "Version 1.0.0 - Publiée en avril 2025.",
-  "built": "Construit avec React, GSAP, React Router et i18next.",
+  "built": "Construit avec React, GSAP, React Router, Node JS, Mongo DB et i18next.",
   "sound": "Effets sonores obtenus sur freesound.org",
   "contact": "N'hésitez pas à me contacter à info@walterfallascr.com",
   "player": "joueur",
@@ -40,5 +40,10 @@
   "total": "Total",
   "date": "date",
   "refresh": "actualiser",
-  "rank": "classement"
+  "rank": "classement",
+  "yourNameHere": "Entrez votre nom",
+  "startGame": "Démarrer le jeu",
+  "readyToPlay": "Prêts à jouer ? ",
+  "congratulations": "Félicitations!",
+  "gameComplete": "Jeu complété"
 }

@@ -1,0 +1,128 @@
+/* components/GameSelection.css */
+
+.game-selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem; /* Increased gap for better spacing */
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  min-height: calc(100vh - var(--navbar-container-height));
+  width: 100%;
+  max-width: 700px; /* Max width for content */
+  margin: 0 auto;
+  color: var(--button-color);
+  text-align: center;
+}
+
+.selection-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--complementary-color);
+  margin-bottom: 0.5rem;
+}
+
+.category-buttons,
+.difficulty-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.selection-button {
+  flex: 1 1 auto; /* Allow buttons to grow and shrink */
+  min-width: 120px; /* Minimum width for buttons */
+  max-width: 200px; /* Max width for buttons */
+  padding: 15px 20px;
+  background-color: var(--primary-color); /* Darker background for inactive */
+  color: var(--button-color);
+  border: 2px solid var(--complementary-color);
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.1s ease;
+}
+
+.selection-button:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.selection-button.active {
+  background-color: var(--secondary-color); /* Active color */
+  border-color: var(--secondary-color);
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(var(--secondary-color-rgb), 0.5); /* Glow effect */
+}
+
+.start-game-main-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 300px; /* Larger button for starting game */
+  height: 70px;
+  background-color: var(--secondary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 10px;
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.1s ease;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+.start-game-main-button:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-3px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .game-selection-container {
+    gap: 2rem;
+    padding: 1rem;
+  }
+  .selection-title {
+    font-size: 1.8rem;
+  }
+  .selection-button {
+    font-size: 1.1rem;
+    padding: 12px 15px;
+    min-width: 100px;
+  }
+  .start-game-main-button {
+    width: 250px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-selection-container {
+    gap: 1.5rem;
+    padding: 0.8rem;
+    justify-content: flex-start; /* Align to top on very small screens */
+    padding-top: 30px; /* Add some top padding */
+  }
+  .selection-title {
+    font-size: 1.5rem;
+  }
+  .selection-button {
+    font-size: 1rem;
+    padding: 10px 12px;
+    min-width: unset; /* Remove min-width to allow more flexibility */
+    flex: 1 1 45%; /* Two buttons per row */
+  }
+  .start-game-main-button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}

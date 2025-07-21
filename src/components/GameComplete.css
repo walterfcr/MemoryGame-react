@@ -1,0 +1,162 @@
+/* components/GameComplete.css */
+
+.game-complete-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem; /* Espacio entre secciones */
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  min-height: calc(100vh - var(--navbar-container-height)); /* Ajusta a la altura disponible */
+  width: 100%;
+  max-width: 700px; /* Ancho máximo para el contenido */
+  margin: 0 auto;
+  color: var(--button-color); /* Color de texto general */
+  text-align: center;
+}
+
+.game-complete-container h1{
+  margin:100px 0 0;
+}
+
+.game-complete-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--complementary-color);
+  margin: 0.5rem;
+}
+
+.score-summary-card {
+  background-color: var(--primary-color); /* Fondo oscuro para la tarjeta de resumen */
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  display: inline-block;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--secondary-color);
+  width: 90%;
+  max-width: 400px;
+}
+
+.score-summary-card h3 {
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+}
+
+.score-summary-card p {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--button-color);
+}
+
+.score-summary-card p strong {
+  color: var(--complementary-color);
+}
+
+/* Save Status */
+.save-status-message {
+  margin: 20px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.save-status-message.saving {
+  color: #007bff; /* Azul */
+}
+
+.save-status-message.success {
+  color: #28a745; /* Verde */
+}
+
+.save-status-message.error {
+  color: #dc3545; /* Rojo */
+}
+
+/* Action Buttons Container */
+.action-buttons-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espacio entre botones */
+  flex-wrap: wrap;
+}
+
+/* Primary Action Button (Play Again) - Reutilizando el estilo de GameSelection */
+.primary-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 250px; /* Ancho del botón */
+  height: 60px; /* Altura del botón */
+  background-color: var(--secondary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.1s ease;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
+.primary-action-button:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-3px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .game-complete-container {
+    gap: 2rem;
+    padding: 1rem;
+  }
+  .game-complete-heading {
+    font-size: 2rem;
+  }
+  .score-summary-card {
+    padding: 20px;
+  }
+  .score-summary-card h3 {
+    font-size: 1.5rem;
+  }
+  .score-summary-card p {
+    font-size: 1.1rem;
+  }
+  .primary-action-button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-complete-container {
+    gap: 1.5rem;
+    padding: 0.8rem;
+    justify-content: flex-start; /* Alinea al inicio en móviles */
+    padding-top: 30px; /* Espaciado superior */
+  }
+  .game-complete-heading {
+    font-size: 1.8rem;
+  }
+  .score-summary-card {
+    width: 100%;
+    max-width: unset;
+  }
+  .score-summary-card p {
+    font-size: 1rem;
+  }
+  .action-buttons-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .primary-action-button {
+    width: 100%;
+    max-width: 250px;
+    font-size: 1.1rem;
+  }
+}

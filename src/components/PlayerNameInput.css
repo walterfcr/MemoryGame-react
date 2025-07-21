@@ -1,0 +1,132 @@
+.player-name-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido verticalmente */
+  align-items: center; /* Centra el contenido horizontalmente */
+  gap: 2rem; /* Espacio entre secciones */
+  padding: 1rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  min-height: calc(100vh - var(--navbar-container-height)); /* Ajusta a la altura disponible */
+  width: 100%;
+  max-width: 600px; /* Limita el ancho para mejor legibilidad */
+  margin: 0 auto; /* Centra el contenedor */
+  text-align: center;
+  color: var(--button-color); /* Color de texto general, asumiendo fondo oscuro */
+}
+
+.game-details {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--complementary-color); /* Un color que contraste bien */
+}
+
+.player-name-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--button-color); /* Color de la etiqueta */
+}
+
+.player-name-input {
+  padding: 12px 15px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 2px solid var(--complementary-color); /* Borde que contraste */
+  background-color: #fff; /* Fondo blanco para el input */
+  color: var(--text-color); /* Texto oscuro en el input */
+  width: 80%; /* Ancho del input */
+  max-width: 350px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player-name-input:focus {
+  outline: none;
+  border-color: var(--secondary-color); /* Color de enfoque */
+  box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.3); /* Sombra de enfoque */
+}
+
+/* Botón de "Start Game!" - Reutilizando el estilo primary-button */
+.start-game-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 250px; /* Ancho del botón */
+  height: 60px; /* Altura del botón */
+  background-color: var(--secondary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
+.start-game-button:hover:not(:disabled) {
+  background-color: var(--hover-color);
+}
+
+.start-game-button:disabled {
+  background-color: #6c757d; /* Color para botón deshabilitado */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.score-info {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--complementary-color);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .player-name-container {
+    gap: 1.5rem;
+    padding: 1rem;
+    justify-content: flex-start; /* Alinea al inicio en móviles */
+    padding-top: 30px; /* Espaciado superior */
+  }
+
+  .game-details {
+    font-size: 1rem;
+  }
+
+  .input-label {
+    font-size: 1rem;
+  }
+
+  .player-name-input {
+    width: 90%;
+    font-size: 1rem;
+    padding: 10px 12px;
+  }
+
+  .start-game-button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .score-info {
+    font-size: 0.9rem;
+  }
+}

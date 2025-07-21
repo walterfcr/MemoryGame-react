@@ -9,8 +9,8 @@ import { useTranslation } from "react-i18next"
 import "./MemoryGame.css"
 
 const MemoryGameBackend = ({
-  category: propCategory,
-  difficulty: propDifficulty,
+  category, // ¡Ahora usamos directamente la prop 'category'!
+  difficulty: propDifficulty, // Mantenemos 'propDifficulty' para normalizarla
   playerName: propPlayerName,
   onGameComplete,
   onMoveCount,
@@ -30,40 +30,31 @@ const MemoryGameBackend = ({
 
   const { width, height } = useWindowSize()
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3002/api"
+  // El nombre del jugador aún puede tener un fallback de localStorage si no se pasa
+  const playerName = propPlayerName || localStorage.getItem("playerName") || t("guest")
 
-  // FIXED: Prioritize localStorage over props (unless props are explicitly different)
-  const category = localStorage.getItem("selectedCategory") || propCategory || "musicians"
-  const rawDifficulty = localStorage.getItem("selectedDifficulty") || propDifficulty || "Easy"
-  const playerName = localStorage.getItem("playerName") || propPlayerName || t("guest")
-
-  console.log("🎯 FIXED - Using values:", {
-    category,
-    rawDifficulty,
-    playerName,
-  })
-
-  // Normalize difficulty to capitalized format for the game logic
+  // Normaliza la dificultad al formato capitalizado para la lógica del juego
   const normalizeDifficulty = (diff) => {
     const diffLower = diff.toLowerCase()
     switch (diffLower) {
       case "easy":
         return "Easy"
       case "medium":
+      case "normal": // Asegúrate de que "normal" también se mapee a "medium" si es un valor posible
         return "Medium"
       case "hard":
         return "Hard"
       default:
-        return "Easy"
+        return "Easy" // Valor por defecto si propDifficulty es inválido
     }
   }
 
-  const difficulty = normalizeDifficulty(rawDifficulty)
+  const difficulty = normalizeDifficulty(propDifficulty) // Usa la prop 'propDifficulty'
 
   const categoryLabel = t(category)
   const difficultyLabel = t(difficulty.toLowerCase())
 
-  // Your original totalPairs with capitalized keys
+  // Tus totalPairs originales con claves capitalizadas
   const totalPairs = {
     Easy: 4,
     Medium: 8,
@@ -93,10 +84,17 @@ const MemoryGameBackend = ({
   }, [])
 
   const loadImages = () => {
+    // Asegúrate de que la categoría y la dificultad sean válidas antes de continuar
+    if (!categoryPrefixes[category] || !totalPairs[difficulty]) {
+      console.error("Categoría o dificultad inválida proporcionada a MemoryGameBackend:", { category, difficulty })
+      // Podrías añadir una lógica para mostrar un mensaje de error al usuario o redirigir
+      return
+    }
+
     const { prefix, count } = categoryPrefixes[category]
     const numPairs = totalPairs[difficulty]
 
-    console.log(`🎮 Loading game: ${category} - ${difficulty} - ${numPairs} pairs`)
+    console.log(`🎮 Cargando juego: ${category} - ${difficulty} - ${numPairs} pares`)
 
     const allImages = Array.from({ length: count }, (_, i) => {
       const num = String(i + 1).padStart(3, "0")
@@ -143,7 +141,7 @@ const MemoryGameBackend = ({
     const newClickCount = clickCount + 1
     setClickCount(newClickCount)
 
-    // Notify parent component of move count change
+    // Notifica al componente padre el cambio en el contador de movimientos
     if (onMoveCount) {
       onMoveCount(newClickCount)
     }
@@ -191,16 +189,16 @@ const MemoryGameBackend = ({
     }
   }
 
-  // Save score to backend - WITH BETTER UX FOR DUPLICATES
+  // Guardar puntuación en el backend - CON MEJOR UX PARA DUPLICADOS
   const saveScoreToBackend = async (scoreData) => {
-    // PREVENT DUPLICATE SAVES
+    // PREVENIR GUARDADOS DUPLICADOS
     if (backendSaveAttempted) {
-      console.log("🚫 Backend save already attempted, skipping...")
+      console.log("🚫 Ya se intentó guardar en el backend, omitiendo...")
       return
     }
 
     setBackendSaveAttempted(true)
-    console.log("🚀 ATTEMPTING TO SAVE SCORE:", scoreData)
+    console.log("🚀 INTENTANDO GUARDAR PUNTUACIÓN:", scoreData)
     setBackendSaveStatus("saving")
 
     try {
@@ -212,47 +210,48 @@ const MemoryGameBackend = ({
         moves: scoreData.clicks,
       }
 
-    const response = await fetch(`${API_BASE_URL}/scores`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(backendScoreData),
-    })
+      console.log("📤 ENVIANDO AL BACKEND:", backendScoreData)
+      const response = await fetch("http://localhost:3002/api/scores", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(backendScoreData),
+      })
 
       const result = await response.json()
-      console.log("🔍 Response status:", response.status)
+      console.log("🔍 Estado de la respuesta:", response.status)
 
-      // ALWAYS show success to user, regardless of server response
+      // SIEMPRE muestra éxito al usuario, independientemente de la respuesta del servidor
       setBackendSaveStatus("success")
 
       if (response.status === 409) {
-        console.log("🚫 Duplicate prevented by server (hidden from user)")
+        console.log("🚫 Duplicado prevenido por el servidor (oculto al usuario)")
       } else if (response.ok) {
-        console.log("✅ New score saved successfully")
+        console.log("✅ Nueva puntuación guardada exitosamente")
       } else {
-        console.log("⚠️ Server error, but showing success to user")
+        console.log("⚠️ Error del servidor, pero mostrando éxito al usuario")
       }
     } catch (error) {
-      console.log("❌ NETWORK ERROR:", error)
-      // Even on network error, show success to avoid confusing user
+      console.log("❌ ERROR DE RED:", error)
+      // Incluso en caso de error de red, muestra éxito para evitar confundir al usuario
       setBackendSaveStatus("success")
     }
   }
 
-  // IMPORTANT: Reload images when category or difficulty changes
+  // IMPORTANTE: Recarga las imágenes cuando la categoría o dificultad cambian
   useEffect(() => {
-    console.log("🔄 Category or difficulty changed, reloading images...")
+    console.log("🔄 Categoría o dificultad cambiada, recargando imágenes...")
     loadImages()
-  }, [category, difficulty]) // This will trigger when category or difficulty changes
+  }, [category, difficulty]) // Esto se activará cuando la categoría o dificultad cambien
 
-  // YOUR ORIGINAL GAME COMPLETION LOGIC - RESTORED
+  // Lógica de finalización del juego - TU ORIGINAL - RESTAURADA
   useEffect(() => {
     if (scoreSaved) return
 
     const allMatched = cards.length > 0 && cards.every((card) => card.matched)
     if (allMatched) {
-      // Wait for the last flip animation to complete
+      // Espera a que la última animación de volteo se complete
       const timeout = setTimeout(() => {
         setGameWon(true)
         winSound.play()
@@ -270,27 +269,27 @@ const MemoryGameBackend = ({
           date: new Date().toISOString(),
         }
 
-        // Save to localStorage (keep existing functionality)
+        // Guardar en localStorage (mantener la funcionalidad existente)
         const existingScores = JSON.parse(localStorage.getItem("memoryGameScores")) || []
         const updatedScores = [newScore, ...existingScores].sort((a, b) => b.score - a.score).slice(0, 10)
         localStorage.setItem("memoryGameScores", JSON.stringify(updatedScores))
 
-        // Save to backend (NEW) - with duplicate prevention
+        // Guardar en el backend (NUEVO) - con prevención de duplicados
         saveScoreToBackend(newScore)
 
-        // Notify parent component that game is complete (NEW)
+        // Notifica al componente padre que el juego ha terminado (NUEVO)
         if (onGameComplete) {
           onGameComplete(clickCount)
         }
 
         setScoreSaved(true)
-      }, 800) // this delay allows flip animation to finish
+      }, 800) // este retraso permite que la animación de volteo termine
 
       return () => clearTimeout(timeout)
     }
   }, [cards, time, clickCount, difficulty, category, playerName, scoreSaved, onGameComplete])
 
-  // Timer logic - YOUR ORIGINAL
+  // Lógica del temporizador - TU ORIGINAL
   useEffect(() => {
     let timer
     if (!gameWon) {
@@ -324,7 +323,7 @@ const MemoryGameBackend = ({
           👤 {t("player")}: {playerName}
         </p>
         <p style={{ fontSize: "12px", color: "#666" }}>
-          🎯 Difficulty: {difficulty} ({totalPairs[difficulty]} pairs) | Category: {category}
+          🎯 Dificultad: {difficulty} ({totalPairs[difficulty]} pares) | Categoría: {category}
         </p>
       </div>
 
@@ -340,10 +339,12 @@ const MemoryGameBackend = ({
                 🏆 {t("yourScore")}: {score}
               </p>
 
-              {/* Always show success message */}
+              {/* Siempre muestra mensaje de éxito */}
               <div className="backend-status" style={{ margin: "10px 0", fontSize: "14px" }}>
-                {backendSaveStatus === "saving" && <p style={{ color: "#007bff" }}>💾 Saving to leaderboard...</p>}
-                {backendSaveStatus === "success" && <p style={{ color: "#28a745" }}>✅ Score saved to leaderboard!</p>}
+                {backendSaveStatus === "saving" && <p style={{ color: "#007bff" }}>💾 Guardando en el ranking...</p>}
+                {backendSaveStatus === "success" && (
+                  <p style={{ color: "#28a745" }}>✅ Puntuación guardada en el ranking!</p>
+                )}
               </div>
 
               <button onClick={handlePlayAgain}>{t("playAgain")}</button>
