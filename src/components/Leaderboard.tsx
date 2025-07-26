@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom" // Assuming you have react-router-dom for navigation
-import Layout from "./Layout" // Import the Layout component
-import "./Leaderboard.css" // Import the CSS file
+import { useNavigate } from "react-router-dom"
+import Layout from "./Layout"
+import "./Leaderboard.css"
+import { getScores, getMyScores } from "../api/gameApi"
+import { useAuth } from "../context/AuthContext" // RUTA CORREGIDA: de src/context a context
 
 interface Score {
   id: number
@@ -19,16 +21,18 @@ interface Score {
 const Leaderboard = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { isAuthenticated, user, token } = useAuth()
   const [scores, setScores] = useState<Score[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedDifficulty, setSelectedDifficulty] = useState("all")
+  const [showMyScores, setShowMyScores] = useState(false)
 
   const categories = ["all", "heroes", "movies", "musicians", "videogames"]
   const difficulties = ["all", "easy", "medium", "hard"]
 
-  const clickSound = useRef(new Audio("/sounds/click.wav")) // Assuming you have this sound
+  const clickSound = useRef(new Audio("/sounds/click.wav"))
 
   const playClickSound = () => {
     if (clickSound.current) {
@@ -42,20 +46,20 @@ const Leaderboard = () => {
     navigate("/")
   }
 
-  // Load scores from backend
   const loadScores = async () => {
     setLoading(true)
     setError(null)
     try {
-      // Ensure VITE_API_BASE_URL is correctly set in .env.local for local development
-      // For Render deployment, this should be your Render API URL
-      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "https://funko-memory-game-api.onrender.com/api"
-      const response = await fetch(`${apiBaseUrl}/scores`)
-      const result = await response.json()
-      if (!response.ok) {
-        throw new Error(result.error || "Failed to fetch scores")
+      let scoresData
+      const limit = 15
+
+      if (showMyScores && isAuthenticated && token) {
+        scoresData = await getMyScores(token, limit, selectedCategory, selectedDifficulty)
+      } else {
+        scoresData = await getScores(limit, selectedCategory, selectedDifficulty)
       }
-      setScores(result.data || [])
+
+      setScores(scoresData || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load scores")
       console.error("Error loading scores:", err)
@@ -64,22 +68,11 @@ const Leaderboard = () => {
     }
   }
 
-  // Filter scores based on selected category and difficulty
-  const filteredScores = scores.filter((score) => {
-    const categoryMatch = selectedCategory === "all" || score.category === selectedCategory
-    const difficultyMatch = selectedDifficulty === "all" || score.difficulty === selectedDifficulty
-    return categoryMatch && difficultyMatch
-  })
-
-  // Sort by time (fastest first), then by moves (fewer first)
-  const sortedScores = filteredScores.sort((a, b) => a.time - b.time || a.moves - b.moves)
+  const sortedScores = scores.sort((a, b) => a.time - b.time || a.moves - b.moves)
 
   useEffect(() => {
     loadScores()
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(loadScores, 30000)
-    return () => clearInterval(interval)
-  }, [])
+  }, [selectedCategory, selectedDifficulty, showMyScores, isAuthenticated, token])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -99,11 +92,11 @@ const Leaderboard = () => {
 
   const getDifficultyColor = (difficulty: string) => {
     const colors: Record<string, string> = {
-      easy: "#28a745", // Green
-      medium: "#46219cff", // Yellow
-      hard: "#1b156eff", // Red
+      easy: "#28a745",
+      medium: "#46219cff",
+      hard: "#1b156eff",
     }
-    return colors[difficulty] || "#6c757d" // Grey
+    return colors[difficulty] || "#6c757d"
   }
 
   const getRankEmoji = (index: number) => {
@@ -113,9 +106,8 @@ const Leaderboard = () => {
     return `#${index + 1}`
   }
 
-
   return (
-    <Layout title={t("score") || "Score"} onBackClick={handleBack}>
+    <Layout title={t("leaderboard") || "Leaderboard"} onBackClick={handleBack}>
       <div className="leaderboard-container">
         {loading && (
           <div className="status-message">
@@ -136,7 +128,6 @@ const Leaderboard = () => {
 
         {!loading && !error && (
           <>
-            {/* Filters */}
             <div className="filters">
               <div>
                 <label htmlFor="category-filter" className="filter-label">
@@ -150,7 +141,7 @@ const Leaderboard = () => {
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
-                      {cat === "all" ? "All Categories" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                      {cat === "all" ? t("allCategories") : cat.charAt(0).toUpperCase() + cat.slice(1)}
                     </option>
                   ))}
                 </select>
@@ -168,22 +159,34 @@ const Leaderboard = () => {
                 >
                   {difficulties.map((diff) => (
                     <option key={diff} value={diff}>
-                      {diff === "all" ? "All Difficulties" : diff.charAt(0).toUpperCase() + diff.slice(1)}
+                      {diff === "all" ? t("allDifficulties") : diff.charAt(0).toUpperCase() + diff.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
+
+              {isAuthenticated && (
+                <button
+                  onClick={() => {
+                    playClickSound()
+                    setShowMyScores(!showMyScores)
+                  }}
+                  className="primary-button"
+                  style={{ backgroundColor: showMyScores ? "#007bff" : "var(--secondary-color)" }}
+                >
+                  {showMyScores ? `👤 ${t("allScores")}` : `⭐ ${t("myScores")}`}
+                </button>
+              )}
 
               <button onClick={loadScores} className="primary-button">
                 🔄 {t("refresh")}
               </button>
             </div>
 
-            {/* Stats Summary */}
             <div className="stats-summary">
               <div className="stat-card">
                 <div className="stat-value">{sortedScores.length}</div>
-                <div className="stat-label">{t("total")}</div>
+                <div className="stat-label">{t("totalScores")}</div>
               </div>
               <div className="stat-card">
                 <div className="stat-value">{sortedScores.length > 0 ? formatTime(sortedScores[0].time) : "--"}</div>
@@ -195,15 +198,16 @@ const Leaderboard = () => {
               </div>
             </div>
 
-            {/* Scores Table */}
             {sortedScores.length === 0 ? (
               <div className="no-scores-message">
                 <div className="no-scores-icon">🎯</div>
-                <h3>No scores found</h3>
+                <h3>{t("noScoresFound")}</h3>
                 <p>
-                  {selectedCategory !== "all" || selectedDifficulty !== "all"
-                    ? "Try adjusting your filters or play some games!"
-                    : "Be the first to play and set a record!"}
+                  {showMyScores && !isAuthenticated
+                    ? t("loginToSeeScores")
+                    : selectedCategory !== "all" || selectedDifficulty !== "all"
+                      ? t("adjustFiltersOrPlay")
+                      : t("beTheFirstToPlay")}
                 </p>
               </div>
             ) : (
@@ -224,7 +228,12 @@ const Leaderboard = () => {
                     {sortedScores.map((score, index) => (
                       <tr key={score.id}>
                         <td className="rank-cell">{getRankEmoji(index)}</td>
-                        <td className="player-name-cell">{score.playerName}</td>
+                        <td className="player-name-cell">
+                          {score.playerName}
+                          {isAuthenticated && user?.username === score.playerName && (
+                            <span style={{ marginLeft: "5px", color: "#17f5d7" }}> ({t("you")})</span>
+                          )}
+                        </td>
                         <td>
                           <span className="category-emoji">{getCategoryEmoji(score.category)}</span>
                           {score.category.charAt(0).toUpperCase() + score.category.slice(1)}
@@ -247,9 +256,8 @@ const Leaderboard = () => {
               </div>
             )}
 
-            {/* Footer */}
             <div className="leaderboard-footer">
-              <p>🎮 Funko Memory Game Leaderboard • Auto-refreshes every 30 seconds</p>
+              <p>🎮 Funko Memory Game Leaderboard</p>
             </div>
           </>
         )}

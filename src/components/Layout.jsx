@@ -1,26 +1,49 @@
-import React from "react";
-import './Layout.css'; // for consistent styling
-import { useTranslation } from 'react-i18next';
+"use client"
+
+import { useRef } from "react"
+import { useTranslation } from "react-i18next"
+import { useAuth } from "../context/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 const Layout = ({ children, title, onBackClick }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
+  const { isAuthenticated, logout } = useAuth()
+  const navigate = useNavigate()
+
+  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const playClickSound = () => {
+    if (clickSound.current) {
+      clickSound.current.currentTime = 0
+      clickSound.current.play()
+    }
+  }
+
+  const handleLogout = () => {
+    playClickSound()
+    logout()
+  }
+
   return (
-    <div className="layoutContainer">
-      <div className="titleHeader">
-        {/* Conditionally render the back button if onBackClick is provided */}
+    <div className="mainContainer">
+      <header className="navbarContainer">
         {onBackClick && (
-          <button className="backButton" onClick={onBackClick}>
-           {t("back")}
+          <button className="navbarContainer-back-button" onClick={onBackClick}>
+            {"<"}
           </button>
         )}
-        {/* Render the title */}
-        <h2>{title}</h2>
-      </div>
-      <div className="pageContent">
-        {children}  {/* Render the children (in this case, the difficulty selection UI) */}
-      </div>
+        <h1 className="navbarContainer-title">{title}</h1>
+        {isAuthenticated && (
+          <button
+            className="navbarContainer-logout-button"
+            onClick={handleLogout}
+          >
+            {t("logout")}
+          </button>
+        )}
+      </header>
+      <main className="contentContainer">{children}</main>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

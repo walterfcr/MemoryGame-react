@@ -31,6 +31,10 @@
     background-color: #8c014a;
   }
 
+  .difficultyContainer h1{
+      display:none;
+  }
+
 
   @media (min-width:320px) and (max-width:480px){
 
@@ -40,6 +44,12 @@
       padding-top: 30px !important;
       gap: 1.5rem;
     }
+
+    .difficultyContainer h1{
+      display:block;
+      color: #fff;
+      font-size: 2rem;
+   }
 
     .difficultyContainer img{
       width:60%;

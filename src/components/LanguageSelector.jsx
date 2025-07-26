@@ -53,6 +53,7 @@ function LanguageSelector() {
   return (
     <Layout title={t("selectLanguage")} onBackClick={handleBack}>
       <div ref={containerRef} className="languageContainer">
+        <h1>{t("selectLanguage")}</h1>
         <img src={getLogoImage()} alt="Language Logo" className="logoImage" />
         <button className="tabButtonLanguage" onClick={() => changeLanguage('en')}>
           English

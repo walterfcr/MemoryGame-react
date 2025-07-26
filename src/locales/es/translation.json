@@ -45,5 +45,19 @@
   "startGame": "Comenzar Juego",
   "readyToPlay": "Listo para Jugar?",
   "congratulations": "Felicidades!",
-  "gameComplete": "Juego Completado"
+  "gameComplete": "Juego Completado",
+  "leaderboard": "Ranking",
+  "yourEmail": "Tu Email",
+  "password": "Contraseña",
+  "yourPassword": "Tu Contraseña",
+  "noAccount": "No tienes cuenta?",
+  "registerHere": "Registrate aquí",
+  "register": "Registrate",
+  "username": "Usuario",
+  "yourUsername": "Tu Ususario",
+  "confirmPassword": "Confirmar Contraseña",
+  "confirmYourPassword": "Confirma tu Contraseña",
+  "alreadyHaveAccount": "Ya tienes cuenta?",
+  "loginHere": "Inicia sesión Aquí",
+  "logout": "Cerrar sesión"
 }

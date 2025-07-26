@@ -35,12 +35,22 @@
     background-color: #8c014a;
   }
 
+  .languageContainer h1{
+    display: none;
+  }
+
   @media (min-width:320px) and (max-width:480px){
     .tabButtonLanguage {
         width: 250px;
         height: 50px;
         font-size: 1.2rem;
         line-height: 50px;
+    }
+
+    .languageContainer h1{
+      display:block;
+      color: #fff;
+      font-size: 2rem;
     }
 
     .languageContainer {

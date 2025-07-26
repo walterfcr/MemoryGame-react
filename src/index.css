@@ -69,11 +69,41 @@ body {
   cursor: pointer;
   border-radius: 50%;
   background-color: var(--button-background-color);
+  border: none; 
 }
 
 .navbarContainer-title {
   color: var(--button-color);
   font-size: 30px;
+}
+
+.navbarContainer-logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 15px;
+  font-size: 1rem;
+  color: var(--button-color);
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  position: fixed;
+  right: 30px; /* CAMBIO CLAVE: Aumentado el margen derecho */
+  z-index: 10;
+}
+
+.navbarContainer-logout-button:hover {
+  background-color: var(--hover-color);
+}
+
+@media (max-width: 480px) {
+  .navbarContainer-title {
+    display: none;
+  }
+
 }
 
 .contentContainer {
@@ -85,3 +115,4 @@ body {
      añade aquí: overflow-y: auto;
      Pero si quieres que toda la página haga scroll, no añadas nada aquí. */
 }
+

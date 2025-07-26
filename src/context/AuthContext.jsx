@@ -1,0 +1,102 @@
+"use client"
+
+import { createContext, useState, useContext, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { loginUser, registerUser, getProfile } from "../api/authApi" // Corrected import path for authApi
+
+const AuthContext = createContext(null)
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null)
+  const [token, setToken] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token")
+    if (storedToken) {
+      setToken(storedToken)
+      const fetchUser = async () => {
+        try {
+          const userData = await getProfile(storedToken)
+          setUser(userData)
+        } catch (err) {
+          console.error("Failed to fetch user profile with stored token:", err)
+          localStorage.removeItem("token")
+          setToken(null)
+          setUser(null)
+        } finally {
+          setLoading(false)
+        }
+      }
+      fetchUser()
+    } else {
+      setLoading(false)
+    }
+  }, [])
+
+  const login = async (email, password) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await loginUser(email, password)
+      localStorage.setItem("token", data.token)
+      setToken(data.token)
+      setUser({ _id: data._id, username: data.username, email: data.email })
+      setLoading(false)
+      navigate("/")
+      return { success: true }
+    } catch (err) {
+      setError(err.message || "Login failed")
+      setLoading(false)
+      return { success: false, error: err.message }
+    }
+  }
+
+  const register = async (username, email, password) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await registerUser(username, email, password)
+      localStorage.setItem("token", data.token)
+      setToken(data.token)
+      setUser({ _id: data._id, username: data.username, email: data.email })
+      setLoading(false)
+      navigate("/")
+      return { success: true }
+    } catch (err) {
+      setError(err.message || "Registration failed")
+      setLoading(false)
+      return { success: false, error: err.message }
+    }
+  }
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    setToken(null)
+    setUser(null)
+    navigate("/login")
+  }
+
+  const value = {
+    user,
+    token,
+    loading,
+    error,
+    login,
+    register,
+    logout,
+    isAuthenticated: !!user,
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider")
+  }
+  return context
+}

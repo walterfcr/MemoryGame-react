@@ -1,65 +1,145 @@
-.loginContent {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    padding: 1rem;
-    box-sizing: border-box;
-    font-family: inherit;
-    color:#fff;
+/* src/components/Login.css */
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  font-family: inherit;
+  min-height: calc(100vh - var(--navbar-container-height));
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  color: var(--button-color);
+  text-align: center;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers items horizontally */
-    justify-content: center; /* Optional: vertically centers within parent if needed */
-    gap: 1rem;
-    width: 100%;
-    max-width: 300px; /* Or any width you want */
+.auth-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--complementary-color);
+  margin-bottom: 1rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.input-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--button-color);
+}
+
+.auth-input {
+  padding: 12px 15px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: 2px solid var(--complementary-color);
+  background-color: #fff;
+  color: var(--text-color);
+  width: 80%;
+  max-width: 350px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px rgba(var(--secondary-color-rgb), 0.3);
+}
+
+.auth-error-message {
+  color: #dc3545; /* Red color for errors */
+  font-size: 1rem;
+  margin-top: -1rem; /* Adjust spacing */
+}
+
+.auth-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 250px;
+  height: 60px;
+  background-color: var(--secondary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  padding: 0 20px;
+}
+
+.auth-button:hover:not(:disabled) {
+  background-color: var(--hover-color);
+}
+
+.auth-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.auth-switch-text {
+  font-size: 1rem;
+  color: var(--button-color);
+}
+
+.auth-switch-link {
+  color: var(--complementary-color);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.logoReg img {
+  width:40% !important;
+  height:auto;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .auth-container {
+    gap: 1.5rem;
+    padding: 1rem;
+    padding-top: 30px;
   }
-  
-  form label,
-  form input,
-  form button {
-    width: 100%;
-    text-align: center; /* Centers label text */
+  .auth-heading {
+    font-size: 2rem;
   }
-  
-  form input,
-  form button {
-    padding: 0.5rem;
+  .input-label {
     font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
   }
-  
-  form button {
-    cursor: pointer;
-    background-color: var(--secondary-color);
-    color: white;
-    border: none;
-    transition: background-color 0.3s;
+  .auth-input {
+    width: 90%;
+    font-size: 1rem;
+    padding: 10px 12px;
   }
-  
-  form button:hover {
-    background-color: var(--hover-color);
+  .auth-button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.2rem;
   }
-  
-
-  @media (min-width: 320px) and (max-width: 480px) {
-    
-    .loginContent {
-      justify-content: none;
-      height: auto;
-      padding-top: 50px !important;
-    }
-
-    .loginContent img{
-      width:60%;
-    }
-
+  .auth-error-message,
+  .auth-switch-text {
+    font-size: 0.9rem;
   }
+}

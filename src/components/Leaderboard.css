@@ -1,4 +1,7 @@
 :root {
+  --primary-color: #6a0572; /* A deep purple, similar to your LanguageSelector */
+  --secondary-color: #a020f0; /* A brighter purple, for buttons */
+  --hover-color: #8c014a; /* Darker purple for hover/top 3 rows */
   --text-color: #333;
   --light-gray: #f8f9fa;
   --border-color: #dee2e6;
@@ -8,16 +11,16 @@
 .leaderboard-container {
   display: flex;
   flex-direction: column;
-  /* Removed justify-content: center; */
+  /* Eliminamos justify-content: center; aquí para que el contenido fluya desde arriba */
   align-items: center; /* Center content horizontally */
   gap: 2rem; /* Space between sections */
   padding: 1rem;
   box-sizing: border-box;
   font-family: inherit;
-  min-height: calc(100vh - 60px); /* Adjust for Layout header height if needed */
+  min-height: calc(100vh - 60px); /* Mantiene la altura mínima para cuando el contenido es corto */
   max-width: 1200px; /* Keep max-width for content */
   margin: 0 auto; /* Center the container itself */
-  overflow-y: auto !important;/* ¡Añadido para el scroll vertical! */
+  overflow-y: auto !important; /* ¡Añadido para el scroll vertical! */
   -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
 }
 

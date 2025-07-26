@@ -31,6 +31,10 @@
     background-color: #8c014a;
   }
 
+  .categoryContainer h1{
+      display:none;
+  }
+
   @media (min-width:320px) and (max-width:480px){
 
     .categoryContainer {
@@ -38,6 +42,12 @@
       height: auto;
       padding-top: 20px !important;
       gap: 1.4rem;
+    }
+
+    .categoryContainer h1{
+      display:block;
+      color: #fff;
+      font-size: 2rem;
     }
 
     

@@ -4,42 +4,53 @@ import { Routes, Route } from "react-router-dom"
 import StartPage from "./components/StartPage"
 import DifficultySelector from "./components/DifficultySelector"
 import CategorySelector from "./components/CategorySelector"
-import ScoreBoard from "./components/ScoreBoard"
+import ScoreBoard from "./components/ScoreBoard" // Aunque no se usa directamente, lo mantengo
 import LanguageSelector from "./components/LanguageSelector"
 import Credits from "./components/Credits"
 import Login from "./components/Login"
+import Register from "./components/Register"
 import EnhancedMemoryGameUpdated from "./components/EnhancedMemoryGameUpdated"
 import Leaderboard from "./components/Leaderboard"
+import { AuthProvider } from "./context/AuthContext"
+import PlayerNameEntry from "./components/PlayerNameEntry"
+import ProtectedRoute from "./components/ProtectedRoute" // NUEVO: Importa ProtectedRoute
 import "./index.css"
 
 function App() {
-  // ELIMINA ESTOS ESTADOS:
-  // const [selectedCategory, setSelectedCategory] = useState('musicians');
-  // const [selectedDifficulty, setSelectedDifficulty] = useState('easy');
-
-  // Si necesitas un placeholder para las funciones setCategory/setDifficulty
-  // que se pasan a los selectores, puedes usar funciones vacías o un estado dummy.
-  // Sin embargo, si los selectores ahora guardan en localStorage y navegan,
-  // quizás ya no necesites pasarles estas funciones desde App.jsx.
-  // Para simplificar, asumiremos que los selectores ahora manejan su propia navegación
-  // y guardado en localStorage.
-
   return (
     <div className="mainContainer">
-      {/* <TestConnection /> */} {/* Commented out - keep for testing later */}
-      <Routes>
-        <Route path="/" element={<StartPage />} />
-        <Route path="/login" element={<Login />} />
-        {/* Pasa funciones dummy o elimina la prop si los selectores no la necesitan */}
-        <Route path="/difficulty" element={<DifficultySelector />} />
-        <Route path="/categories" element={<CategorySelector />} />
-        <Route path="/score" element={<ScoreBoard />} />
-        <Route path="/Leaderboard" element={<Leaderboard />} />
-        <Route path="/language" element={<LanguageSelector />} />
-        <Route path="/credits" element={<Credits />} />
-        {/* ¡IMPORTANTE! Ya no pases las props category y difficulty aquí */}
-        <Route path="/play" element={<EnhancedMemoryGameUpdated />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<StartPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/difficulty" element={<DifficultySelector />} />
+          <Route path="/categories" element={<CategorySelector />} />
+          <Route path="/score" element={<ScoreBoard />} /> {/* Esta ruta no se usa, pero se mantiene */}
+          <Route path="/language" element={<LanguageSelector />} />
+          <Route path="/credits" element={<Credits />} />
+          <Route path="/player-name-entry" element={<PlayerNameEntry />} />
+
+          {/* Rutas Protegidas */}
+          <Route
+            path="/play"
+            element={
+              <ProtectedRoute>
+                <EnhancedMemoryGameUpdated />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Leaderboard"
+            element={
+              <ProtectedRoute>
+                <Leaderboard />
+              </ProtectedRoute>
+            }
+          />
+          {/* Puedes añadir más rutas protegidas aquí */}
+        </Routes>
+      </AuthProvider>
     </div>
   )
 }
