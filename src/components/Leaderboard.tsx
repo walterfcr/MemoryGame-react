@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import Layout from "./Layout"
 import "./Leaderboard.css"
 import { getScores, getMyScores } from "../api/gameApi"
-import { useAuth } from "../context/AuthContext" // RUTA CORREGIDA: de src/context a context
+import { useAuth } from "../context/AuthContext"
 
 interface Score {
   id: number
