@@ -59,5 +59,14 @@
   "confirmYourPassword": "Confirm your Password",
   "alreadyHaveAccount": "Already have an account?",
   "loginHere": "Login Here",
-  "logout": "Logout"
+  "logout": "Logout",
+  "loadingProfile": "Loading profile...",
+  "memberSince": "Member since",
+  "gamesPlayed": "Games Played",
+  "averageTime": "Average Time",
+  "favoriteCategory": "Favorite Category",
+  "recentScores": "Recent Scores",
+  "noGamesYet": "You haven't played any games yet!",
+  "playFirstGame": "Play Your First Game",
+  "viewAllScores": "View All Scores"
 }

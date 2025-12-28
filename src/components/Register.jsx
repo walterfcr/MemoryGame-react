@@ -80,6 +80,7 @@ function Register() {
   return (
     <Layout title={t("register")} onBackClick={handleBack}>
       <div className="auth-container logoReg">
+        <h1>{t("register")}</h1>
         <img src="/images/logo-reg.webp" alt="Logo" />
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">

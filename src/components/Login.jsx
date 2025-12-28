@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
@@ -12,10 +10,12 @@ function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [formError, setFormError] = useState(null)
+
   const { login, loading } = useAuth()
   const navigate = useNavigate()
 
   const clickSound = useRef(new Audio("/sounds/click.wav"))
+
   const playClickSound = () => {
     if (clickSound.current) {
       clickSound.current.currentTime = 0
@@ -24,16 +24,14 @@ function Login() {
   }
 
   const validateEmail = (email) => {
-    // Regex simple para validar formato de email
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     playClickSound()
-    setFormError(null) // Limpiar errores anteriores
+    setFormError(null)
 
-    // Validaciones del lado del cliente
     if (!email || !password) {
       setFormError(t("allFieldsRequired"))
       return
@@ -45,9 +43,11 @@ function Login() {
     }
 
     const result = await login(email, password)
-    if (!result.success) {
-      // Usar el error específico del backend si existe, de lo contrario, un genérico
-      setFormError(t(result.error) || t("loginFailed"))
+
+    if (!result || !result.success) {
+      setFormError(t(result?.error) || t("loginFailed"))
+    } else {
+      navigate("/") // ✅ CHANGE ROUTE HERE IF NEEDED ("/play", "/menu", etc.)
     }
   }
 
@@ -59,7 +59,14 @@ function Login() {
   return (
     <Layout title={t("login")} onBackClick={handleBack}>
       <div className="auth-container">
-        <img src="/images/login-logo.png" alt="Logo" className="logoImage" />
+        <h1>{t("login")}</h1>
+
+        <img
+          src="/images/login-logo.png"
+          alt="Login Logo"
+          className="logoImage"
+        />
+
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <label htmlFor="email" className="input-label">
@@ -75,6 +82,7 @@ function Login() {
               disabled={loading}
             />
           </div>
+
           <div className="input-group">
             <label htmlFor="password" className="input-label">
               {t("password")}:
@@ -90,15 +98,28 @@ function Login() {
             />
           </div>
 
-          {formError && <p className="auth-error-message">{formError}</p>}
+          {formError && (
+            <p className="auth-error-message">{formError}</p>
+          )}
 
-          <button type="submit" disabled={loading} className="auth-button">
+          <button
+            type="submit"
+            disabled={loading}
+            className="auth-button"
+          >
             {loading ? t("loggingIn") : t("login")}
           </button>
         </form>
+
         <p className="auth-switch-text">
-          {t("noAccount")}?{" "}
-          <span onClick={() => navigate("/register")} className="auth-switch-link">
+          {t("noAccount")}{" "}
+          <span
+            onClick={() => {
+              playClickSound()
+              navigate("/register")
+            }}
+            className="auth-switch-link"
+          >
             {t("registerHere")}
           </span>
         </p>

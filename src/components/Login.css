@@ -115,12 +115,27 @@
   height:auto;
 }
 
+.auth-container h1{
+      display:none;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 480px) {
   .auth-container {
     gap: 1.5rem;
     padding: 1rem;
     padding-top: 30px;
+  }
+
+  .auth-container h1{
+    display:block;
+    color: #fff;
+    font-size: 2rem;
+  }
+
+  .auth-container img{
+    width:40% !important;
+    height:auto;
   }
   .auth-heading {
     font-size: 2rem;

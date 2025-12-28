@@ -59,5 +59,14 @@
   "confirmYourPassword": "Confirmer ton mot de passe ",
   "alreadyHaveAccount": " Tu as déjà un compte?",
   "loginHere": "Connectez-vous ici",
-  "logout": "Se déconnecter"
+  "logout": "Se déconnecter",
+  "loadingProfile": "Chargement du profil...",
+  "memberSince": "Membre depuis",
+  "gamesPlayed": "Parties jouées",
+  "averageTime": "Temps moyen",
+  "favoriteCategory": "Catégorie préférée",
+  "recentScores": "Scores récents",
+  "noGamesYet": "Vous n'avez encore joué à aucun jeu !",
+  "playFirstGame": "Jouez votre première partie",
+  "viewAllScores": "Voir tous les scores"
 }
