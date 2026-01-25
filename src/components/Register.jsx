@@ -69,7 +69,9 @@ function Register() {
     if (!result.success) {
       // Usar el error específico del backend si existe, de lo contrario, un genérico
       setFormError(t(result.error) || t("registrationFailed"))
-    }
+    } else {
+       navigate("/") // o "/login" si prefieres
+       }
   }
 
   const handleBack = () => {
