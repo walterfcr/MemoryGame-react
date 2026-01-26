@@ -1,15 +1,14 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyASerL1w7qwhmMZVnCon8R7PqnYGnuTHuY",
-  authDomain: "memory-game-portfolio.firebaseapp.com",
-  projectId: "memory-game-portfolio",
-  storageBucket: "memory-game-portfolio.firebasestorage.app",
-  messagingSenderId: "950138046155",
-  appId: "1:950138046155:web:5b9cfbbe253a0b26d27d4e"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
