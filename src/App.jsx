@@ -11,7 +11,8 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import EnhancedMemoryGameUpdated from "./components/EnhancedMemoryGameUpdated"
 import Leaderboard from "./components/Leaderboard"
-import Profile from "./components/Profile" // NUEVO: Importar Profile
+import Profile from "./components/Profile"
+import GameCompleteWrapper from "./components/GameCompleteWrapper" // ✅ NEW
 import { AuthProvider } from "./context/AuthContext"
 import PlayerNameEntry from "./components/PlayerNameEntry"
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -22,6 +23,7 @@ function App() {
     <div className="mainContainer">
       <AuthProvider>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<StartPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -32,7 +34,7 @@ function App() {
           <Route path="/credits" element={<Credits />} />
           <Route path="/player-name-entry" element={<PlayerNameEntry />} />
 
-          {/* Rutas Protegidas */}
+          {/* Protected Routes */}
           <Route
             path="/play"
             element={
@@ -41,6 +43,17 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* ✅ THIS FIXES YOUR ERROR */}
+          <Route
+            path="/game-complete"
+            element={
+              <ProtectedRoute>
+                <GameCompleteWrapper />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/Leaderboard"
             element={
@@ -49,6 +62,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/profile"
             element={
