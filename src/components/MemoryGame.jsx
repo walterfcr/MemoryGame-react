@@ -10,13 +10,16 @@ import "./MemoryGame.css";
 
 const MemoryGame = () => {
   const { t } = useTranslation();
+
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameWon, setGameWon] = useState(false);
+
   const [time, setTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [score, setScore] = useState(0);
+
   const [scoreSaved, setScoreSaved] = useState(false);
 
   const { width, height } = useWindowSize();
@@ -27,6 +30,7 @@ const MemoryGame = () => {
   const playerName = localStorage.getItem("playerName") || t("guest");
 
   const totalPairs = { Easy: 4, Medium: 8, Hard: 12 };
+
   const categoryPrefixes = {
     heroes: { prefix: "TM01", count: 31 },
     movies: { prefix: "TM02", count: 35 },
@@ -38,7 +42,7 @@ const MemoryGame = () => {
   const winSound = useRef(new Audio("/sounds/win.wav"));
   const clickSound = useRef(new Audio("/sounds/clicks.mp3"));
 
-  // Animación inicial
+  // Animation
   useEffect(() => {
     gsap.from(containerRef.current, {
       opacity: 0,
@@ -48,7 +52,7 @@ const MemoryGame = () => {
     });
   }, []);
 
-  // Cargar imágenes
+  // Load images
   const loadImages = () => {
     const { prefix, count } = categoryPrefixes[category];
     const numPairs = totalPairs[difficulty];
@@ -58,7 +62,9 @@ const MemoryGame = () => {
       return `${prefix}-${num}.webp`;
     });
 
-    const selectedImages = allImages.sort(() => 0.5 - Math.random()).slice(0, numPairs);
+    const selectedImages = allImages
+      .sort(() => 0.5 - Math.random())
+      .slice(0, numPairs);
 
     const pairedImages = selectedImages.flatMap((img) => {
       const imagePath = `/images/${category}/${img}`;
@@ -80,9 +86,15 @@ const MemoryGame = () => {
 
   useEffect(() => loadImages(), []);
 
-  // Manejo de clic en cartas
+  // Handle click
   const handleCardClick = (index) => {
-    if (flippedCards.length === 2 || cards[index].flipped || cards[index].matched) return;
+    if (
+      flippedCards.length === 2 ||
+      cards[index].flipped ||
+      cards[index].matched ||
+      gameWon
+    )
+      return;
 
     setClickCount((prev) => prev + 1);
 
@@ -106,21 +118,18 @@ const MemoryGame = () => {
           updatedCards[firstIdx].matched = true;
           updatedCards[secondIdx].matched = true;
           setMatchedPairs((prev) => prev + 1);
-          setCards([...updatedCards]);
-          setFlippedCards([]);
         } else {
-          setTimeout(() => {
-            updatedCards[firstIdx].flipped = false;
-            updatedCards[secondIdx].flipped = false;
-            setCards([...updatedCards]);
-            setFlippedCards([]);
-          }, 1000);
+          updatedCards[firstIdx].flipped = false;
+          updatedCards[secondIdx].flipped = false;
         }
-      }, 500);
+
+        setCards([...updatedCards]);
+        setFlippedCards([]);
+      }, 800);
     }
   };
 
-  // Cronómetro
+  // Timer
   useEffect(() => {
     let timer;
     if (!gameWon) {
@@ -129,18 +138,26 @@ const MemoryGame = () => {
     return () => clearInterval(timer);
   }, [gameWon]);
 
-  // Detectar victoria y guardar score
+  // WIN LOGIC (FIXED)
   useEffect(() => {
-    if (scoreSaved) return;
+    if (scoreSaved || gameWon) return;
 
-    const allMatched = cards.length > 0 && cards.every((c) => c.matched);
+    const allMatched =
+      cards.length > 0 && cards.every((c) => c.matched);
+
     if (allMatched) {
-      setTimeout(async () => {
-        setGameWon(true);
-        winSound.current.play();
+      // ✅ Calculate score FIRST (fix timing issue)
+      const scoreCalc = Math.max(
+        1000 - (time * 5 + clickCount * 2),
+        0
+      );
 
-        const scoreCalc = Math.max(1000 - (time * 5 + clickCount * 2), 0);
-        setScore(scoreCalc);
+      setScore(scoreCalc);
+      setGameWon(true);
+
+      // Async side effects AFTER UI update
+      setTimeout(async () => {
+        winSound.current.play();
 
         const newScore = {
           playerName,
@@ -152,25 +169,44 @@ const MemoryGame = () => {
           date: new Date().toISOString(),
         };
 
-        // Guardar en localStorage
-        const existingScores = JSON.parse(localStorage.getItem("memoryGameScores") || "[]");
-        localStorage.setItem(
-          "memoryGameScores",
-          JSON.stringify([newScore, ...existingScores].sort((a, b) => b.score - a.score).slice(0, 10))
+        // LocalStorage
+        const existingScores = JSON.parse(
+          localStorage.getItem("memoryGameScores") || "[]"
         );
 
-        // Guardar en Firebase siempre (sin token necesario)
+        localStorage.setItem(
+          "memoryGameScores",
+          JSON.stringify(
+            [newScore, ...existingScores]
+              .sort((a, b) => b.score - a.score)
+              .slice(0, 10)
+          )
+        );
+
+        // Firebase
         try {
-          await addDoc(collection(db, "scores"), { ...newScore, createdAt: serverTimestamp() });
-          console.log("✅ Score saved to Firebase!");
+          await addDoc(collection(db, "scores"), {
+            ...newScore,
+            createdAt: serverTimestamp(),
+          });
+          console.log("✅ Firebase write SUCCESS");
         } catch (err) {
-          console.error("Error saving score to Firebase:", err);
+          console.error("❌ Firebase ERROR:", err.message);
         }
 
         setScoreSaved(true);
-      }, 800);
+      }, 500);
     }
-  }, [cards, time, clickCount, playerName, difficulty, category, scoreSaved]);
+  }, [
+    cards,
+    time,
+    clickCount,
+    playerName,
+    difficulty,
+    category,
+    scoreSaved,
+    gameWon,
+  ]);
 
   const handleBack = () => {
     clickSound.current.currentTime = 0;
@@ -179,7 +215,10 @@ const MemoryGame = () => {
   };
 
   return (
-    <Layout title={`${t(category)} - ${t(difficulty.toLowerCase())}`} onBackClick={handleBack}>
+    <Layout
+      title={`${t(category)} - ${t(difficulty.toLowerCase())}`}
+      onBackClick={handleBack}
+    >
       <div className="stats-container">
         <p>🕒 {t("time")}: {time}s</p>
         <p>🖱️ {t("clicks")}: {clickCount}</p>
@@ -192,20 +231,41 @@ const MemoryGame = () => {
             <div className="win-message">
               <h2>🎉 {t("youWon")}, {playerName}! 🎉</h2>
               <p>🏆 {t("yourScore")}: {score}</p>
-              <button onClick={loadImages}>{t("playAgain")}</button>
+              <button onClick={loadImages}>
+                {t("playAgain")}
+              </button>
             </div>
           </>
         )}
 
-        <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? "blurred" : ""}`}>
+        <div
+          className={`card-grid ${difficulty.toLowerCase()} ${
+            gameWon ? "blurred" : ""
+          }`}
+        >
           {cards.map((card, idx) => (
-            <div key={card.id} className="card" onClick={() => handleCardClick(idx)}>
-              <div className={`card-inner ${card.flipped || card.matched ? "flipped" : ""}`}>
-                <div className={`card-front ${card.matched ? "matched" : ""}`}>
+            <div
+              key={card.id}
+              className="card"
+              onClick={() => handleCardClick(idx)}
+            >
+              <div
+                className={`card-inner ${
+                  card.flipped || card.matched ? "flipped" : ""
+                }`}
+              >
+                <div
+                  className={`card-front ${
+                    card.matched ? "matched" : ""
+                  }`}
+                >
                   <img src={card.image} alt="front" />
                 </div>
                 <div className="card-back">
-                  <img src="/images/placeholder.png" alt="back" />
+                  <img
+                    src="/images/placeholder.png"
+                    alt="back"
+                  />
                 </div>
               </div>
             </div>
