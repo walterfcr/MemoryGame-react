@@ -4,8 +4,6 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Layout from "./Layout";
 import { gsap } from "gsap";
 import { useTranslation } from "react-i18next";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
 import "./MemoryGame.css";
 
 const MemoryGame = () => {
@@ -19,8 +17,6 @@ const MemoryGame = () => {
   const [time, setTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
   const [score, setScore] = useState(0);
-
-  const [scoreSaved, setScoreSaved] = useState(false);
 
   const { width, height } = useWindowSize();
   const containerRef = useRef(null);
@@ -81,7 +77,6 @@ const MemoryGame = () => {
     setTime(0);
     setClickCount(0);
     setScore(0);
-    setScoreSaved(false);
   };
 
   useEffect(() => loadImages(), []);
@@ -138,15 +133,14 @@ const MemoryGame = () => {
     return () => clearInterval(timer);
   }, [gameWon]);
 
-  // WIN LOGIC (FIXED)
+  // WIN LOGIC (no saving here anymore)
   useEffect(() => {
-    if (scoreSaved || gameWon) return;
+    if (gameWon) return;
 
     const allMatched =
       cards.length > 0 && cards.every((c) => c.matched);
 
     if (allMatched) {
-      // ✅ Calculate score FIRST (fix timing issue)
       const scoreCalc = Math.max(
         1000 - (time * 5 + clickCount * 2),
         0
@@ -155,58 +149,9 @@ const MemoryGame = () => {
       setScore(scoreCalc);
       setGameWon(true);
 
-      // Async side effects AFTER UI update
-      setTimeout(async () => {
-        winSound.current.play();
-
-        const newScore = {
-          playerName,
-          score: scoreCalc,
-          difficulty,
-          category,
-          time,
-          clicks: clickCount,
-          date: new Date().toISOString(),
-        };
-
-        // LocalStorage
-        const existingScores = JSON.parse(
-          localStorage.getItem("memoryGameScores") || "[]"
-        );
-
-        localStorage.setItem(
-          "memoryGameScores",
-          JSON.stringify(
-            [newScore, ...existingScores]
-              .sort((a, b) => b.score - a.score)
-              .slice(0, 10)
-          )
-        );
-
-        // Firebase
-        try {
-          await addDoc(collection(db, "scores"), {
-            ...newScore,
-            createdAt: serverTimestamp(),
-          });
-          console.log("✅ Firebase write SUCCESS");
-        } catch (err) {
-          console.error("❌ Firebase ERROR:", err.message);
-        }
-
-        setScoreSaved(true);
-      }, 500);
+      winSound.current.play();
     }
-  }, [
-    cards,
-    time,
-    clickCount,
-    playerName,
-    difficulty,
-    category,
-    scoreSaved,
-    gameWon,
-  ]);
+  }, [cards, time, clickCount, gameWon]);
 
   const handleBack = () => {
     clickSound.current.currentTime = 0;
