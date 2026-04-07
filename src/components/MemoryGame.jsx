@@ -35,7 +35,7 @@ const MemoryGame = () => {
 
   const flipSound = useRef(new Audio("/sounds/flip.mp3"));
   const winSound = useRef(new Audio("/sounds/win.wav"));
-  const clickSound = useRef(new Audio("/sounds/clicks.wav"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"));
 
   // Animation
   useEffect(() => {
