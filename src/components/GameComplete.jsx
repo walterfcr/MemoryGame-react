@@ -6,7 +6,7 @@ import Layout from "./Layout"
 import "./GameComplete.css"
 import { useTranslation } from "react-i18next"
 
-// 🔥 Firebase
+// Firebase
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase"
 
@@ -30,7 +30,6 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
       setSaveStatus("saving")
 
       try {
-        // ✅ Calculate score (same logic as MemoryGame)
         const score = Math.max(1000 - (gameTime * 5 + totalMoves * 2), 0)
 
         const scoreData = {
@@ -45,16 +44,15 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
 
         console.log("🔥 Saving to Firebase:", scoreData)
 
-        // ✅ Firebase save
         await addDoc(collection(db, "scores"), {
           ...scoreData,
           createdAt: serverTimestamp(),
         })
 
-        console.log("✅ Score saved to Firebase!")
+        console.log("✅ Score saved!")
         setSaveStatus("success")
       } catch (error) {
-        console.error("❌ Firebase save error:", error)
+        console.error("❌ Error:", error)
         setSaveStatus("error")
       }
     }
@@ -76,7 +74,7 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
   return (
     <Layout title={t("gameComplete")} onBackClick={handleBackToMenu}>
       <div className="game-complete-container">
-        <h1 className="game-complete-heading">🎉 {t("congratulations")}!</h1>
+        <h1>🎉 {t("congratulations")}!</h1>
 
         <div className="score-summary-card">
           <h3>📊 {t("yourScore")}</h3>
@@ -87,20 +85,15 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
           <p><strong>{t("moves")}:</strong> {totalMoves}</p>
         </div>
 
-        {/* Save Status */}
         <div className="save-status-message">
-          {saveStatus === "saving" && <p className="saving">💾 {t("savingScore")}</p>}
-          {saveStatus === "success" && <p className="success">✅ {t("scoreSavedSuccess")}</p>}
-          {saveStatus === "error" && <p className="error">❌ {t("scoreSaveError")}</p>}
+          {saveStatus === "saving" && <p>💾 {t("savingScore")}</p>}
+          {saveStatus === "success" && <p>✅ {t("scoreSavedSuccess")}</p>}
+          {saveStatus === "error" && <p>❌ {t("scoreSaveError")}</p>}
         </div>
 
         <div className="action-buttons-container">
-          <button onClick={onPlayAgain} className="primary-action-button">
-            🔄 {t("playAgain")}
-          </button>
-          <button onClick={handleBackToMenu} className="primary-action-button">
-            🏠 {t("backToMenu")}
-          </button>
+          <button onClick={onPlayAgain}>🔄 {t("playAgain")}</button>
+          <button onClick={handleBackToMenu}>🏠 {t("backToMenu")}</button>
         </div>
       </div>
     </Layout>

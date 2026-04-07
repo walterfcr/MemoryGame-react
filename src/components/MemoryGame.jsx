@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import Confetti from "react-confetti";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Layout from "./Layout";
 import { gsap } from "gsap";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import "./MemoryGame.css";
 
 const MemoryGame = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);
@@ -16,9 +17,7 @@ const MemoryGame = () => {
 
   const [time, setTime] = useState(0);
   const [clickCount, setClickCount] = useState(0);
-  const [score, setScore] = useState(0);
 
-  const { width, height } = useWindowSize();
   const containerRef = useRef(null);
 
   const category = localStorage.getItem("selectedCategory") || "musicians";
@@ -76,7 +75,6 @@ const MemoryGame = () => {
     setGameWon(false);
     setTime(0);
     setClickCount(0);
-    setScore(0);
   };
 
   useEffect(() => loadImages(), []);
@@ -133,7 +131,7 @@ const MemoryGame = () => {
     return () => clearInterval(timer);
   }, [gameWon]);
 
-  // WIN LOGIC (no saving here anymore)
+  // WIN → navigate
   useEffect(() => {
     if (gameWon) return;
 
@@ -146,10 +144,18 @@ const MemoryGame = () => {
         0
       );
 
-      setScore(scoreCalc);
-      setGameWon(true);
-
       winSound.current.play();
+
+      navigate("/game-complete", {
+        state: {
+          playerName,
+          category,
+          difficulty,
+          gameTime: time,
+          totalMoves: clickCount,
+          score: scoreCalc,
+        },
+      });
     }
   }, [cards, time, clickCount, gameWon]);
 
@@ -170,24 +176,7 @@ const MemoryGame = () => {
       </div>
 
       <div ref={containerRef} className="memory-game">
-        {gameWon && (
-          <>
-            <Confetti width={width} height={height} />
-            <div className="win-message">
-              <h2>🎉 {t("youWon")}, {playerName}! 🎉</h2>
-              <p>🏆 {t("yourScore")}: {score}</p>
-              <button onClick={loadImages}>
-                {t("playAgain")}
-              </button>
-            </div>
-          </>
-        )}
-
-        <div
-          className={`card-grid ${difficulty.toLowerCase()} ${
-            gameWon ? "blurred" : ""
-          }`}
-        >
+        <div className={`card-grid ${difficulty.toLowerCase()}`}>
           {cards.map((card, idx) => (
             <div
               key={card.id}
@@ -207,10 +196,7 @@ const MemoryGame = () => {
                   <img src={card.image} alt="front" />
                 </div>
                 <div className="card-back">
-                  <img
-                    src="/images/placeholder.png"
-                    alt="back"
-                  />
+                  <img src="/images/placeholder.png" alt="back" />
                 </div>
               </div>
             </div>
