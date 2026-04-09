@@ -38,7 +38,7 @@ export function Credits() {
           <p>{t("version")}</p>
           <p>{t("built")}</p>
           <p>{t("sound")}</p>
-          <p>{t("contact")}</p>
+         
         </div>
       </Layout>
     );

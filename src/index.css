@@ -24,6 +24,7 @@ body {
   overflow-x: hidden; /* Previene el scroll horizontal no deseado */
   overflow-y: auto; /* ¡Permite el scroll vertical en toda la página! */
   -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
+  scroll-behavior: auto;
 }
 
 /* Your variables and other styles go here */
@@ -39,11 +40,12 @@ body {
   --play-view-hub-height: 60px;
 }
 
+
 .mainContainer {
-  width: 100vw;
-  min-height: 100vh; /* CAMBIO CLAVE: de height a min-height */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--main-background-color);
-  /* CAMBIO CLAVE: Eliminado overflow: hidden; */
 }
 
 .navbarContainer {
@@ -107,12 +109,7 @@ body {
 }
 
 .contentContainer {
-  height: calc(100% - var(--navbar-container-height));
-  width: 100%;
-  background-color: var(--main-background-color);
-  /* Si el contenido de contentContainer es muy largo,
-     y quieres que el scroll sea solo dentro de contentContainer,
-     añade aquí: overflow-y: auto;
-     Pero si quieres que toda la página haga scroll, no añadas nada aquí. */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
-

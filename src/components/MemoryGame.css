@@ -1,15 +1,21 @@
+/* ===== MEMORY GAME ===== */
 .memory-game {
   padding: 20px;
-  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;              /* 🔥 ADD */
   justify-content: center;
 }
 
+/* ===== GRID ===== */
 .card-grid {
+  margin-top: 20px;
   display: grid;
   gap: 10px;
   width: 100%;
   padding: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* Smaller cards */
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  flex-shrink: 0;
 }
 
 .card-grid.easy {
@@ -24,37 +30,28 @@
   max-width: 800px;
 }
 
+/* ===== RESPONSIVE ===== */
 @media (min-width: 400px) and (max-width: 480px) {
-  .card-grid.easy {
-    max-width: 400px;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
-
+  .card-grid.easy,
   .card-grid.medium {
     max-width: 400px;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
-
 }
 
 @media (min-width: 320px) and (max-width: 399px) {
-  .card-grid.easy {
-    max-width: 300px;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  }
-
+  .card-grid.easy,
   .card-grid.medium {
     max-width: 300px;
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   }
-
 }
 
 @media (min-width: 360px) and (max-width: 480px) {
-.card-grid.hard {
-  max-width: 300px;
-  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-}
+  .card-grid.hard {
+    max-width: 300px;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  }
 }
 
 @media (min-width: 320px) and (max-width: 359px) {
@@ -62,27 +59,13 @@
     max-width: 200px;
     grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
   }
-  }
-
-/*
-@media (max-width: 768px) {
-  .card-grid {
-    max-width: 400px;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  }
 }
 
-@media (max-width: 500px) {
-  .card-grid {
-    max-width: 340px;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  }
-}*/
-
+/* ===== CARD ===== */
 .card {
   width: 100%;
   height: 0;
-  padding-bottom: 133.33%; /* Keep 3:4 aspect ratio */
+  padding-bottom: 133.33%;
   position: relative;
   perspective: 1000px;
   cursor: pointer;
@@ -106,7 +89,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden; 
+  backface-visibility: hidden;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -123,12 +106,24 @@
   object-fit: cover;
 }
 
+/* ===== MATCH EFFECT ===== */
 .card-front.matched {
   background-color: #17f5d7;
   box-shadow: 0 0 15px rgba(23, 245, 215, 0.8);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
 }
 
+.card-front.highlight {
+  animation: glowPulse 0.6s ease;
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 0px #17f5d7; }
+  50% { box-shadow: 0 0 25px #17f5d7; }
+  100% { box-shadow: 0 0 10px #17f5d7; }
+}
+
+/* ===== HOVER ===== */
 @media (hover: hover) {
   .card:hover {
     transform: scale(1.03);
@@ -139,52 +134,7 @@
   }
 }
 
-
-.memory-game {
-  position: relative;
-}
-
-.win-message {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary-color);
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  text-align: center;
-  z-index: 10;
-  color:#17f5d7;
-}
-
-.win-message h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color:#fff;
-}
-
-.win-message button {
-  margin:20px 0 0;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  background: var(--secondary-color);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.win-message button:hover {
-  background: #0056b3;
-}
-
-.blurred {
-  filter: blur(4px);
-  pointer-events: none;
-}
-
+/* ===== STATS ===== */
 .stats-container {
   display: flex;
   justify-content: center;
@@ -200,24 +150,45 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Match glow (permanent or temporary) */
-.card-front.matched {
-  box-shadow: 0 0 10px #17f5d7;
+/* ===== WIN MESSAGE ===== */
+.win-message {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color);
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 10;
+  color: #17f5d7;
 }
 
-/* Extra highlight animation */
-.card-front.highlight {
-  animation: glowPulse 0.6s ease;
+.win-message h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #fff;
 }
 
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 0px #17f5d7;
-  }
-  50% {
-    box-shadow: 0 0 25px #17f5d7;
-  }
-  100% {
-    box-shadow: 0 0 10px #17f5d7;
-  }
+.win-message button {
+  margin: 20px 0 0;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.win-message button:hover {
+  background: #0056b3;
+}
+
+/* ===== BLUR ===== */
+.blurred {
+  filter: blur(4px);
+  pointer-events: none;
 }

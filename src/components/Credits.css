@@ -1,18 +1,10 @@
 .creditsContent {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: 1rem;
-  color: #fff;
-  text-align: center; /* Better for mobile */
-  max-width: 800px;
-  margin: 0 auto;
+  flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 
 .creditsContent p {

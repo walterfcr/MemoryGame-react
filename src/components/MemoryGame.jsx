@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next"
 import { addDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
 import "./MemoryGame.css"
+import { useAuth } from "../context/AuthContext"
 
 // constants
 const totalPairs = {
@@ -31,6 +32,7 @@ const MemoryGame = ({
   onMoveCount,
 }) => {
   const { t } = useTranslation()
+  const { user } = useAuth()
 
   const [cards, setCards] = useState([])
   const [flippedCards, setFlippedCards] = useState([])
@@ -40,7 +42,10 @@ const MemoryGame = ({
   const [score, setScore] = useState(0)
   const [scoreSaved, setScoreSaved] = useState(false)
 
-  const playerName = propPlayerName || localStorage.getItem("playerName") || t("guest")
+ const playerName =
+  propPlayerName ||
+  user?.username ||
+  t("guest")
 
   // sounds
   const flipSound = useRef(new Audio("/sounds/flip.mp3"))
