@@ -9,10 +9,15 @@ import { useTranslation } from "react-i18next"
 // Firebase
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase"
+import { useAuth } from "../context/AuthContext"
 
-function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, onPlayAgain }) {
+function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { user } = useAuth()
+  
+  // Use Firebase Auth displayName or email prefix as playerName
+  const playerName = user?.displayName || user?.email?.split("@")[0] || "Guest"
 
   const [saveStatus, setSaveStatus] = useState("idle")
 
@@ -27,6 +32,13 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
     const saveScore = async () => {
       if (saveStatus !== "idle") return
 
+      // Only save to Firebase if user is authenticated
+      if (!user?.uid) {
+        console.log("Skipping Firebase save - user not authenticated")
+        setSaveStatus("error")
+        return
+      }
+
       setSaveStatus("saving")
 
       try {
@@ -40,25 +52,26 @@ function GameComplete({ playerName, category, difficulty, gameTime, totalMoves, 
           clicks: totalMoves,
           score,
           date: new Date().toISOString(),
+          uid: user.uid,
         }
 
-        console.log("🔥 Saving to Firebase:", scoreData)
+        console.log("Saving to Firebase:", scoreData)
 
         await addDoc(collection(db, "scores"), {
           ...scoreData,
           createdAt: serverTimestamp(),
         })
 
-        console.log("✅ Score saved!")
+        console.log("Score saved!")
         setSaveStatus("success")
       } catch (error) {
-        console.error("❌ Error:", error)
+        console.error("Error saving score:", error)
         setSaveStatus("error")
       }
     }
 
     saveScore()
-  }, [playerName, category, difficulty, gameTime, totalMoves])
+  }, [playerName, category, difficulty, gameTime, totalMoves, user])
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)

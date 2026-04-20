@@ -27,7 +27,6 @@ const categoryPrefixes = {
 const MemoryGame = ({
   category,
   difficulty: propDifficulty,
-  playerName: propPlayerName,
   onGameComplete,
   onMoveCount,
 }) => {
@@ -42,10 +41,8 @@ const MemoryGame = ({
   const [score, setScore] = useState(0)
   const [scoreSaved, setScoreSaved] = useState(false)
 
- const playerName =
-  propPlayerName ||
-  user?.username ||
-  t("guest")
+ // Use Firebase Auth displayName or email prefix as playerName
+ const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
 
   // sounds
   const flipSound = useRef(new Audio("/sounds/flip.mp3"))
@@ -191,11 +188,13 @@ const MemoryGame = ({
         time,
         clicks: clickCount,
         date: new Date().toISOString(),
+        uid: user.uid,
       }
 
       const local = JSON.parse(localStorage.getItem("memoryGameScores") || "[]")
       localStorage.setItem("memoryGameScores", JSON.stringify([newScore, ...local].slice(0, 10)))
 
+      // Save to Firebase (user is always authenticated)
       saveScoreToFirebase(newScore)
 
       if (onGameComplete) onGameComplete(clickCount)

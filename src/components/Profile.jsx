@@ -44,7 +44,7 @@ function Profile() {
   // ✅ LOAD USER DATA FROM FIREBASE
   useEffect(() => {
     const loadUserData = async () => {
-      if (!isAuthenticated || !user || !user.username) {
+      if (!isAuthenticated || !user || !user.uid) {
         setLoading(false)
         return
       }
@@ -58,7 +58,7 @@ function Profile() {
 
         const q = query(
           collection(db, "scores"),
-          where("playerName", "==", user.username),
+          where("uid", "==", user.uid),
           orderBy("date", "desc"),
           limit(10)
         )
@@ -173,12 +173,12 @@ function Profile() {
             <div className="profile-card">
               <div className="profile-avatar">
                 <div className="avatar-circle">
-                  {(user?.username || user?.email || "U").charAt(0).toUpperCase()}
+                  {(user?.displayName || user?.email || "U").charAt(0).toUpperCase()}
                 </div>
               </div>
 
               <div className="profile-info">
-                <h2 className="profile-username">{user?.username || "User"}</h2>
+                <h2 className="profile-username">{user?.displayName || user?.email?.split("@")[0] || "User"}</h2>
                 <p className="profile-email">{user?.email || "-"}</p>
                 <p className="profile-join-date">
                   {t("memberSince")}: {user?.joinDate ? new Date(user.joinDate).toLocaleDateString() : "-"}
