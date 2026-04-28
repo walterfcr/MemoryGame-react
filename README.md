@@ -26,6 +26,14 @@ The application focuses on managing dynamic UI updates and user interactions in 
 * Real-time feedback when flipping and matching cards
 * Win condition detection and game reset
 
+## 🎮 Game Setup Preview
+
+![Game Setup](./public/assets/gifs/GameSetup.gif)
+
+## 🎮Gameplay & Animations
+
+![Game Setup](./public/assets/gifs/GamePlay.gif)
+
 ### 🎯 Difficulty Levels
 
 * Easy, Medium, and Hard modes
