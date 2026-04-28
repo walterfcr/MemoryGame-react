@@ -28,7 +28,7 @@ The application focuses on managing dynamic UI updates and user interactions in 
 
 ## 🎮 Game Setup Preview
 
-![Game Setup](./assets/gifs/GameSetup.gif)
+![Game Setup](./assets/gifs/Game-set-up.gif)
 
 
 ## 🎮Gameplay & Animations
