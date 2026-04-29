@@ -28,12 +28,12 @@ The application focuses on managing dynamic UI updates and user interactions in 
 
 ## 🎮 Game Setup Preview
 
-![Game Setup](./assets/gifs/game-set-up.gif)
+![Game Setup](./assets/gifs/set-up.gif)
 
 
 ## 🎮Gameplay & Animations
 
-![Game Setup](./assets/gifs/game-play.gif)
+![Game Setup](./assets/gifs/play.gif)
 
 ### 🎯 Difficulty Levels
 
