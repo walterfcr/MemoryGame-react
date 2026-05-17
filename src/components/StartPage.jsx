@@ -77,7 +77,7 @@ const StartPage = () => {
           </button>
         </div>
         <button onClick={() => handleNavigate("/play")} className="playButton">
-          {t("play")}
+          {t("play")} 
         </button>
       </div>
     </Layout>
