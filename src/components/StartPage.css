@@ -10,6 +10,7 @@
 /* Logo styles */
 .logoImage {
   margin-bottom: 2rem; /* Adjust margin as necessary */
+  filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
 }
 
 /* Container for the tabs */

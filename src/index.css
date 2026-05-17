@@ -14,6 +14,7 @@ body {
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   letter-spacing: 0.2rem;
+
 }
 
 html,
@@ -21,23 +22,27 @@ body {
   height: 100%; /* Asegura que ocupen toda la altura disponible */
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Previene el scroll horizontal no deseado */
-  overflow-y: auto; /* ¡Permite el scroll vertical en toda la página! */
+  overflow: hidden; 
   -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
   scroll-behavior: auto;
 }
 
 /* Your variables and other styles go here */
 :root {
-  --main-background-color: #2a3a5d;
-  --primary-color: #1f2a47;
-  --secondary-color: #cf0973;
-  --hover-color: #9b0555;
-  --complementary-color: #b2d1fa;
+ --main-background-color: #162031; 
+  --primary-color: #243454; 
+  --secondary-color: #e60b81; 
+  --hover-color: #bd096a; 
+  --complementary-color: #8dbfff; 
+
+  /* Layout y UI */
   --navbar-container-height: 70px;
-  --button-color: #fff;
+  --button-color: #ffffff;
   --button-background-color: var(--secondary-color);
   --play-view-hub-height: 60px;
+  
+  /* EXTRA: Añade sombras coherentes */
+  --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 

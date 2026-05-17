@@ -1,46 +1,137 @@
 .creditsContent {
   flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
 }
 
-.creditsContent p {
-  margin: 0;
-  line-height: 1.6;
-  color: var(--complementary-color); /* Optional for readability */
+/* Hidden by default on desktop because layout title handles it */
+.creditsContent h1 {
+  display: none;
 }
 
-.creditsContent img {
-  width: 200px;
-  max-width: 80%;
-  margin-bottom: 1.5rem;
+/* Logo styling with a subtle retro neon glow */
+.logoImageCredits {
+  width: 180px;
+  max-width: 60%;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
 }
 
-.creditsContent h1{
-      display:none;
+/* A stylized glass/dark container to group information together */
+.creditsWrapper {
+  background-color: rgba(36, 52, 84, 0.6); /* Slightly transparent --primary-color */
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  backdrop-filter: blur(5px); /* Smooth premium glass effect */
 }
 
+/* Individual text block layout */
+.creditGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: flex-start;
+}
+
+/* The role label (e.g., "DEVELOPED BY", "VERSION") */
+.creditLabel {
+  font-size: 1rem;
+  color: var(--secondary-color);
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* The actual value/text */
+.creditValue {
+  font-size: 1.6rem;
+  color: var(--button-color);
+  letter-spacing: 0.1rem;
+}
+
+/* Extra flavor for less important side-notes like "Built with React" */
+.creditFooterText {
+  font-size: 1.1rem;
+  color: var(--complementary-color);
+  opacity: 0.8;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(141, 191, 255, 0.2);
+  padding-top: 1rem;
+  width: 100%;
+}
+
+/* --- Responsive Adjustments --- */
 @media (max-width: 480px) {
   .creditsContent {
-    height: auto;
-    padding-top: 2rem;
+    justify-content: flex-start;
+    padding-top: 30px;
+  }
+
+  .creditsContent h1 {
+    display: block;
+    color: var(--button-color);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px var(--secondary-color);
+  }
+
+  .creditsWrapper {
+    padding: 1.5rem;
+    width: 90%;
     gap: 1.2rem;
   }
 
-  .creditsContent h1{
-    display:block;
-    color: #fff;
+  .creditLabel {
+    font-size: 0.9rem;
+  }
+
+}
+
+@media (min-width: 400px) and (max-width: 480px){
+  .logoImageCredits {
+    width: 130px;
+    margin-bottom: 0.5rem;
+  }
+
+  .creditValue {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 399px){
+  .creditsContent h1 {
     font-size: 2rem;
   }
 
-  .creditsContent img {
-    width: 70%;
+  .logoImageCredits {
+    width: 100px;
+    margin-bottom: 0.5rem;
   }
 
-  .creditsContent p {
-    font-size: 0.95rem;
+  .creditValue {
+    font-size: 0.9rem;
   }
+
+   .creditsWrapper {
+    padding: 1.2rem;
+    width: 90%;
+    gap: 1.2rem;
+  }
+
+  .creditFooterText {
+  font-size: 0.9rem;
+  }
+
 }

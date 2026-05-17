@@ -59,6 +59,7 @@
 
     .languageContainer img{
       width:80%;
+      filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
     }
   }
 

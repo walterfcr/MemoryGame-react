@@ -46,7 +46,7 @@ function LanguageSelector() {
         return '/images/language-logo3.png';
       case 'en':
       default:
-        return '/images/language-logo1.png';
+        return '/images/language-logo1.png'; 
     }
   };
 

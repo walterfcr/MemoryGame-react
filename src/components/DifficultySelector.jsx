@@ -59,7 +59,7 @@ const DifficultySelector = ({ onSelect }) => {
     <Layout title={t("SelectDifficulty")} onBackClick={handleBackClick}>
       <div className="difficultyContainer" ref={containerRef}>
         <h1>{t("SelectDifficulty")}</h1>
-        <img src={getLogoByDifficulty(selectedDifficulty) || "/placeholder.svg"} alt="Logo" />
+        <img src={getLogoByDifficulty(selectedDifficulty) || "/placeholder.svg"} alt="Logo" className="logoImage" />
         <button
           className={`tabButtonDifficulty ${selectedDifficulty === "Easy" ? "active" : ""}`}
           onClick={() => handleSelect("Easy")}

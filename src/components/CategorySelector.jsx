@@ -57,7 +57,7 @@ const CategorySelector = () => {
     <Layout title={t("SelectCategory")} onBackClick={handleBackClick}>
       <div ref={containerRef} className="categoryContainer">
         <h1>{t("SelectCategory")}</h1>
-        <img src={getLogoByCategory(selectedCategory) || "/placeholder.svg"} alt="Logo" />
+        <img src={getLogoByCategory(selectedCategory) || "/placeholder.svg"} alt="Logo" className="logoImage"/>
         <button
           className={`tabButtonCategory ${selectedCategory === "heroes" ? "active" : ""}`}
           onClick={() => handleSelect("heroes")}

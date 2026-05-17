@@ -33,7 +33,6 @@ The application focuses on managing dynamic UI updates and user interactions in 
 
 ## 🎮Gameplay & Animations
 
-
 ![Game Setup](./assets/gifs/play.gif)
 
 
