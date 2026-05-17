@@ -45,6 +45,7 @@
       display:block;
       color: #fff;
       font-size: 2rem;
+      text-shadow: 0 0 10px var(--secondary-color);
     }
 
     
@@ -59,3 +60,22 @@
         line-height: 50px;
     }
   }
+
+   @media (min-width:320px) and (max-width:400px){
+
+
+    .categoryContainer h1{
+      font-size: 1.7rem;
+   }
+
+    .categoryContainer img{
+      width:45% ;
+    }
+
+    .tabButtonCategory {
+        width: 230px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 40px;
+    }
+  } 
