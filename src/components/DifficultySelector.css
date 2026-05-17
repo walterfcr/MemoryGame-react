@@ -40,7 +40,7 @@
     .difficultyContainer {
       justify-content: none;
       height: auto;
-      padding-top: 30px !important;
+      padding-top: 0 !important;
       gap: 1.5rem;
     }
 
@@ -48,6 +48,7 @@
       display:block;
       color: #fff;
       font-size: 2rem;
+      text-shadow: 0 0 10px var(--secondary-color);
    }
 
     .difficultyContainer img{
@@ -59,5 +60,24 @@
         height: 50px;
         font-size: 1.2rem;
         line-height: 50px;
+    }
+  } 
+
+   @media (min-width:320px) and (max-width:400px){
+
+
+    .difficultyContainer h1{
+      font-size: 1.9rem;
+   }
+
+    .difficultyContainer img{
+      width:45%;
+    }
+
+    .tabButtonDifficulty {
+        width: 230px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 40px;
     }
   } 
