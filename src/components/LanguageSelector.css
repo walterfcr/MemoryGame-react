@@ -48,6 +48,7 @@
       display:block;
       color: #fff;
       font-size: 2rem;
+      text-shadow: 0 0 10px var(--secondary-color);
     }
 
     .languageContainer {
@@ -62,5 +63,24 @@
       filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
     }
   }
+
+   @media (min-width:320px) and (max-width:400px){
+
+
+    .languageContainer h1{
+      font-size: 1.9rem;
+   }
+
+    .languageContainer img{
+      width:45%;
+    }
+
+    .tabButtonLanguage {
+        width: 230px;
+        height: 50px;
+        font-size: 1.2rem;
+        line-height: 40px;
+    }
+  } 
 
 
