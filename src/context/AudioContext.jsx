@@ -31,7 +31,10 @@ export const AudioProvider = ({ children }) => {
     // 3. SCENARIO C: The user is browsing the sub-menus (Difficulty, Credits, Leaderboards...)
     else {
       welcomeSoundtrack.current.pause();
-      // Seamlessly keep looping the default menu music
+
+      if (menuSoundtrack.current.paused) {
+      menuSoundtrack.current.currentTime = 0; // Rewinds song to 0:00
+    }
       menuSoundtrack.current.play().catch(() => {});
     }
   }, [location]); // Triggers auto-evaluation smoothly on every single URL change
