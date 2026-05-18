@@ -1,47 +1,56 @@
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const AudioContext = createContext(null);
 
 export const AudioProvider = ({ children }) => {
   const location = useLocation();
+  
+  // 1. Core global state for managing muting preferences
+  const [isMuted, setIsMuted] = useState(() => {
+    // Persistent memory: stays muted even if the page is refreshed!
+    return localStorage.getItem("gameMuted") === "true";
+  });
 
-  // Create persistent single instances of your background music files
   const menuSoundtrack = useRef(new Audio("/sounds/soundtrack.mp3"));
   const welcomeSoundtrack = useRef(new Audio("/sounds/welcomePage.wav"));
 
+  // 2. Whenever muting state changes, update the volume settings instantly
   useEffect(() => {
-    // Basic setup configurations
+    menuSoundtrack.current.muted = isMuted;
+    welcomeSoundtrack.current.muted = isMuted;
+    localStorage.setItem("gameMuted", isMuted);
+  }, [isMuted]);
+
+  useEffect(() => {
     menuSoundtrack.current.loop = true;
     welcomeSoundtrack.current.loop = true;
 
+    // Synchronize current muting flags on path updates
+    menuSoundtrack.current.muted = isMuted;
+    welcomeSoundtrack.current.muted = isMuted;
+
     const currentPath = location.pathname.toLowerCase();
 
-    // 1. SCENARIO A: The user is actively playing the Memory Game grid
     if (currentPath === "/play") {
       menuSoundtrack.current.pause();
       welcomeSoundtrack.current.pause();
     }
-    // 2. SCENARIO B: The user is resting on the absolute frontend Welcome screen
     else if (currentPath === "/" || currentPath === "") {
       menuSoundtrack.current.pause();
-      // Only trigger if audio context has already been unlocked by user click
       welcomeSoundtrack.current.play().catch(() => {});
     }
-    // 3. SCENARIO C: The user is browsing the sub-menus (Difficulty, Credits, Leaderboards...)
     else {
       welcomeSoundtrack.current.pause();
-
       if (menuSoundtrack.current.paused) {
-      menuSoundtrack.current.currentTime = 0; // Rewinds song to 0:00
-    }
+        menuSoundtrack.current.currentTime = 0;
+      }
       menuSoundtrack.current.play().catch(() => {});
     }
-  }, [location]); // Triggers auto-evaluation smoothly on every single URL change
+  }, [location, isMuted]); // Keeps routing and mute states fully unified
 
-  // Provide manual access parameters so pages can manually stop/fade music if needed
   return (
-    <AudioContext.Provider value={{ menuSoundtrack, welcomeSoundtrack }}>
+    <AudioContext.Provider value={{ menuSoundtrack, welcomeSoundtrack, isMuted, setIsMuted }}>
       {children}
     </AudioContext.Provider>
   );

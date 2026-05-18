@@ -7,6 +7,7 @@ import { gsap } from "gsap"
 import { useTranslation } from "react-i18next"
 import { addDoc, collection } from "firebase/firestore"
 import { db } from "../firebase"
+import { useAudio } from "../context/AudioContext" // ✅ FIX: Import global audio hook
 import "./MemoryGame.css"
 import { useAuth } from "../context/AuthContext"
 
@@ -32,6 +33,7 @@ const MemoryGame = ({
 }) => {
   const { t } = useTranslation()
   const { user } = useAuth()
+  const { isMuted } = useAudio() // ✅ FIX: Extract live mute flag
 
   const [cards, setCards] = useState([])
   const [flippedCards, setFlippedCards] = useState([])
@@ -41,8 +43,8 @@ const MemoryGame = ({
   const [score, setScore] = useState(0)
   const [scoreSaved, setScoreSaved] = useState(false)
 
- // Use Firebase Auth displayName or email prefix as playerName
- const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
+  // Use Firebase Auth displayName or email prefix as playerName
+  const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
 
   // sounds
   const flipSound = useRef(new Audio("/sounds/flip.mp3"))
@@ -61,13 +63,12 @@ const MemoryGame = ({
       ease: "power3.out",
     })
 
-    // Start looping background music
+    // Start looping background music (respecting mute setting)
     if (playSound.current) {
       playSound.current.loop = true
       playSound.current.currentTime = 0
-      playSound.current.play().catch(() => {
-        // Browser may block autoplay
-      })
+      playSound.current.muted = isMuted // ✅ FIX: Force audio tracks to align on mount
+      playSound.current.play().catch(() => {})
     }
 
     // Cleanup: stop music when leaving the game
@@ -77,7 +78,7 @@ const MemoryGame = ({
         playSound.current.currentTime = 0
       }
     }
-  }, [])
+  }, [isMuted]) // ✅ FIX: Watch mute changes to silence background tracks dynamically
 
   const normalizeDifficulty = (diff) => {
     switch (diff.toLowerCase()) {
@@ -139,8 +140,11 @@ const MemoryGame = ({
     updated[index].flipped = true
     setCards(updated)
 
-    flipSound.current.currentTime = 0
-    flipSound.current.play()
+    // ✅ FIX: Only play flip audio if sound is enabled
+    if (!isMuted && flipSound.current) {
+      flipSound.current.currentTime = 0
+      flipSound.current.play()
+    }
 
     const newFlipped = [...flippedCards, index]
     setFlippedCards(newFlipped)
@@ -153,16 +157,17 @@ const MemoryGame = ({
           updated[a].matched = true
           updated[b].matched = true
 
-          // ✅ STEP 1 FIX: highlight cards
           updated[a].highlight = true
           updated[b].highlight = true
 
-          matchSound.current.currentTime = 0
-          matchSound.current.play()
+          // ✅ FIX: Only play match audio if sound is enabled
+          if (!isMuted && matchSound.current) {
+            matchSound.current.currentTime = 0
+            matchSound.current.play()
+          }
 
           setCards([...updated])
 
-          // remove highlight after short delay
           setTimeout(() => {
             updated[a].highlight = false
             updated[b].highlight = false
@@ -193,7 +198,11 @@ const MemoryGame = ({
 
     if (allMatched && !scoreSaved) {
       setGameWon(true)
-      winSound.current.play()
+      
+      // ✅ FIX: Only play win fanfare if sound is enabled
+      if (!isMuted && winSound.current) {
+        winSound.current.play()
+      }
 
       const finalScore = Math.max(1000 - (time * 5 + clickCount * 2), 0)
       setScore(finalScore)
@@ -212,14 +221,13 @@ const MemoryGame = ({
       const local = JSON.parse(localStorage.getItem("memoryGameScores") || "[]")
       localStorage.setItem("memoryGameScores", JSON.stringify([newScore, ...local].slice(0, 10)))
 
-      // Save to Firebase (user is always authenticated)
       saveScoreToFirebase(newScore)
 
       if (onGameComplete) onGameComplete(clickCount)
 
       setScoreSaved(true)
     }
-  }, [cards, time, clickCount, scoreSaved, category, difficulty, playerName, onGameComplete])
+  }, [cards, time, clickCount, scoreSaved, category, difficulty, playerName, onGameComplete, isMuted])
 
   useEffect(() => {
     if (gameWon) return
@@ -232,12 +240,19 @@ const MemoryGame = ({
   }, [gameWon])
 
   const handleBack = () => {
-    clickSound.current.currentTime = 0
-    clickSound.current.play()
+    // ✅ FIX: Only play click noise if sound is enabled
+    if (!isMuted && clickSound.current) {
+      clickSound.current.currentTime = 0
+      clickSound.current.play()
+    }
     window.history.back()
   }
 
   const handlePlayAgain = () => {
+    if (!isMuted && clickSound.current) {
+      clickSound.current.currentTime = 0
+      clickSound.current.play()
+    }
     loadImages()
   }
 
