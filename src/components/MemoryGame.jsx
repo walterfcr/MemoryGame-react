@@ -51,7 +51,7 @@ const MemoryGame = ({
   const winSound = useRef(new Audio("/sounds/win.wav"))
   const clickSound = useRef(new Audio("/sounds/click.wav"))
   const matchSound = useRef(new Audio("/sounds/match-sound.wav"))
-  const playSound = useRef(new Audio("/sounds/play.wav"))
+  const playSound = useRef(new Audio("/sounds/play.mp3"))
 
   const containerRef = useRef(null)
 
