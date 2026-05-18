@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAudio } from "../context/AudioContext"; // ✅ Hooks into central control tower
 import { gsap } from "gsap";
 import { useTranslation } from "react-i18next";
 import Layout from "./Layout";
@@ -18,6 +19,9 @@ const WelcomePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   
+  // ✅ Fetching the persistent welcome sound from central audio context control tower
+  const { welcomeSoundtrack } = useAudio();
+  
   // DOM References
   const containerRef = useRef(null);
   const cardFrameRef = useRef(null);   
@@ -26,28 +30,27 @@ const WelcomePage = () => {
 
   // Sound Effects References
   const clickSound = useRef(new Audio("/sounds/click.wav"));
-  const welcomeSound = useRef(new Audio("/sounds/welcomePage.wav"));
   
   // Component State
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // Unlocks the browser audio context immediately when the user taps the initial overlay
+  // Unlocks browser audio context smoothly when player triggers the overlay
   const handleEnterGame = () => {
     setHasInteracted(true);
 
-    if (welcomeSound.current) {
-      welcomeSound.current.loop = true;
-      welcomeSound.current.volume = 1;
-      welcomeSound.current.play().catch((err) => console.log("Audio play failed:", err));
+    if (welcomeSoundtrack && welcomeSoundtrack.current) {
+      welcomeSoundtrack.current.loop = true;
+      welcomeSoundtrack.current.volume = 1;
+      welcomeSoundtrack.current.play().catch((err) => console.log("Audio play failed:", err));
     }
 
-    // Smoothly fade out the initial splash overlay screen
+    // Smoothly fade out the initial overlay screen
     gsap.to(overlayRef.current, {
       opacity: 0,
       duration: 0.4,
       onComplete: () => {
-        // Trigger your elegant main content reveal animation once the overlay vanishes
+        // Reveal main screen elements nicely
         gsap.fromTo(containerRef.current, 
           { opacity: 0, scale: 0.95 },
           { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
@@ -70,16 +73,13 @@ const WelcomePage = () => {
 
     // 2. Continuous smooth crossfade carousel for character art inside the card frame
     const characterTimeline = setInterval(() => {
-      // Step A: Fade character out smoothly
       gsap.to(characterRef.current, {
         opacity: 0,
         duration: 0.4,
         ease: "power1.inOut",
         onComplete: () => {
-          // Step B: Swap the source image file behind the scenes while invisible
           setCurrentImgIndex((prevIndex) => (prevIndex + 1) % CHARACTER_IMAGES.length);
           
-          // Step C: Fade new character back into view
           gsap.to(characterRef.current, {
             opacity: 1,
             duration: 0.4,
@@ -87,30 +87,25 @@ const WelcomePage = () => {
           });
         },
       });
-    }, 4000); // Cycles artwork every 4 seconds
+    }, 4000);
 
-    // Clean up timers and animations when navigating away from this component
+    // Clean up timers and loops when leaving page
     return () => {
       clearInterval(characterTimeline);
       floatingAnimation.kill();
-      
-      if (welcomeSound.current) {
-        welcomeSound.current.pause();
-        welcomeSound.current.currentTime = 0;
-      }
     };
   }, []);
 
-  // Action to smoothly route user into the main menu dashboard
+  // Action to smoothly transition user into the main menu dashboard
   const handleStart = () => {
     if (clickSound.current) {
       clickSound.current.currentTime = 0;
       clickSound.current.play();
     }
     
-    // Fade out the looping welcome track volume alongside the container exit transition
-    if (welcomeSound.current) {
-      gsap.to(welcomeSound.current, {
+    // Fade out the looping welcome track volume along with exit animation
+    if (welcomeSoundtrack && welcomeSoundtrack.current) {
+      gsap.to(welcomeSoundtrack.current, {
         volume: 0,
         duration: 0.4,
         ease: "power1.inOut"
@@ -129,7 +124,7 @@ const WelcomePage = () => {
   return (
     <Layout title={t("memoryGame")} onBackClick={null}>
       
-      {/* 1. THE AUDIOWALL OVERLAY: Blocks layout view until clicked to satisfy browser security */}
+      {/* 1. THE AUDIO OVERLAY: Blocks view until clicked to satisfy browser safety parameters */}
       {!hasInteracted && (
         <div className="audioUnlockOverlay" ref={overlayRef} onClick={handleEnterGame}>
           <div className="pulsingPrompt">
@@ -143,7 +138,7 @@ const WelcomePage = () => {
       <div 
         className="welcomePageContainer" 
         ref={containerRef} 
-        style={{ opacity: hasInteracted ? 1 : 0 }} // Hidden initially until user interacts
+        style={{ opacity: 0 }}
       >
         <div className="heroSection">
           <p className="gameDescription">

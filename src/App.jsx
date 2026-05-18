@@ -1,6 +1,8 @@
 "use client"
 
 import { Routes, Route } from "react-router-dom"
+import { AuthProvider } from "./context/AuthContext"
+import { AudioProvider } from "./context/AudioContext"
 import WelcomePage from "./components/WelcomePage"
 import StartPage from "./components/StartPage"
 import DifficultySelector from "./components/DifficultySelector"
@@ -14,7 +16,6 @@ import EnhancedMemoryGameUpdated from "./components/EnhancedMemoryGameUpdated"
 import Leaderboard from "./components/Leaderboard"
 import Profile from "./components/Profile"
 import GameCompleteWrapper from "./components/GameCompleteWrapper" // ✅ NEW
-import { AuthProvider } from "./context/AuthContext"
 import PlayerNameEntry from "./components/PlayerNameEntry"
 import ProtectedRoute from "./components/ProtectedRoute"
 import "./index.css"
@@ -23,6 +24,7 @@ function App() {
   return (
     <div className="mainContainer">
       <AuthProvider>
+        <AudioProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<WelcomePage />} />
@@ -74,6 +76,7 @@ function App() {
             }
           />
         </Routes>
+        </AudioProvider>
       </AuthProvider>
     </div>
   )
