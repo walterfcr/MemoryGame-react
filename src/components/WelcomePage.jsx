@@ -23,9 +23,17 @@ const WelcomePage = () => {
   const characterRef = useRef(null);   // Ref for ONLY the character inside
   
   const clickSound = useRef(new Audio("/sounds/click.wav"));
+  const welcomeSound = useRef(new Audio("/sounds/welcomePage.wav"));
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
   useEffect(() => {
+    // Play welcome sound on load (looping)
+    if (welcomeSound.current) {
+      welcomeSound.current.loop = true;
+      welcomeSound.current.currentTime = 0;
+      welcomeSound.current.play().catch(() => {});
+    }
+
     // Reveal page layout
     gsap.from(containerRef.current, {
       opacity: 0,
@@ -66,7 +74,14 @@ const WelcomePage = () => {
       });
     }, 4000); // Swaps characters every 4 seconds
 
-    return () => clearInterval(characterTimeline);
+    return () => {
+      clearInterval(characterTimeline);
+      // Stop welcome sound when leaving the page
+      if (welcomeSound.current) {
+        welcomeSound.current.pause();
+        welcomeSound.current.currentTime = 0;
+      }
+    };
   }, []);
 
   const handleStart = () => {

@@ -49,6 +49,7 @@ const MemoryGame = ({
   const winSound = useRef(new Audio("/sounds/win.wav"))
   const clickSound = useRef(new Audio("/sounds/click.wav"))
   const matchSound = useRef(new Audio("/sounds/match-sound.wav"))
+  const playSound = useRef(new Audio("/sounds/play.wav"))
 
   const containerRef = useRef(null)
 
@@ -59,6 +60,23 @@ const MemoryGame = ({
       duration: 1,
       ease: "power3.out",
     })
+
+    // Start looping background music
+    if (playSound.current) {
+      playSound.current.loop = true
+      playSound.current.currentTime = 0
+      playSound.current.play().catch(() => {
+        // Browser may block autoplay
+      })
+    }
+
+    // Cleanup: stop music when leaving the game
+    return () => {
+      if (playSound.current) {
+        playSound.current.pause()
+        playSound.current.currentTime = 0
+      }
+    }
   }, [])
 
   const normalizeDifficulty = (diff) => {
