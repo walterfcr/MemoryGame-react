@@ -56,7 +56,7 @@ function Login() {
 
   const handleBack = () => {
     playClickSound()
-    navigate("/")
+    navigate("/menu")
   }
 
   return (

@@ -26,7 +26,7 @@ const Leaderboard = () => {
 
   const handleBack = () => {
     playClickSound()
-    navigate("/")
+    navigate("/menu")
   }
 
   const loadScores = async () => {

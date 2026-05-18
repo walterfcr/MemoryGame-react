@@ -70,13 +70,13 @@ function Register() {
       // Usar el error específico del backend si existe, de lo contrario, un genérico
       setFormError(t(result.error) || t("registrationFailed"))
     } else {
-       navigate("/") // o "/login" si prefieres
+       navigate("/menu") // o "/login" si prefieres
        }
   }
 
   const handleBack = () => {
     playClickSound()
-    navigate("/")
+    navigate("/menu")
   }
 
   return (

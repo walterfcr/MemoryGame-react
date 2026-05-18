@@ -52,7 +52,7 @@ const DifficultySelector = ({ onSelect }) => {
 
   const handleBackClick = () => {
     playSound()
-    setTimeout(() => navigate("/"), 150) // Slight delay to let the sound play
+    setTimeout(() => navigate("/menu"), 150) // Slight delay to let the sound play
   }
 
   return (

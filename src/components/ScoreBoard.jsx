@@ -18,7 +18,7 @@ const ScoreBoard = () => {
   const playSoundAndGoBack = () => {
     clickSound.current.currentTime = 0;
     clickSound.current.play();
-    navigate("/");
+    navigate("/menu");
   };
 
   useEffect(() => {

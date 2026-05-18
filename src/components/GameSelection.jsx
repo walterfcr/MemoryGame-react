@@ -45,7 +45,7 @@ function GameSelection() {
 
   const handleBack = () => {
     playClickSound()
-    navigate("/") // Navegar de vuelta al menú principal
+    navigate("/menu") // Navegar de vuelta al menú principal
   }
 
   return (

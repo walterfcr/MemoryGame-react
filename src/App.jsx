@@ -1,6 +1,7 @@
 "use client"
 
 import { Routes, Route } from "react-router-dom"
+import WelcomePage from "./components/WelcomePage"
 import StartPage from "./components/StartPage"
 import DifficultySelector from "./components/DifficultySelector"
 import CategorySelector from "./components/CategorySelector"
@@ -24,7 +25,8 @@ function App() {
       <AuthProvider>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<StartPage />} />
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/menu" element={<StartPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/difficulty" element={<DifficultySelector />} />

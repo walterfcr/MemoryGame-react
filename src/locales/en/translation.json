@@ -1,5 +1,6 @@
 {
   "memoryGame": "Memory Game",
+  "pressToStart": "Press to Start",
   "play": "Play",
   "language": "Language",
   "category": "Category",
@@ -68,5 +69,6 @@
   "recentScores": "Recent Scores",
   "noGamesYet": "You haven't played any games yet!",
   "playFirstGame": "Play Your First Game",
-  "viewAllScores": "View All Scores"
+  "viewAllScores": "View All Scores",
+  "gameDescriptionText": "A fast-paced card matching game designed to test your focus, speed, and visual memory. Match the pairs and prove your speed."
 }

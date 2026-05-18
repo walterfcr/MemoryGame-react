@@ -1,0 +1,134 @@
+.welcomePageContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers everything vertically as a unit */
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  max-height: calc(100dvh - var(--navbar-container-height));
+  gap: 5rem; /* Explicit, controlled spacing between text, card, and button */
+}
+
+.heroSection {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem; /* Spacing between the main logo and the description text */
+}
+
+.welcomeLogo {
+  width: 240px;
+  max-width: 70%;
+  height: auto;
+  filter: drop-shadow(0 0 15px rgba(230, 11, 129, 0.4));
+}
+
+.gameDescription {
+  color: #ffffff; /* Brighter white for primary reading */
+  font-size: 1.2rem;
+  max-width: 420px;
+  line-height: 1.6; /* Better breathing room between lines */
+  letter-spacing: 0.08rem;
+  font-weight: 300;
+
+  
+  /* Soft background layout block to frame the text nicely */
+  background-color: rgba(36, 52, 84, 0.2); 
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--secondary-color); /* Neon magenta accent tag */
+}
+
+.gamePreviewContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 32dvh;
+}
+
+/* This is the card shell that stays solid and floats */
+.previewCardFrame {
+  width: 260px;
+  height: 340px;
+  max-height: 100%;
+  background-color: #243454; /* Your --primary-color */
+  border: 2px solid rgba(141, 191, 255, 0.2); /* Soft slate/cyan border */
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* This is the character artwork inside that changes smoothly */
+.characterImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  /* Optional: Adds a subtle shadow strictly under the character cutout */
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5)); 
+}
+
+/* Mobile responsive sizing */
+@media (max-width: 480px) {
+  .previewCardFrame {
+    width: 200px;
+    height: 270px;
+    padding: 1rem;
+  }
+}
+
+.previewImage {
+  max-height: 100%;
+  max-width: 80%;
+  object-fit: contain;
+  border-radius: 12px;
+  /* Gives a soft glowing border to your gameplay graphics */
+  box-shadow: 0 0 20px rgba(141, 191, 255, 0.2); 
+}
+
+.hugePlayButton {
+  width: 100%;
+  max-width: 400px;
+  height: 65px;
+  background-color: var(--secondary-color);
+  color: var(--button-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+  cursor: pointer;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.hugePlayButton:hover {
+  background-color: var(--hover-color);
+  box-shadow: 0 4px 25px rgba(230, 11, 129, 0.6);
+  transform: translateY(-2px); /* Subtle lifting effect */
+}
+
+.hugePlayButton:active {
+  transform: translateY(0);
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .welcomePageContainer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .gameDescription {
+    font-size: 1.1rem;
+  }
+  
+  .hugePlayButton {
+    height: 55px;
+    font-size: 1.6rem;
+  }
+}

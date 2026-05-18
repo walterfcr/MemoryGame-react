@@ -1,5 +1,6 @@
 {
   "memoryGame": "Jeu de mémoire",
+  "pressToStart": "Commencer",
   "play": "Jouer",
   "language": "Langue",
   "category": "Catégorie",
@@ -68,5 +69,6 @@
   "recentScores": "Scores récents",
   "noGamesYet": "Vous n'avez encore joué à aucun jeu !",
   "playFirstGame": "Jouez votre première partie",
-  "viewAllScores": "Voir tous les scores"
+  "viewAllScores": "Voir tous les scores",
+  "gameDescriptionText": "Un jeu de cartes rapide et dynamique conçu pour tester votre concentration, votre vitesse et votre mémoire visuelle. Trouvez les paires et prouvez votre rapidité."
 }

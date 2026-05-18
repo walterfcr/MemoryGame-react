@@ -28,7 +28,7 @@ function Profile() {
 
   const handleBack = () => {
     playClickSound()
-    navigate("/")
+    navigate("/menu")
   }
 
   const handleLogout = () => {

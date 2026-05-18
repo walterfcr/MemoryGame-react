@@ -84,7 +84,7 @@
     color: var(--button-color);
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    text-shadow: 0 0 10px var(--secondary-color);
+    text-shadow: 0 0 10px var(--complementary-color);
   }
 
   .creditsWrapper {

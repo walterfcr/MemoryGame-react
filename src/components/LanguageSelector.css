@@ -48,7 +48,7 @@
       display:block;
       color: #fff;
       font-size: 2rem;
-      text-shadow: 0 0 10px var(--secondary-color);
+      text-shadow: 0 0 10px var(--complementary-color);
     }
 
     .languageContainer {

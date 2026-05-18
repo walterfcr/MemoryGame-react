@@ -28,7 +28,7 @@ function LanguageSelector() {
 
   const handleBack = () => {
     playClickSound();
-    navigate("/");
+    navigate("/menu");
   };
 
   const changeLanguage = (lng) => {

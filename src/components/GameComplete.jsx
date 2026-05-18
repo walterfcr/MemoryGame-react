@@ -81,7 +81,7 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
 
   const handleBackToMenu = () => {
     playClickSound()
-    navigate("/")
+    navigate("/menu")
   }
 
   return (

@@ -28,7 +28,7 @@ const CategorySelector = () => {
 
   const handleBackClick = () => {
     playSound()
-    setTimeout(() => navigate("/"), 150) // Delay navigation to let sound play
+    setTimeout(() => navigate("/menu"), 150) // Delay navigation to let sound play
   }
 
   useEffect(() => {

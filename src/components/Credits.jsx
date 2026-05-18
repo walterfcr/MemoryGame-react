@@ -5,6 +5,7 @@ import { gsap } from 'gsap'; // Import GSAP for animation
 import { useTranslation } from 'react-i18next';
 import './Credits.css';
 
+
 export function Credits() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ export function Credits() {
   const handleBack = () => {
     clickSound.current.currentTime = 0;
     clickSound.current.play();
-    navigate("/");
+    navigate("/menu");
   };
 
     return (
