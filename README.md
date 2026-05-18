@@ -78,6 +78,18 @@ The application focuses on managing dynamic UI updates and user interactions in 
 
 ---
 
+### Modern Browser Autoplay Restrictions (Audio Blocker)
+
+Modern web browsers (Chrome, Safari, iOS, etc.) block all ambient background audio from playing automatically until an explicit user interaction (click/touch tap) occurs on the document object model. This broke the game's initial menu soundtrack immersion upon page mount.
+
+✔ Solution:
+
+* Designed a retro-arcade-inspired "Lock-Screen Overlay" (`audioUnlockOverlay`) that safely interrupts the application workflow.
+* Clicking or tapping anywhere on this gatekeeper view explicitly satisfies the browser security criteria, programmatically unlocks the web audio context, and smoothly fades the viewport layout into the animated landing view using GSAP.
+* Integrated audio crossfading using GSAP to gracefully lower the welcome music volume (`volume: 0`) in perfect synchronization with the exit route transition animation.
+
+---
+
 ## 🧠 Key React Concepts Implemented
 
 * State management for game logic (cards, turns, matches)

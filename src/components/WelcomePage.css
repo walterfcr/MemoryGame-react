@@ -132,3 +132,49 @@
     font-size: 1.6rem;
   }
 }
+
+/* Fullscreen transparent layer that captures the browser interaction click */
+.audioUnlockOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  background-color: rgba(22, 32, 49, 0.95); /* Matches --main-background-color */
+  z-index: 999; /* Forces it over everything, including the navbar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pulsingPrompt {
+  text-align: center;
+  animation: promptBreathe 1.5s ease-in-out infinite alternate;
+}
+
+.pulsingPrompt h2 {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  letter-spacing: 0.2rem;
+  text-shadow: 0 0 15px rgba(230, 11, 129, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+.pulsingPrompt p {
+  font-size: 1.2rem;
+  color: var(--complementary-color);
+  letter-spacing: 0.1rem;
+}
+
+/* Retro arcade pulsing effect */
+@keyframes promptBreathe {
+  from {
+    transform: scale(0.97);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
