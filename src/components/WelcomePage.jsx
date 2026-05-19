@@ -13,6 +13,11 @@ const CHARACTER_IMAGES = [
   "/images/preview-card2.webp",    
   "/images/preview-card3.webp",  
   "/images/preview-card4.webp", 
+  "/images/logo.png", 
+  "/images/preview-card5.webp",  
+  "/images/preview-card6.webp",    
+  "/images/preview-card7.webp",  
+  "/images/preview-card8.webp", 
 ];
 
 const WelcomePage = () => {
