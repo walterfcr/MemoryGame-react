@@ -48,9 +48,9 @@ const MemoryGame = ({
 
   // sounds
   const flipSound = useRef(new Audio("/sounds/flip.mp3"))
-  const winSound = useRef(new Audio("/sounds/win.wav"))
+  const winSound = useRef(new Audio("/sounds/win.mp3"))
   const clickSound = useRef(new Audio("/sounds/click.wav"))
-  const matchSound = useRef(new Audio("/sounds/match-sound.wav"))
+  const matchSound = useRef(new Audio("/sounds/match-sound.mp3"))
   const playSound = useRef(new Audio("/sounds/play.mp3"))
 
   const containerRef = useRef(null)

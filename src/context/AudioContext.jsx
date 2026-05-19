@@ -12,8 +12,8 @@ export const AudioProvider = ({ children }) => {
     return localStorage.getItem("gameMuted") === "true";
   });
 
-  const menuSoundtrack = useRef(new Audio("/sounds/soundtrack.wav"));
-  const welcomeSoundtrack = useRef(new Audio("/sounds/welcomePage.wav"));
+  const menuSoundtrack = useRef(new Audio("/sounds/soundtrack.mp3"));
+  const welcomeSoundtrack = useRef(new Audio("/sounds/welcomePage.mp3"));
 
   // 2. Whenever muting state changes, update the volume settings instantly
   useEffect(() => {
