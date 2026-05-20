@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import MemoryGame from "./MemoryGame"
+import MemoryGame from "../components/MemoryGame"
 import { useAuth } from "../context/AuthContext"
-import PlayerNameEntry from "./PlayerNameEntry"
+import PlayerNameEntry from "../components/PlayerNameEntry"
 
 function EnhancedMemoryGameUpdated({ category: initialCategory, difficulty: initialDifficulty }) {
   const [gameState, setGameState] = useState("name-input")

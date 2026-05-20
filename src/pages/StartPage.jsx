@@ -6,7 +6,7 @@ import { gsap } from "gsap"
 import "./StartPage.css"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
-import Layout from "./Layout" // IMPORTAR EL COMPONENTE LAYOUT
+import Layout from "../components/Layout" // IMPORTAR EL COMPONENTE LAYOUT
 
 const StartPage = () => {
   const { t } = useTranslation()

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
-import Layout from "./Layout"
+import Layout from "../components/Layout"
 import "./Leaderboard.css"
 import { useAuth } from "../context/AuthContext"
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore"

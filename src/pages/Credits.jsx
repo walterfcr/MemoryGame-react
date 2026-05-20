@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
-import Layout from './Layout'; // Import the Layout component
+import Layout from '../components/Layout'; // Import the Layout component
 import { gsap } from 'gsap'; // Import GSAP for animation
 import { useTranslation } from 'react-i18next';
 import './Credits.css';

@@ -6,7 +6,7 @@ import Layout from "./Layout"
 import { gsap } from "gsap"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext" // Corrected path
-import "./Login.css" // Mantener los estilos existentes
+//import "./Login.css" // Mantener los estilos existentes
 
 export function PlayerNameEntry({ onNameSubmit }) {
   const { t } = useTranslation()

@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
-import Layout from "./Layout"
+import Layout from "../components/Layout"
 import { useTranslation } from "react-i18next"
 import "./Login.css"
 

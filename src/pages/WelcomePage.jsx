@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAudio } from "../context/AudioContext"; // ✅ Hooks into central control tower
 import { gsap } from "gsap";
 import { useTranslation } from "react-i18next";
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 import "./WelcomePage.css";
 
 // Array of character images (transparent PNGs/WebPs)
