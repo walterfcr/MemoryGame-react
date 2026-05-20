@@ -118,7 +118,7 @@
 }
 
 /* Mobile adjustments */
-@media (max-width: 480px) {
+@media (min-width:400px) and (max-width: 480px) {
   .welcomePageContainer {
     padding: 1.5rem 1rem;
   }
@@ -131,6 +131,30 @@
     height: 55px;
     font-size: 1.6rem;
   }
+}
+
+@media (min-width:320px) and (max-width: 399px) {
+  .welcomePageContainer {
+    padding: 1.5rem 1rem;
+  }
+  
+  .gameDescription {
+    font-size: 1rem;
+  }
+  
+  .hugePlayButton {
+    height: 65px !important;
+    width:60%;
+    font-size: 1.2rem;
+    padding:7px 0;
+    margin-top: 0;
+  }
+
+  .previewCardFrame {
+  width: 180px;
+  height: 234px;
+  max-height: 100%;
+ }
 }
 
 /* Fullscreen transparent layer that captures the browser interaction click */
@@ -177,4 +201,4 @@
     transform: scale(1.03);
     opacity: 1;
   }
-}
+} 
