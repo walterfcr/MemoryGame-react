@@ -10,20 +10,11 @@ import { db } from "../firebase"
 import { useAudio } from "../context/AudioContext" // ✅ FIX: Import global audio hook
 import "./MemoryGame.css"
 import { useAuth } from "../context/AuthContext"
+import { calculateScore } from "../utils/calculateScore"
+import { normalizeDifficulty } from "../utils/normalizeDifficulty"
+import { generateCards } from "../utils/generateCards"
+import { saveLocalScore } from "../utils/saveLocalScore"
 
-// constants
-const totalPairs = {
-  Easy: 4,
-  Medium: 8,
-  Hard: 12,
-}
-
-const categoryPrefixes = {
-  heroes: { prefix: "TM01", count: 30 },
-  movies: { prefix: "TM02", count: 24 },
-  musicians: { prefix: "TM03", count: 30 },
-  videogames: { prefix: "TM04", count: 36 },
-}
 
 const MemoryGame = ({
   category,
@@ -80,48 +71,18 @@ const MemoryGame = ({
     }
   }, [isMuted]) // ✅ FIX: Watch mute changes to silence background tracks dynamically
 
-  const normalizeDifficulty = (diff) => {
-    switch (diff.toLowerCase()) {
-      case "easy":
-        return "Easy"
-      case "medium":
-      case "normal":
-        return "Medium"
-      case "hard":
-        return "Hard"
-      default:
-        return "Easy"
-    }
-  }
 
   const difficulty = normalizeDifficulty(propDifficulty)
 
   const loadImages = useCallback(() => {
-    const { prefix, count } = categoryPrefixes[category]
-    const numPairs = totalPairs[difficulty]
+  setCards(generateCards(category, difficulty))
 
-    const allImages = Array.from({ length: count }, (_, i) => {
-      const num = String(i + 1).padStart(3, "0")
-      return `${prefix}-${num}.webp`
-    })
-
-    const selectedImages = allImages.sort(() => 0.5 - Math.random()).slice(0, numPairs)
-
-    const paired = selectedImages.flatMap((img) => {
-      const path = `/images/${category}/${img}`
-      return [
-        { id: `${img}-a`, image: path, flipped: false, matched: false, highlight: false },
-        { id: `${img}-b`, image: path, flipped: false, matched: false, highlight: false },
-      ]
-    })
-
-    setCards(paired.sort(() => 0.5 - Math.random()))
-    setFlippedCards([])
-    setGameWon(false)
-    setTime(0)
-    setClickCount(0)
-    setScore(0)
-    setScoreSaved(false)
+  setFlippedCards([])
+  setGameWon(false)
+  setTime(0)
+  setClickCount(0)
+  setScore(0)
+  setScoreSaved(false)
   }, [category, difficulty])
 
   useEffect(() => {
@@ -204,7 +165,7 @@ const MemoryGame = ({
         winSound.current.play()
       }
 
-      const finalScore = Math.max(1000 - (time * 5 + clickCount * 2), 0)
+      const finalScore = calculateScore(time, clickCount)
       setScore(finalScore)
 
       const newScore = {
@@ -218,8 +179,7 @@ const MemoryGame = ({
         uid: user.uid,
       }
 
-      const local = JSON.parse(localStorage.getItem("memoryGameScores") || "[]")
-      localStorage.setItem("memoryGameScores", JSON.stringify([newScore, ...local].slice(0, 10)))
+      saveLocalScore(newScore)
 
       saveScoreToFirebase(newScore)
 
