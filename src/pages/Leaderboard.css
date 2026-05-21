@@ -357,7 +357,6 @@
 /* ==========================================
    SCORES TABLE STRUCTURAL RE-BLOCK
    ========================================== */
-
 .table-wrapper,
 .leaderboard-table-wrapper {
   width: 100%;
@@ -365,100 +364,62 @@
   margin: 0 auto;
   box-sizing: border-box;
   
-  /* Vertical Scroll Control */
+  /* ↕️ Vertical scroll setup: limits the height so it doesn't push down the page */
   overflow-y: auto !important;
-  max-height: 55vh; 
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
+  max-height: 50vh; 
+  
+  /* ↔️ Horizontal scroll setup: allows side swiping on small viewports */
+  overflow-x: auto !important; 
 
-  /* Standard Scrollbar Support */
+  /* Custom scrollbar tracking matching your purple design */
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary-color) transparent;
+  scrollbar-color: var(--hover-color) transparent;
 }
 
-.leaderboard-table {
-  width: 100%;
-  border-collapse: separate; /* 🚨 CHANGED from collapse to prevent mobile compression glitches */
-  border-spacing: 0;
-  background-color: var(--secondary-color); 
-  color: #fff; 
-  box-shadow: 0 4px 6px var(--shadow-color);
-  border-radius: 10px;
-}
-
+/* Force table cells to stay on a single line so they don't squish or break layout */
 .leaderboard-table th,
 .leaderboard-table td {
-  padding: 15px;
-  text-align: left;
-  font-weight: normal;
-  border-bottom: 1px solid var(--border-color);
-  white-space: nowrap; /* 🚨 PREVENTS your text lines from breaking layout boundaries or wrapping vertically! */
+  white-space: nowrap; 
 }
 
-/* Freezes the table header at the top while scrolling vertically */
+/* ❄️ Freeze the table headers at the top while scrolling vertically */
 .leaderboard-table th {
   position: sticky !important;
   top: 0;
-  background-color: var(--secondary-color) !important;
-  font-weight: bold;
-  color: #fff;
+  background-color: var(--secondary-color) !important; /* Solid color prevents row text overlap */
   z-index: 10;
 }
 
-.leaderboard-table tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.05); /* Soft background tint alternate row */
-}
+/* ==========================================================================
+   📱 RESPONSIVE ADJUSTMENTS FOR SMALL SCREENS
+   ========================================================================== */
 
-.leaderboard-table tr:nth-child(-n + 3) {
-  background-color: var(--hover-color); 
-  color: #fff; 
-}
-
-/* ==========================================
-   📱 MOBILE RESPONSIVE CORRECTIONS (<= 480px)
-   ========================================== */
 @media screen and (max-width: 480px) {
   .table-wrapper,
   .leaderboard-table-wrapper {
-    overflow-x: auto !important; /* 🚨 FORCES sideways swiping active */
-    overflow-y: auto !important;
-    padding-bottom: 12px;
-    max-height: 45vh; 
-    display: block; /* Ensures block tracking layout model rules apply */
+    max-height: 40vh; /* Drops container height for short mobile device viewports */
+    display: block;   /* Standard layout block for scrolling engines */
   }
 
-  /* Force the table component to be wide enough to support the columns horizontally */
+  /* 🚨 CRITICAL MOBILE HORIZONTAL FIX:
+     Forces the table to stay wide enough so all 7 columns fit beautifully without squishing. */
   .leaderboard-table {
     display: table !important;
-    width: 750px !important; /* 🚨 INCREASED width to accommodate 7 full columns comfortably */
+    width: 750px !important;    
     min-width: 750px !important;
-    table-layout: fixed !important; /* Forces cells to respect layout blocks exactly */
-  }
-
-  .leaderboard-table th,
-  .leaderboard-table td {
-    padding: 10px 8px;
-    font-size: 13px;
+    table-layout: fixed !important; 
   }
 }
 
-/* ==========================================
-   🎨 CUSTOM WEBKIT SCROLLBAR LOOKS
-   ========================================== */
+/* Custom Webkit scrollbar styles for chrome/safari mobile tracking */
 .table-wrapper::-webkit-scrollbar,
 .leaderboard-table-wrapper::-webkit-scrollbar {
-  width: 8px;  
-  height: 8px; /* Thick enough to swipe easily on touchscreen */
+  width: 6px;
+  height: 6px;
 }
 
 .table-wrapper::-webkit-scrollbar-thumb,
 .leaderboard-table-wrapper::-webkit-scrollbar-thumb {
   background: var(--hover-color);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.table-wrapper::-webkit-scrollbar-thumb:hover,
-.leaderboard-table-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #ffffff;
+  border-radius: 4px;
 }
