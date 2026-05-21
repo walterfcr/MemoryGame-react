@@ -3,12 +3,10 @@
 import { useState, useEffect } from "react"
 import MemoryGame from "../components/MemoryGame"
 import { useAuth } from "../context/AuthContext"
-import PlayerNameEntry from "../components/PlayerNameEntry"
+import { useTranslation } from "react-i18next"
 
 function EnhancedMemoryGameUpdated({ category: initialCategory, difficulty: initialDifficulty }) {
-  const [gameState, setGameState] = useState("name-input")
-  const [playerName, setPlayerName] = useState("")
-
+  const { t } = useTranslation()
   const { user, isAuthenticated } = useAuth()
 
   const [currentCategory, setCurrentCategory] = useState(
@@ -19,47 +17,24 @@ function EnhancedMemoryGameUpdated({ category: initialCategory, difficulty: init
     initialDifficulty || localStorage.getItem("selectedDifficulty") || "Easy"
   )
 
-  // Sync props with state
+  // Sync props with state if they change externally
   useEffect(() => {
     setCurrentCategory(initialCategory || localStorage.getItem("selectedCategory") || "musicians")
     setCurrentDifficulty(initialDifficulty || localStorage.getItem("selectedDifficulty") || "Easy")
   }, [initialCategory, initialDifficulty])
 
-  // Handle player (auth or localStorage)
-  useEffect(() => {
-    if (isAuthenticated && user?.username) {
-      setPlayerName(user.username)
-      localStorage.setItem("playerName", user.username)
-      setGameState("playing")
-    } else {
-      const storedPlayerName = localStorage.getItem("playerName")
+  // Determine the display name safely from Firebase Auth profile data
+  // Fallbacks: Firebase displayName ➡️ email prefix ➡️ Guest localization string
+  const finalPlayerName = isAuthenticated && user
+    ? (user.displayName || user.email?.split("@")[0])
+    : t("guest")
 
-      if (storedPlayerName) {
-        setPlayerName(storedPlayerName)
-        setGameState("playing")
-      } else {
-        setGameState("name-input")
-      }
-    }
-  }, [isAuthenticated, user])
-
-  const handleNameSubmit = (name) => {
-    setPlayerName(name)
-    localStorage.setItem("playerName", name)
-    setGameState("playing")
-  }
-
-  // Step 1: ask for name
-  if (gameState === "name-input") {
-    return <PlayerNameEntry onNameSubmit={handleNameSubmit} />
-  }
-
-  // Step 2: play game
+  // ✅ NO MORE CHOKEPING STEPS! Jump directly to rendering the match board matrix.
   return (
     <MemoryGame
       category={currentCategory}
       difficulty={currentDifficulty}
-      playerName={playerName}
+      playerName={finalPlayerName}
     />
   )
 }

@@ -3,7 +3,7 @@
   padding: 20px;
   width: 100%;
   box-sizing: border-box;
-  display: flex;              /* 🔥 ADD */
+  display: flex;             
   justify-content: center;
 }
 

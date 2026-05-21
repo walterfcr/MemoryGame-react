@@ -311,3 +311,154 @@
     font-size: 14px;
   }
 }
+
+/* Container for the tab buttons to center them */
+.leaderboard-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 40px;
+  width: 100%;
+}
+
+/* Base button style matching your .tabButton */
+.tab-btn {
+  width: 150px;
+  height: 60px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  text-align: center;
+  /* line-height: 60px; */ /* Removed or adjusted if text gets cut off with padding */
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover style matching your menu */
+.tab-btn:hover {
+  background-color: var(--hover-color);
+}
+
+/* 🎯 THE ACTIVE STATE: When a tab is selected */
+.tab-btn.active {
+  background-color: var(--primary-color); /* Uses your primary highlight color */
+  color: #fff; /* Dark text so it pops on the bright active button */
+
+}
+
+/* Row highlight matching the current logged-in player */
+.highlight-row {
+  background-color: rgba(255, 204, 0, 0.12) !important;
+  font-weight: bold;
+}
+
+/* ==========================================
+   SCORES TABLE STRUCTURAL RE-BLOCK
+   ========================================== */
+
+.table-wrapper,
+.leaderboard-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  
+  /* Vertical Scroll Control */
+  overflow-y: auto !important;
+  max-height: 55vh; 
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+
+  /* Standard Scrollbar Support */
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color) transparent;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: separate; /* 🚨 CHANGED from collapse to prevent mobile compression glitches */
+  border-spacing: 0;
+  background-color: var(--secondary-color); 
+  color: #fff; 
+  box-shadow: 0 4px 6px var(--shadow-color);
+  border-radius: 10px;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 15px;
+  text-align: left;
+  font-weight: normal;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap; /* 🚨 PREVENTS your text lines from breaking layout boundaries or wrapping vertically! */
+}
+
+/* Freezes the table header at the top while scrolling vertically */
+.leaderboard-table th {
+  position: sticky !important;
+  top: 0;
+  background-color: var(--secondary-color) !important;
+  font-weight: bold;
+  color: #fff;
+  z-index: 10;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05); /* Soft background tint alternate row */
+}
+
+.leaderboard-table tr:nth-child(-n + 3) {
+  background-color: var(--hover-color); 
+  color: #fff; 
+}
+
+/* ==========================================
+   📱 MOBILE RESPONSIVE CORRECTIONS (<= 480px)
+   ========================================== */
+@media screen and (max-width: 480px) {
+  .table-wrapper,
+  .leaderboard-table-wrapper {
+    overflow-x: auto !important; /* 🚨 FORCES sideways swiping active */
+    overflow-y: auto !important;
+    padding-bottom: 12px;
+    max-height: 45vh; 
+    display: block; /* Ensures block tracking layout model rules apply */
+  }
+
+  /* Force the table component to be wide enough to support the columns horizontally */
+  .leaderboard-table {
+    display: table !important;
+    width: 750px !important; /* 🚨 INCREASED width to accommodate 7 full columns comfortably */
+    min-width: 750px !important;
+    table-layout: fixed !important; /* Forces cells to respect layout blocks exactly */
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+}
+
+/* ==========================================
+   🎨 CUSTOM WEBKIT SCROLLBAR LOOKS
+   ========================================== */
+.table-wrapper::-webkit-scrollbar,
+.leaderboard-table-wrapper::-webkit-scrollbar {
+  width: 8px;  
+  height: 8px; /* Thick enough to swipe easily on touchscreen */
+}
+
+.table-wrapper::-webkit-scrollbar-thumb,
+.leaderboard-table-wrapper::-webkit-scrollbar-thumb {
+  background: var(--hover-color);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover,
+.leaderboard-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}

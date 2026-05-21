@@ -16,7 +16,6 @@ import EnhancedMemoryGameUpdated from "./pages/EnhancedMemoryGameUpdated"
 import Leaderboard from "./pages/Leaderboard"
 import Profile from "./pages/Profile"
 import GameCompleteWrapper from "./components/GameCompleteWrapper" 
-import PlayerNameEntry from "./components/PlayerNameEntry"
 import ProtectedRoute from "./components/ProtectedRoute"
 import "./index.css"
 
@@ -36,7 +35,6 @@ function App() {
           <Route path="/score" element={<ScoreBoard />} />
           <Route path="/language" element={<LanguageSelector />} />
           <Route path="/credits" element={<Credits />} />
-          <Route path="/player-name-entry" element={<PlayerNameEntry />} />
 
           {/* Protected Routes */}
           <Route

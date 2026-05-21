@@ -3,7 +3,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  updateProfile
 } from "firebase/auth"
 import { auth } from "../firebase"
 
@@ -36,14 +37,31 @@ export const AuthProvider = ({ children }) => {
   }
 
   const register = async (username, email, password) => {
+    setLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password)
-      return { success: true }
+      // Step 1: Create the baseline credentials with Firebase
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // ✅ Step 2: IMMEDIATELY save the username as the profile's displayName!
+      await updateProfile(user, {
+        displayName: username.trim()
+      });
+
+      // Step 3: Refresh local state tracking parameters so React catches the change instantly
+      setUser({
+        ...user,
+        displayName: username.trim()
+      });
+
+      return { success: true };
     } catch (error) {
-      console.error("🔥 Register error:", error.code)
-      return { success: false, error: error.code }
+      console.error("Registration sub-routine failed:", error);
+      return { success: false, error: error.code };
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const logout = async () => {
     await signOut(auth)
