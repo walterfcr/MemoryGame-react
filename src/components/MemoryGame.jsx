@@ -5,8 +5,6 @@ import Confetti from "react-confetti"
 import Layout from "./Layout"
 import { gsap } from "gsap"
 import { useTranslation } from "react-i18next"
-import { addDoc, collection } from "firebase/firestore"
-import { db } from "../firebase"
 import { useAudio } from "../context/AudioContext" // ✅ FIX: Import global audio hook
 import "./MemoryGame.css"
 import { useAuth } from "../context/AuthContext"
@@ -14,6 +12,7 @@ import { calculateScore } from "../utils/calculateScore"
 import { normalizeDifficulty } from "../utils/normalizeDifficulty"
 import { generateCards } from "../utils/generateCards"
 import { saveLocalScore } from "../utils/saveLocalScore"
+import { saveScore } from "../services/scoreService"
 
 
 const MemoryGame = ({
@@ -144,15 +143,7 @@ const MemoryGame = ({
     }
   }
 
-  const saveScoreToFirebase = async (scoreData) => {
-    try {
-      console.log("🔥 Saving to Firebase:", scoreData)
-      await addDoc(collection(db, "scores"), scoreData)
-      console.log("✅ Score saved!")
-    } catch (error) {
-      console.error("❌ Firebase error:", error)
-    }
-  }
+  
 
   useEffect(() => {
     const allMatched = cards.length > 0 && cards.every((c) => c.matched)
@@ -181,7 +172,7 @@ const MemoryGame = ({
 
       saveLocalScore(newScore)
 
-      saveScoreToFirebase(newScore)
+      saveScore(newScore)
 
       if (onGameComplete) onGameComplete(clickCount)
 
