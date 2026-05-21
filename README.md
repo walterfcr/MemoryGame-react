@@ -1,6 +1,6 @@
 # 🧠 Memory Game – React
 
-Interactive memory card game built with React and Firebase, featuring authentication, dynamic gameplay logic, real-time scoring, and a persistent leaderboard system.
+Interactive memory card game built with React and Firebase, featuring authentication, difficulty levels, multilingual support, score tracking, and a persistent leaderboard system.
 
 ---
 
@@ -12,9 +12,9 @@ Interactive memory card game built with React and Firebase, featuring authentica
 
 ## ⚛️ Project Overview
 
-This project is a **state-driven React application** that recreates a classic memory game while adding modern features such as user authentication, difficulty levels, multilingual support, and real-time scoring.
+This project recreates the classic memory card game using React and Firebase.
 
-The application focuses on managing dynamic UI updates and user interactions in a game-like environment.
+Players can choose different difficulty levels and categories while competing for high scores stored in Firebase. The application also includes authentication, multilingual support, sound effects, animations, and persistent score tracking.
 
 ---
 
@@ -22,9 +22,9 @@ The application focuses on managing dynamic UI updates and user interactions in 
 
 ### 🧩 Gameplay System
 
-* Card matching logic with dynamic state updates
-* Real-time feedback when flipping and matching cards
-* Win condition detection and game reset
+* Card matching and flip logic
+* Visual feedback when cards are flipped or matched
+* Win detection and automatic game reset
 
 ## 🎮 Game Setup Preview
 
@@ -44,59 +44,47 @@ The application focuses on managing dynamic UI updates and user interactions in 
 ### 🗂 Categories
 
 * Multiple themes (movies, heroes, musicians, videogames)
-* Dynamic loading of game assets
+* Images loaded dynamically based on the selected category
 
 ### 🌐 Multi-language Support
 
 * Supports 3 languages
-* Dynamic UI text switching
+* Interface text updates instantly when changing languages
 
 ---
 
 ## 🔐 Authentication & Score System
 
-* User login required to play (Firebase Auth)
-* Score tracking based on performance
-* Global leaderboard system shared across all users
-* Persistent user data stored in Firebase Firestore
+* User login with Firebase Authentication
+* Score calculation based on player performance
+* Shared leaderboard across all users
+* User scores stored in Firebase Firestore
 
 ---
 
 ## 🔊 Audio & Animations
 
-* Sound effects:
+### Sound Effects
 
-  * Card flip
-  * Match success
-  * Button interactions
-  * Victory feedback
+* Card flip sounds
+* Match success feedback
+* Button click sounds
+* Victory sound effects
 
-* Animations:
+### Animations
 
-  * Smooth transitions using GSAP
-  * Interactive UI feedback
-
----
-
-### Modern Browser Autoplay Restrictions (Audio Blocker)
-
-Modern web browsers (Chrome, Safari, iOS, etc.) block all ambient background audio from playing automatically until an explicit user interaction (click/touch tap) occurs on the document object model. This broke the game's initial menu soundtrack immersion upon page mount.
-
-✔ Solution:
-
-* Designed a retro-arcade-inspired "Lock-Screen Overlay" (`audioUnlockOverlay`) that safely interrupts the application workflow.
-* Clicking or tapping anywhere on this gatekeeper view explicitly satisfies the browser security criteria, programmatically unlocks the web audio context, and smoothly fades the viewport layout into the animated landing view using GSAP.
-* Integrated audio crossfading using GSAP to gracefully lower the welcome music volume (`volume: 0`) in perfect synchronization with the exit route transition animation.
+* UI transitions using GSAP
+* Interactive visual feedback during gameplay
 
 ---
 
-## 🧠 Key React Concepts Implemented
+## 🧠 React Concepts Used
 
-* State management for game logic (cards, turns, matches)
+* State management for cards, turns, and matches
 * Conditional rendering based on game state
-* Component-based architecture
+* Component-based structure
 * Event handling for user interactions
-* Dynamic rendering of game data
+* Dynamic rendering of cards and categories
 
 ---
 
@@ -115,45 +103,58 @@ Modern web browsers (Chrome, Safari, iOS, etc.) block all ambient background aud
 
 ### Game State Management
 
-Handling card selection, matching logic, and win conditions required precise state control.
+Managing card selection, match detection, and win conditions required careful state handling.
 
-✔ Solution:
+### Solution
 
-* Managed game state using React hooks
-* Controlled user interactions to prevent invalid moves
+* Used React hooks to manage game state
+* Prevented invalid actions like flipping more than two cards at the same time
 
 ---
 
 ### Dynamic Game Configuration
 
-Supporting multiple levels and categories required flexible logic.
+Supporting multiple difficulty levels and categories required reusable game generation logic.
 
-✔ Solution:
+### Solution
 
-* Created reusable logic to generate card sets dynamically
-* Adjusted game difficulty based on selected level
+* Created reusable functions to generate card sets dynamically
+* Adjusted the number of card pairs based on the selected difficulty
 
 ---
 
 ### Data Persistence
 
-Ensuring user scores and progress remain available across sessions.
+Player scores needed to remain available between sessions.
 
-✔ Solution:
+### Solution
 
-* Stored user data and scores in Firebase Firestore
+* Stored scores in Firebase Firestore
 * Linked scores to authenticated users
 
 ---
 
 ### User Experience Enhancements
 
-Providing feedback through sounds and animations without affecting performance.
+Added sound effects and animations to make gameplay feel more interactive and responsive.
 
-✔ Solution:
+### Solution
 
-* Integrated GSAP for smooth animations
-* Triggered audio events based on game actions
+* Used GSAP for UI animations and transitions
+* Triggered audio feedback based on player actions
+
+---
+
+### 🔊 Browser Audio Autoplay Restrictions
+
+Modern browsers block audio from playing automatically until the user interacts with the page. This prevented the game's background music from starting when the app loaded.
+
+### Solution
+
+* Added an intro overlay (`audioUnlockOverlay`) that waits for a user click or tap before starting audio
+* Used the interaction to unlock browser audio playback safely
+* Added GSAP transitions to fade into the main menu smoothly
+* Used GSAP audio fading to lower the menu music volume during screen transitions
 
 ---
 
@@ -171,7 +172,6 @@ npm run dev
 ## 🚀 Future Improvements
 
 * User profiles with statistics
-* Multiplayer mode
 * Timer-based challenges
 
 ---
