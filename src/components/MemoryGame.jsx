@@ -1,18 +1,19 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useEffect, useRef } from "react"
 import Confetti from "react-confetti"
 import Layout from "./Layout"
 import { gsap } from "gsap"
 import { useTranslation } from "react-i18next"
-import { useAudio } from "../context/AudioContext" // ✅ FIX: Import global audio hook
+import { useAudio } from "../context/AudioContext"
 import "./MemoryGame.css"
 import { useAuth } from "../context/AuthContext"
 import { calculateScore } from "../utils/calculateScore"
 import { normalizeDifficulty } from "../utils/normalizeDifficulty"
-import { generateCards } from "../utils/generateCards"
 import { saveLocalScore } from "../utils/saveLocalScore"
 import { saveScore } from "../services/scoreService"
+import { useAudioEffects } from "../hooks/useAudioEffects"
+import { useMemoryGame } from "../hooks/useMemoryGame"
 
 
 const MemoryGame = ({
@@ -25,125 +26,46 @@ const MemoryGame = ({
   const { user } = useAuth()
   const { isMuted } = useAudio() // ✅ FIX: Extract live mute flag
 
-  const [cards, setCards] = useState([])
-  const [flippedCards, setFlippedCards] = useState([])
-  const [gameWon, setGameWon] = useState(false)
-  const [time, setTime] = useState(0)
-  const [clickCount, setClickCount] = useState(0)
-  const [score, setScore] = useState(0)
-  const [scoreSaved, setScoreSaved] = useState(false)
-
   // Use Firebase Auth displayName or email prefix as playerName
   const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
 
-  // sounds
-  const flipSound = useRef(new Audio("/sounds/flip.mp3"))
-  const winSound = useRef(new Audio("/sounds/win.mp3"))
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
-  const matchSound = useRef(new Audio("/sounds/match-sound.mp3"))
-  const playSound = useRef(new Audio("/sounds/play.mp3"))
+
 
   const containerRef = useRef(null)
 
   useEffect(() => {
-    gsap.from(containerRef.current, {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      ease: "power3.out",
-    })
+  gsap.from(containerRef.current, {
+    opacity: 0,
+    y: 30,
+    duration: 1,
+    ease: "power3.out",
+  })
+  }, [])
 
-    // Start looping background music (respecting mute setting)
-    if (playSound.current) {
-      playSound.current.loop = true
-      playSound.current.currentTime = 0
-      playSound.current.muted = isMuted // ✅ FIX: Force audio tracks to align on mount
-      playSound.current.play().catch(() => {})
-    }
-
-    // Cleanup: stop music when leaving the game
-    return () => {
-      if (playSound.current) {
-        playSound.current.pause()
-        playSound.current.currentTime = 0
-      }
-    }
-  }, [isMuted]) // ✅ FIX: Watch mute changes to silence background tracks dynamically
+  const {
+  playFlip,
+  playMatch,
+  playWin,
+  playClick,
+  } = useAudioEffects(isMuted)
 
 
   const difficulty = normalizeDifficulty(propDifficulty)
 
-  const loadImages = useCallback(() => {
-  setCards(generateCards(category, difficulty))
+  const {
+  cards,
+  gameWon,
+  setGameWon,
+  time,
+  clickCount,
+  score,
+  setScore,
+  scoreSaved,
+  setScoreSaved,
+  resetGame,
+  handleCardClick,
+  } = useMemoryGame(category, difficulty)
 
-  setFlippedCards([])
-  setGameWon(false)
-  setTime(0)
-  setClickCount(0)
-  setScore(0)
-  setScoreSaved(false)
-  }, [category, difficulty])
-
-  useEffect(() => {
-    loadImages()
-  }, [loadImages])
-
-  const handleCardClick = (index) => {
-    if (flippedCards.length === 2 || cards[index].flipped || cards[index].matched) return
-
-    const newClicks = clickCount + 1
-    setClickCount(newClicks)
-
-    if (onMoveCount) onMoveCount(newClicks)
-
-    const updated = [...cards]
-    updated[index].flipped = true
-    setCards(updated)
-
-    // ✅ FIX: Only play flip audio if sound is enabled
-    if (!isMuted && flipSound.current) {
-      flipSound.current.currentTime = 0
-      flipSound.current.play()
-    }
-
-    const newFlipped = [...flippedCards, index]
-    setFlippedCards(newFlipped)
-
-    if (newFlipped.length === 2) {
-      const [a, b] = newFlipped
-
-      setTimeout(() => {
-        if (updated[a].image === updated[b].image) {
-          updated[a].matched = true
-          updated[b].matched = true
-
-          updated[a].highlight = true
-          updated[b].highlight = true
-
-          // ✅ FIX: Only play match audio if sound is enabled
-          if (!isMuted && matchSound.current) {
-            matchSound.current.currentTime = 0
-            matchSound.current.play()
-          }
-
-          setCards([...updated])
-
-          setTimeout(() => {
-            updated[a].highlight = false
-            updated[b].highlight = false
-            setCards([...updated])
-          }, 600)
-        } else {
-          updated[a].flipped = false
-          updated[b].flipped = false
-          setCards([...updated])
-        }
-        setFlippedCards([])
-      }, 700)
-    }
-  }
-
-  
 
   useEffect(() => {
     const allMatched = cards.length > 0 && cards.every((c) => c.matched)
@@ -151,10 +73,7 @@ const MemoryGame = ({
     if (allMatched && !scoreSaved) {
       setGameWon(true)
       
-      // ✅ FIX: Only play win fanfare if sound is enabled
-      if (!isMuted && winSound.current) {
-        winSound.current.play()
-      }
+      playWin()
 
       const finalScore = calculateScore(time, clickCount)
       setScore(finalScore)
@@ -167,7 +86,7 @@ const MemoryGame = ({
         time,
         clicks: clickCount,
         date: new Date().toISOString(),
-        uid: user.uid,
+        uid: user?.uid,
       }
 
       saveLocalScore(newScore)
@@ -178,34 +97,31 @@ const MemoryGame = ({
 
       setScoreSaved(true)
     }
-  }, [cards, time, clickCount, scoreSaved, category, difficulty, playerName, onGameComplete, isMuted])
+  }, [cards,
+      time,
+      clickCount,
+      scoreSaved,
+      category,
+      difficulty,
+      playerName,
+      onGameComplete,
+      user,
+      playWin,
+      setGameWon,
+      setScore,
+      setScoreSaved,
+      ])
 
-  useEffect(() => {
-    if (gameWon) return
-
-    const timer = setInterval(() => {
-      setTime((t) => t + 1)
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [gameWon])
 
   const handleBack = () => {
-    // ✅ FIX: Only play click noise if sound is enabled
-    if (!isMuted && clickSound.current) {
-      clickSound.current.currentTime = 0
-      clickSound.current.play()
-    }
-    window.history.back()
-  }
+  playClick()
+  window.history.back()
+ }
 
   const handlePlayAgain = () => {
-    if (!isMuted && clickSound.current) {
-      clickSound.current.currentTime = 0
-      clickSound.current.play()
-    }
-    loadImages()
-  }
+  playClick()
+  resetGame()
+}
 
   return (
     <Layout title={`${category} - ${difficulty}`} onBackClick={handleBack}>
@@ -230,7 +146,17 @@ const MemoryGame = ({
 
         <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? "blurred" : ""}`}>
           {cards.map((card, index) => (
-            <div key={card.id} className="card" onClick={() => handleCardClick(index)}>
+            <div key={card.id}
+                className="card" 
+                onClick={() =>
+                  handleCardClick(
+                    index,
+                    onMoveCount,
+                    playFlip,
+                    playMatch
+                  )
+               }  
+            >
               <div className={`card-inner ${card.flipped || card.matched ? "flipped" : ""}`}>
                 <div className={`card-front ${card.matched ? "matched" : ""} ${card.highlight ? "highlight" : ""}`}>
                   <img src={card.image} alt="front" />
