@@ -101,16 +101,16 @@ Players can choose different difficulty levels and categories while competing fo
 
 ## 🏗 Code Structure & Maintainability
 
-* The project was organized using a modular structure to keep the codebase easier to maintain and scale.
+### The project was organized using a modular structure to keep the codebase easier to maintain and scale.
 
-* Key logic was separated into dedicated layers:
+Key logic was separated into dedicated layers:
 
 * **Hooks** → Game state management and audio handling
 * **Services** → Firebase score persistence
 * **Utils** → Score calculation, difficulty normalization, and card generation
 * **Components** → UI rendering and layout structure
 
-* This separation reduced component complexity and improved code readability, reusability, and maintainability.
+This separation reduced component complexity and improved code readability, reusability, and maintainability.
 
 ---
 
