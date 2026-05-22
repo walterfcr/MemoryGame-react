@@ -2,7 +2,7 @@
     width: 80%;
     border-collapse: collapse;
     margin:100px auto 0;
-    background-color: var(--secondary-color);
+    background-color: var(--accent);
   }
   
   .score-table th, .score-table td {

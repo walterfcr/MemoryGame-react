@@ -31,14 +31,16 @@ body {
 :root {
  --main-background-color: #162031; 
   --primary-color: #243454; 
-  --secondary-color: #e60b81; 
+  --secondary-color: #8dbfff; 
+  --accent: #e60b81; 
   --hover-color: #bd096a; 
-  --complementary-color: #8dbfff; 
+  --complementary-color: #ffd700; 
+  
 
   /* Layout y UI */
   --navbar-container-height: 70px;
   --button-color: #ffffff;
-  --button-background-color: var(--secondary-color);
+  --button-background-color: var(--accent);
   --play-view-hub-height: 60px;
   
   /* EXTRA: Añade sombras coherentes */
@@ -91,7 +93,7 @@ body {
   padding: 8px 15px;
   font-size: 1rem;
   color: var(--button-color);
-  background-color: var(--secondary-color);
+  background-color: var(--accent);
   border: none;
   border-radius: 5px;
   cursor: pointer;

@@ -6,7 +6,6 @@ import Layout from "./Layout"
 import { gsap } from "gsap"
 import { useTranslation } from "react-i18next"
 import { useAudio } from "../context/AudioContext"
-import "./MemoryGame.css"
 import { useAuth } from "../context/AuthContext"
 import { calculateScore } from "../utils/calculateScore"
 import { normalizeDifficulty } from "../utils/normalizeDifficulty"
@@ -14,6 +13,7 @@ import { saveLocalScore } from "../utils/saveLocalScore"
 import { saveScore } from "../services/scoreService"
 import { useAudioEffects } from "../hooks/useAudioEffects"
 import { useMemoryGame } from "../hooks/useMemoryGame"
+import "./MemoryGame.css"
 
 
 const MemoryGame = ({

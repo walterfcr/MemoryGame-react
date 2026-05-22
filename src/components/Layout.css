@@ -31,7 +31,7 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: transparent; /* ✅ Correct way to remove background */
-    color: var(--complementary-color);
+    color: var(--secondary-color);
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 2rem;

@@ -48,7 +48,7 @@
 /* The role label (e.g., "DEVELOPED BY", "VERSION") */
 .creditLabel {
   font-size: 1rem;
-  color: var(--secondary-color);
+  color: var(--accent);
   letter-spacing: 0.15rem;
   text-transform: uppercase;
   opacity: 0.9;
@@ -64,7 +64,7 @@
 /* Extra flavor for less important side-notes like "Built with React" */
 .creditFooterText {
   font-size: 1.1rem;
-  color: var(--complementary-color);
+  color: var(--secondary-color);
   opacity: 0.8;
   margin-top: 0.5rem;
   border-top: 1px solid rgba(141, 191, 255, 0.2);
@@ -84,7 +84,7 @@
     color: var(--button-color);
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    text-shadow: 0 0 10px var(--complementary-color);
+    text-shadow: 0 0 10px var(--secondary-color);
   }
 
   .creditsWrapper {

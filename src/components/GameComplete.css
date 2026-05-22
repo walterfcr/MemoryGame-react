@@ -23,7 +23,7 @@
 .game-complete-heading {
   font-size: 2.5rem;
   font-weight: bold;
-  color: var(--complementary-color);
+  color: var(--secondary-color);
   margin: 0.5rem;
 }
 
@@ -34,14 +34,14 @@
   margin: 20px 0;
   display: inline-block;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-  border: 2px solid var(--secondary-color);
+  border: 2px solid var(--accent);
   width: 90%;
   max-width: 400px;
 }
 
 .score-summary-card h3 {
   font-size: 1.8rem;
-  color: var(--secondary-color);
+  color: var(--accent);
   margin-bottom: 15px;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .score-summary-card p strong {
-  color: var(--complementary-color);
+  color: var(--secondary-color);
 }
 
 /* Save Status */
@@ -91,7 +91,7 @@
   gap: 0.8rem;
   width: 250px; /* Ancho del botón */
   height: 60px; /* Altura del botón */
-  background-color: var(--secondary-color);
+  background-color: var(--accent);
   color: var(--button-color);
   border: none;
   border-radius: 8px;

@@ -43,7 +43,7 @@ const Leaderboard = () => {
         q = query(
           collection(db, "scores"),
           orderBy("score", "desc"),
-          limit(10)
+          limit(12)
         )
       } else {
         // 🚨 Filter results by specific difficulty string matching your localStorage values
@@ -51,7 +51,7 @@ const Leaderboard = () => {
           collection(db, "scores"),
           where("difficulty", "==", difficultyFilter),
           orderBy("score", "desc"),
-          limit(10)
+          limit(12)
         )
       }
 
@@ -132,40 +132,52 @@ const Leaderboard = () => {
         ) : scores.length === 0 ? (
           <p className="no-scores-text">🎯 {t("noScoresFound")}</p>
         ) : (
-          <div className="leaderboard-table-wrapper">
-          <table className="leaderboard-table">
-            <thead>
-              <tr>
-                <th>{t("rank")}</th>
-                <th>{t("player")}</th>
-                <th>{t("category")}</th>
-                <th>{t("difficulty")}</th>
-                <th>{t("time")}</th>
-                <th>{t("clicks")}</th>
-                <th>{t("score")}</th>
-              </tr>
-            </thead>
+      
+          <div className="leaderboard-list">
+  {scores.map((score, index) => (
+    <div
+      key={score.id}
+      className={`leaderboard-card ${
+        isAuthenticated && currentUsername === score.playerName
+          ? "highlight-row"
+          : ""
+      }`}
+    >
+      <div className="leaderboard-card-top">
 
-            <tbody>
-              {scores.map((score, index) => (
-                <tr key={score.id} className={isAuthenticated && currentUsername === score.playerName ? "highlight-row" : ""}>
-                  <td>{getRankEmoji(index)}</td>
+        <div className="leaderboard-rank">
+          {getRankEmoji(index)}
+        </div>
 
-                  <td>
-                    {score.playerName}
-                    {isAuthenticated && currentUsername === score.playerName && ` (${t("you") || "You"})`}
-                  </td>
+        <div className="leaderboard-player-info">
+          <h3>
+            {score.playerName}
 
-                  <td>{t(score.category) || score.category}</td>
-                  <td>{t(score.difficulty.toLowerCase()) || score.difficulty}</td>
-                  <td>{formatTime(score.time)}</td>
-                  <td>{score.clicks}</td>
-                  <td>{score.score}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
+            {isAuthenticated &&
+              currentUsername === score.playerName &&
+              ` (${t("you") || "You"})`}
+          </h3>
+
+          <p>
+            {t(score.category) || score.category}
+            {" • "}
+            {t(score.difficulty.toLowerCase()) || score.difficulty}
+          </p>
+        </div>
+
+        <div className="leaderboard-score">
+          🏆 {score.score}
+        </div>
+      </div>
+
+      <div className="leaderboard-card-stats">
+        <span>⏱ {formatTime(score.time)}</span>
+        <span>🖱 {score.clicks}</span>
+      </div>
+    </div>
+      ))}
+    </div>
+        
         )}
       </div>
     </Layout>

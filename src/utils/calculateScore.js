@@ -1,3 +1,5 @@
-export const calculateScore = (time, clicks) => {
-  return Math.max(1000 - (time * 5 + clicks * 2), 0)
+export const calculateScore = (time, clickCount) => {
+  const score = Math.max(1000 - (time * 5 + clickCount * 2), 0)
+
+  return Math.round(score)
 }
