@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import { useRef, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import { gsap } from "gsap"
-import "./StartPage.css"
-import { useTranslation } from "react-i18next"
-import { useAuth } from "../context/AuthContext"
-import Layout from "../components/Layout" 
+import { useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { gsap } from 'gsap'
+import './StartPage.css'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '../context/AuthContext'
+import Layout from '../components/Layout'
 
 const StartPage = () => {
   const { t } = useTranslation()
@@ -14,7 +14,7 @@ const StartPage = () => {
   const containerRef = useRef(null)
   const { isAuthenticated, user } = useAuth()
 
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
   const playSound = () => {
     if (clickSound.current) {
       clickSound.current.currentTime = 0
@@ -26,10 +26,10 @@ const StartPage = () => {
   const handleNavigate = (path) => {
     playSound()
     gsap.to(containerRef.current, {
-      x: "-100vw",
+      x: '-100vw',
       opacity: 0,
       duration: 0.5,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
       onComplete: () => navigate(path),
     })
   }
@@ -40,44 +40,64 @@ const StartPage = () => {
       opacity: 0,
       y: 30,
       duration: 0.5,
-      ease: "power2.out",
+      ease: 'power2.out',
     })
   }, [])
 
   return (
-    
-    <Layout title={t("memoryGame")} onBackClick={null}>
-      {" "}
+    <Layout title={t('memoryGame')} onBackClick={null}>
+      {' '}
       <div className="startPageContainer" ref={containerRef}>
         <img src="/images/logo.png" alt="Logo" className="logoImage" />
         <div className="tabsContainer">
           {!isAuthenticated ? (
-            <button onClick={() => handleNavigate("/login")} className="tabButton">
-              {t("login")}
+            <button
+              onClick={() => handleNavigate('/login')}
+              className="tabButton"
+            >
+              {t('login')}
             </button>
           ) : (
-            <button onClick={() => handleNavigate("/profile")} className="tabButton">
-              {t("profile")}
+            <button
+              onClick={() => handleNavigate('/profile')}
+              className="tabButton"
+            >
+              {t('profile')}
             </button>
           )}
-          <button onClick={() => handleNavigate("/difficulty")} className="tabButton">
-            {t("difficulty")}
+          <button
+            onClick={() => handleNavigate('/difficulty')}
+            className="tabButton"
+          >
+            {t('difficulty')}
           </button>
-          <button onClick={() => handleNavigate("/categories")} className="tabButton">
-            {t("category")}
+          <button
+            onClick={() => handleNavigate('/categories')}
+            className="tabButton"
+          >
+            {t('category')}
           </button>
-          <button onClick={() => handleNavigate("/Leaderboard")} className="tabButton">
-            {t("leaderboard")}
+          <button
+            onClick={() => handleNavigate('/Leaderboard')}
+            className="tabButton"
+          >
+            {t('leaderboard')}
           </button>
-          <button onClick={() => handleNavigate("/language")} className="tabButton">
-            {t("language")}
+          <button
+            onClick={() => handleNavigate('/language')}
+            className="tabButton"
+          >
+            {t('language')}
           </button>
-          <button onClick={() => handleNavigate("/credits")} className="tabButton">
-            {t("credits")}
+          <button
+            onClick={() => handleNavigate('/credits')}
+            className="tabButton"
+          >
+            {t('credits')}
           </button>
         </div>
-        <button onClick={() => handleNavigate("/play")} className="playButton">
-          {t("play")} 
+        <button onClick={() => handleNavigate('/play')} className="playButton">
+          {t('play')}
         </button>
       </div>
     </Layout>

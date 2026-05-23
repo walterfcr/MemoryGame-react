@@ -1,25 +1,31 @@
-"use client"
+'use client'
 
-import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import Layout from "./Layout"
-import "./GameComplete.css"
-import { useTranslation } from "react-i18next"
-import { collection, addDoc, serverTimestamp } from "firebase/firestore"
-import { db } from "../firebase"
-import { useAuth } from "../context/AuthContext"
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Layout from './Layout'
+import './GameComplete.css'
+import { useTranslation } from 'react-i18next'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuth } from '../context/AuthContext'
 
-function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain }) {
+function GameComplete({
+  category,
+  difficulty,
+  gameTime,
+  totalMoves,
+  onPlayAgain,
+}) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { user } = useAuth()
-  
+
   // fallback to email name or guest if displayName is unavailable
-  const playerName = user?.displayName || user?.email?.split("@")[0] || "Guest"
+  const playerName = user?.displayName || user?.email?.split('@')[0] || 'Guest'
 
-  const [saveStatus, setSaveStatus] = useState("idle")
+  const [saveStatus, setSaveStatus] = useState('idle')
 
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
 
   const playClickSound = () => {
     clickSound.current.currentTime = 0
@@ -28,16 +34,16 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
 
   useEffect(() => {
     const saveScore = async () => {
-      if (saveStatus !== "idle") return  // prevent duplicate score submissions on re-render
+      if (saveStatus !== 'idle') return // prevent duplicate score submissions on re-render
 
       // skip persistence for unauthenticated users
       if (!user?.uid) {
-        console.log("Skipping Firebase save - user not authenticated")
-        setSaveStatus("error")
+        console.log('Skipping Firebase save - user not authenticated')
+        setSaveStatus('error')
         return
       }
 
-      setSaveStatus("saving")
+      setSaveStatus('saving')
 
       try {
         const score = Math.max(1000 - (gameTime * 5 + totalMoves * 2), 0)
@@ -53,19 +59,19 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
           uid: user.uid,
         }
 
-        console.log("Saving to Firebase:", scoreData)
-        
+        console.log('Saving to Firebase:', scoreData)
+
         // use Firestore server time to avoid client-side clock differences
-        await addDoc(collection(db, "scores"), {
+        await addDoc(collection(db, 'scores'), {
           ...scoreData,
           createdAt: serverTimestamp(),
         })
 
-        console.log("Score saved!")
-        setSaveStatus("success")
+        console.log('Score saved!')
+        setSaveStatus('success')
       } catch (error) {
-        console.error("Error saving score:", error)
-        setSaveStatus("error")
+        console.error('Error saving score:', error)
+        setSaveStatus('error')
       }
     }
 
@@ -75,37 +81,47 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
-    return `${mins}:${secs.toString().padStart(2, "0")}`
+    return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
   const handleBackToMenu = () => {
     playClickSound()
-    navigate("/menu")
+    navigate('/menu')
   }
 
   return (
-    <Layout title={t("gameComplete")} onBackClick={handleBackToMenu}>
+    <Layout title={t('gameComplete')} onBackClick={handleBackToMenu}>
       <div className="game-complete-container">
-        <h1>🎉 {t("congratulations")}!</h1>
+        <h1>🎉 {t('congratulations')}!</h1>
 
         <div className="score-summary-card">
-          <h3>📊 {t("yourScore")}</h3>
-          <p><strong>{t("player")}:</strong> {playerName}</p>
-          <p><strong>{t("category")}:</strong> {category}</p>
-          <p><strong>{t("difficulty")}:</strong> {difficulty}</p>
-          <p><strong>{t("time")}:</strong> {formatTime(gameTime)}</p>
-          <p><strong>{t("moves")}:</strong> {totalMoves}</p>
+          <h3>📊 {t('yourScore')}</h3>
+          <p>
+            <strong>{t('player')}:</strong> {playerName}
+          </p>
+          <p>
+            <strong>{t('category')}:</strong> {category}
+          </p>
+          <p>
+            <strong>{t('difficulty')}:</strong> {difficulty}
+          </p>
+          <p>
+            <strong>{t('time')}:</strong> {formatTime(gameTime)}
+          </p>
+          <p>
+            <strong>{t('moves')}:</strong> {totalMoves}
+          </p>
         </div>
 
         <div className="save-status-message">
-          {saveStatus === "saving" && <p>💾 {t("savingScore")}</p>}
-          {saveStatus === "success" && <p>✅ {t("scoreSavedSuccess")}</p>}
-          {saveStatus === "error" && <p>❌ {t("scoreSaveError")}</p>}
+          {saveStatus === 'saving' && <p>💾 {t('savingScore')}</p>}
+          {saveStatus === 'success' && <p>✅ {t('scoreSavedSuccess')}</p>}
+          {saveStatus === 'error' && <p>❌ {t('scoreSaveError')}</p>}
         </div>
 
         <div className="action-buttons-container">
-          <button onClick={onPlayAgain}>🔄 {t("playAgain")}</button>
-          <button onClick={handleBackToMenu}>🏠 {t("backToMenu")}</button>
+          <button onClick={onPlayAgain}>🔄 {t('playAgain')}</button>
+          <button onClick={handleBackToMenu}>🏠 {t('backToMenu')}</button>
         </div>
       </div>
     </Layout>

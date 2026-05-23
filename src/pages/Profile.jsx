@@ -1,11 +1,11 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
-import { useNavigate } from "react-router-dom"
-import { useTranslation } from "react-i18next"
-import { useAuth } from "../context/AuthContext"
-import Layout from "../components/Layout"
-import "./Profile.css"
+import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '../context/AuthContext'
+import Layout from '../components/Layout'
+import './Profile.css'
 
 function Profile() {
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ function Profile() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
 
   const playClickSound = () => {
     if (clickSound.current) {
@@ -28,7 +28,7 @@ function Profile() {
 
   const handleBack = () => {
     playClickSound()
-    navigate("/menu")
+    navigate('/menu')
   }
 
   const handleLogout = () => {
@@ -38,7 +38,7 @@ function Profile() {
 
   const handleViewAllScores = () => {
     playClickSound()
-    navigate("/Leaderboard")
+    navigate('/Leaderboard')
   }
 
   useEffect(() => {
@@ -54,16 +54,17 @@ function Profile() {
 
       try {
         // dynamically import firestore modules only when profile data is needed
-        const { collection, query, where, getDocs, orderBy, limit } = await import("firebase/firestore")
+        const { collection, query, where, getDocs, orderBy, limit } =
+          await import('firebase/firestore')
 
-        const { db } = await import("../firebase")
-        
+        const { db } = await import('../firebase')
+
         // fetch the user's most recent scores
         const q = query(
-          collection(db, "scores"),
-          where("uid", "==", user.uid),
-          orderBy("date", "desc"),
-          limit(10)
+          collection(db, 'scores'),
+          where('uid', '==', user.uid),
+          orderBy('date', 'desc'),
+          limit(10),
         )
 
         const snapshot = await getDocs(q)
@@ -79,7 +80,8 @@ function Profile() {
         if (scores.length > 0) {
           const totalGames = scores.length
           const bestTime = Math.min(...scores.map((s) => s.time))
-          const averageTime = scores.reduce((sum, s) => sum + s.time, 0) / totalGames
+          const averageTime =
+            scores.reduce((sum, s) => sum + s.time, 0) / totalGames
           const totalMoves = scores.reduce((sum, s) => sum + (s.clicks || 0), 0)
           const averageMoves = totalMoves / totalGames
 
@@ -90,7 +92,7 @@ function Profile() {
 
           // determine most played difficulty
           const favoriteCategory = Object.keys(categoryCount).reduce((a, b) =>
-            categoryCount[a] > categoryCount[b] ? a : b
+            categoryCount[a] > categoryCount[b] ? a : b,
           )
 
           const difficultyCount = scores.reduce((acc, score) => {
@@ -98,8 +100,8 @@ function Profile() {
             return acc
           }, {})
 
-          const favoriteDifficulty = Object.keys(difficultyCount).reduce((a, b) =>
-            difficultyCount[a] > difficultyCount[b] ? a : b
+          const favoriteDifficulty = Object.keys(difficultyCount).reduce(
+            (a, b) => (difficultyCount[a] > difficultyCount[b] ? a : b),
           )
 
           setUserStats({
@@ -118,13 +120,13 @@ function Profile() {
             averageTime: 0,
             totalMoves: 0,
             averageMoves: 0,
-            favoriteCategory: "N/A",
-            favoriteDifficulty: "N/A",
+            favoriteCategory: 'N/A',
+            favoriteDifficulty: 'N/A',
           })
         }
       } catch (err) {
-        console.error("❌ Error loading user data:", err)
-        setError(err.message || "Failed to load user data")
+        console.error('❌ Error loading user data:', err)
+        setError(err.message || 'Failed to load user data')
       } finally {
         setLoading(false)
       }
@@ -136,17 +138,17 @@ function Profile() {
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
-    return `${mins}:${secs.toString().padStart(2, "0")}`
+    return `${mins}:${secs.toString().padStart(2, '0')}`
   }
 
   const getCategoryEmoji = (category) => {
     const emojis = {
-      heroes: "🦸",
-      movies: "🎬",
-      musicians: "🎵",
-      videogames: "🎮",
+      heroes: '🦸',
+      movies: '🎬',
+      musicians: '🎵',
+      videogames: '🎮',
     }
-    return emojis[category] || "🎯"
+    return emojis[category] || '🎯'
   }
 
   // prevent rendering profile content for unauthenticated users
@@ -155,13 +157,12 @@ function Profile() {
   }
 
   return (
-    <Layout title={t("profile")} onBackClick={handleBack}>
+    <Layout title={t('profile')} onBackClick={handleBack}>
       <div className="profile-container">
-
         {loading && (
           <div className="status-message">
             <div className="status-icon">🔄</div>
-            <p>{t("loadingProfile")}</p>
+            <p>{t('loadingProfile')}</p>
           </div>
         )}
 
@@ -174,19 +175,25 @@ function Profile() {
 
         {!loading && !error && (
           <>
-
             <div className="profile-card">
               <div className="profile-avatar">
                 <div className="avatar-circle">
-                  {(user?.displayName || user?.email || "U").charAt(0).toUpperCase()}
+                  {(user?.displayName || user?.email || 'U')
+                    .charAt(0)
+                    .toUpperCase()}
                 </div>
               </div>
 
               <div className="profile-info">
-                <h2 className="profile-username">{user?.displayName || user?.email?.split("@")[0] || "User"}</h2>
-                <p className="profile-email">{user?.email || "-"}</p>
+                <h2 className="profile-username">
+                  {user?.displayName || user?.email?.split('@')[0] || 'User'}
+                </h2>
+                <p className="profile-email">{user?.email || '-'}</p>
                 <p className="profile-join-date">
-                  {t("memberSince")}: {user?.joinDate ? new Date(user.joinDate).toLocaleDateString() : "-"}
+                  {t('memberSince')}:{' '}
+                  {user?.joinDate
+                    ? new Date(user.joinDate).toLocaleDateString()
+                    : '-'}
                 </p>
               </div>
             </div>
@@ -195,34 +202,39 @@ function Profile() {
               <div className="stat-card">
                 <div className="stat-icon">🎮</div>
                 <div className="stat-value">{userStats?.totalGames || 0}</div>
-                <div className="stat-label">{t("gamesPlayed")}</div>
+                <div className="stat-label">{t('gamesPlayed')}</div>
               </div>
 
               <div className="stat-card">
                 <div className="stat-icon">⚡</div>
                 <div className="stat-value">
-                  {userStats?.bestTime ? formatTime(userStats.bestTime) : "--"}
+                  {userStats?.bestTime ? formatTime(userStats.bestTime) : '--'}
                 </div>
-                <div className="stat-label">{t("bestTime")}</div>
+                <div className="stat-label">{t('bestTime')}</div>
               </div>
 
               <div className="stat-card">
                 <div className="stat-icon">📊</div>
                 <div className="stat-value">
-                  {userStats?.averageTime ? formatTime(userStats.averageTime) : "--"}
+                  {userStats?.averageTime
+                    ? formatTime(userStats.averageTime)
+                    : '--'}
                 </div>
-                <div className="stat-label">{t("averageTime")}</div>
+                <div className="stat-label">{t('averageTime')}</div>
               </div>
             </div>
 
             <div className="recent-scores-section">
-              <h3 className="section-title">{t("recentScores")}</h3>
+              <h3 className="section-title">{t('recentScores')}</h3>
 
               {recentScores.length === 0 ? (
                 <div className="no-scores-message">
-                  <p>{t("noGamesYet")}</p>
-                  <button onClick={() => navigate("/play")} className="primary-button">
-                    {t("playFirstGame")}
+                  <p>{t('noGamesYet')}</p>
+                  <button
+                    onClick={() => navigate('/play')}
+                    className="primary-button"
+                  >
+                    {t('playFirstGame')}
                   </button>
                 </div>
               ) : (
@@ -237,7 +249,8 @@ function Profile() {
                         </div>
 
                         <div className="score-meta">
-                          {score.difficulty} • {formatTime(score.time)} • {score.clicks} {t("moves")}
+                          {score.difficulty} • {formatTime(score.time)} •{' '}
+                          {score.clicks} {t('moves')}
                         </div>
                       </div>
 
@@ -250,15 +263,18 @@ function Profile() {
 
             <div className="profile-actions">
               <button onClick={handleViewAllScores} className="primary-button">
-                📊 {t("viewAllScores")}
+                📊 {t('viewAllScores')}
               </button>
 
-              <button onClick={() => navigate("/play")} className="primary-button">
-                🎮 {t("playGame")}
+              <button
+                onClick={() => navigate('/play')}
+                className="primary-button"
+              >
+                🎮 {t('playGame')}
               </button>
 
               <button onClick={handleLogout} className="secondary-button">
-                🚪 {t("logout")}
+                🚪 {t('logout')}
               </button>
             </div>
           </>

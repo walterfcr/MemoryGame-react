@@ -1,21 +1,20 @@
-import { useState, useRef } from "react"
-import { useAuth } from "../context/AuthContext"
-import { useNavigate } from "react-router-dom"
-import Layout from "../components/Layout"
-import { useTranslation } from "react-i18next"
-import "./Login.css"
-
+import { useState, useRef } from 'react'
+import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import Layout from '../components/Layout'
+import { useTranslation } from 'react-i18next'
+import './Login.css'
 
 function Login() {
   const { t } = useTranslation()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [formError, setFormError] = useState(null)
 
   const { login, loading } = useAuth()
   const navigate = useNavigate()
 
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
 
   const playClickSound = () => {
     if (clickSound.current) {
@@ -35,12 +34,12 @@ function Login() {
 
     // prevent unnecessary auth requests with basic client-side validation
     if (!email || !password) {
-      setFormError(t("allFieldsRequired"))
+      setFormError(t('allFieldsRequired'))
       return
     }
 
     if (!validateEmail(email)) {
-      setFormError(t("invalidEmailFormat"))
+      setFormError(t('invalidEmailFormat'))
       return
     }
 
@@ -48,21 +47,21 @@ function Login() {
 
     // fallback to generic translation when backend error code is unavailable
     if (!result || !result.success) {
-      setFormError(t(result?.error) || t("loginFailed"))
+      setFormError(t(result?.error) || t('loginFailed'))
     } else {
-      navigate("/") 
+      navigate('/')
     }
   }
 
   const handleBack = () => {
     playClickSound()
-    navigate("/menu")
+    navigate('/menu')
   }
 
   return (
-    <Layout title={t("login")} onBackClick={handleBack}>
+    <Layout title={t('login')} onBackClick={handleBack}>
       <div className="auth-container">
-        <h1>{t("login")}</h1>
+        <h1>{t('login')}</h1>
 
         <img
           src="/images/login-logo.png"
@@ -73,14 +72,14 @@ function Login() {
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <label htmlFor="email" className="input-label">
-              {t("email")}:
+              {t('email')}:
             </label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("yourEmail")}
+              placeholder={t('yourEmail')}
               className="auth-input"
               disabled={loading}
             />
@@ -88,42 +87,36 @@ function Login() {
 
           <div className="input-group">
             <label htmlFor="password" className="input-label">
-              {t("password")}:
+              {t('password')}:
             </label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("yourPassword")}
+              placeholder={t('yourPassword')}
               className="auth-input"
               disabled={loading}
             />
           </div>
 
-          {formError && (
-            <p className="auth-error-message">{formError}</p>
-          )}
+          {formError && <p className="auth-error-message">{formError}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="auth-button"
-          >
-            {loading ? t("loggingIn") : t("login")}
+          <button type="submit" disabled={loading} className="auth-button">
+            {loading ? t('loggingIn') : t('login')}
           </button>
         </form>
 
         <p className="auth-switch-text">
-          {t("noAccount")}{" "}
+          {t('noAccount')}{' '}
           <span
             onClick={() => {
               playClickSound()
-              navigate("/register")
+              navigate('/register')
             }}
             className="auth-switch-link"
           >
-            {t("registerHere")}
+            {t('registerHere')}
           </span>
         </p>
       </div>

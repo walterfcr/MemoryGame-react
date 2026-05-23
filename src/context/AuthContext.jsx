@@ -1,12 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
-} from "firebase/auth"
-import { auth } from "../firebase"
+  updateProfile,
+} from 'firebase/auth'
+import { auth } from '../firebase'
 
 const AuthContext = createContext()
 export const useAuth = () => useContext(AuthContext)
@@ -30,38 +30,40 @@ export const AuthProvider = ({ children }) => {
       await signInWithEmailAndPassword(auth, email, password)
       return { success: true }
     } catch (error) {
-      console.error(" Login error:", error.code)
-      return { success: false, error: error.code } 
+      console.error(' Login error:', error.code)
+      return { success: false, error: error.code }
     }
   }
 
   const register = async (username, email, password) => {
-    setLoading(true);
+    setLoading(true)
     try {
-     
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      )
+      const user = userCredential.user
 
       // store username in Firebase Auth profile
       await updateProfile(user, {
-        displayName: username.trim()
-      });
+        displayName: username.trim(),
+      })
 
-   
       // update local auth state immediately after registration
       setUser({
         ...user,
-        displayName: username.trim()
-      });
+        displayName: username.trim(),
+      })
 
-      return { success: true };
+      return { success: true }
     } catch (error) {
-      console.error("Registration sub-routine failed:", error);
-      return { success: false, error: error.code };
+      console.error('Registration sub-routine failed:', error)
+      return { success: false, error: error.code }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const logout = async () => {
     await signOut(auth)
@@ -76,7 +78,7 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
-        isAuthenticated: !!user
+        isAuthenticated: !!user,
       }}
     >
       {children}

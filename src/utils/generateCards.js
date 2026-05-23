@@ -5,10 +5,10 @@ const totalPairs = {
 }
 
 const categoryPrefixes = {
-  heroes: { prefix: "TM01", count: 30 },
-  movies: { prefix: "TM02", count: 24 },
-  musicians: { prefix: "TM03", count: 30 },
-  videogames: { prefix: "TM04", count: 36 },
+  heroes: { prefix: 'TM01', count: 30 },
+  movies: { prefix: 'TM02', count: 24 },
+  musicians: { prefix: 'TM03', count: 30 },
+  videogames: { prefix: 'TM04', count: 36 },
 }
 
 const shuffle = (array) => {
@@ -20,7 +20,7 @@ export const generateCards = (category, difficulty) => {
   const numPairs = totalPairs[difficulty]
 
   const allImages = Array.from({ length: count }, (_, i) => {
-    const num = String(i + 1).padStart(3, "0")
+    const num = String(i + 1).padStart(3, '0')
     return `${prefix}-${num}.webp`
   })
 

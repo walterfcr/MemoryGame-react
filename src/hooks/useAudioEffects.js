@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from 'react'
 
 export const useAudioEffects = (isMuted) => {
-  const flipSound = useRef(new Audio("/sounds/flip.mp3"))
-  const winSound = useRef(new Audio("/sounds/win.mp3"))
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
-  const matchSound = useRef(new Audio("/sounds/match-sound.mp3"))
-  const backgroundMusic = useRef(new Audio("/sounds/play.mp3"))
+  const flipSound = useRef(new Audio('/sounds/flip.mp3'))
+  const winSound = useRef(new Audio('/sounds/win.mp3'))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
+  const matchSound = useRef(new Audio('/sounds/match-sound.mp3'))
+  const backgroundMusic = useRef(new Audio('/sounds/play.mp3'))
 
   // shared audio playback handler with mute protection
   const playSound = (audioRef) => {

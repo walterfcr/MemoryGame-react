@@ -1,13 +1,13 @@
-import { useLocation, useNavigate } from "react-router-dom"
-import GameComplete from "./GameComplete"
+import { useLocation, useNavigate } from 'react-router-dom'
+import GameComplete from './GameComplete'
 
 const GameCompleteWrapper = () => {
-  const { state } = useLocation();
-  const navigate = useNavigate();
+  const { state } = useLocation()
+  const navigate = useNavigate()
 
   if (!state) {
-    navigate("/");
-    return null;
+    navigate('/')
+    return null
   }
 
   return (
@@ -17,9 +17,9 @@ const GameCompleteWrapper = () => {
       difficulty={state.difficulty}
       gameTime={state.gameTime}
       totalMoves={state.totalMoves}
-      onPlayAgain={() => navigate("/play")}
+      onPlayAgain={() => navigate('/play')}
     />
-  );
-};
+  )
+}
 
 export default GameCompleteWrapper

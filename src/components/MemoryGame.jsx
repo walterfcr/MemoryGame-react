@@ -1,20 +1,19 @@
-"use client"
+'use client'
 
-import { useEffect, useRef } from "react"
-import Confetti from "react-confetti"
-import Layout from "./Layout"
-import { gsap } from "gsap"
-import { useTranslation } from "react-i18next"
-import { useAudio } from "../context/AudioContext"
-import { useAuth } from "../context/AuthContext"
-import { calculateScore } from "../utils/calculateScore"
-import { normalizeDifficulty } from "../utils/normalizeDifficulty"
-import { saveLocalScore } from "../utils/saveLocalScore"
-import { saveScore } from "../services/scoreService"
-import { useAudioEffects } from "../hooks/useAudioEffects"
-import { useMemoryGame } from "../hooks/useMemoryGame"
-import "./MemoryGame.css"
-
+import { useEffect, useRef } from 'react'
+import Confetti from 'react-confetti'
+import Layout from './Layout'
+import { gsap } from 'gsap'
+import { useTranslation } from 'react-i18next'
+import { useAudio } from '../context/AudioContext'
+import { useAuth } from '../context/AuthContext'
+import { calculateScore } from '../utils/calculateScore'
+import { normalizeDifficulty } from '../utils/normalizeDifficulty'
+import { saveLocalScore } from '../utils/saveLocalScore'
+import { saveScore } from '../services/scoreService'
+import { useAudioEffects } from '../hooks/useAudioEffects'
+import { useMemoryGame } from '../hooks/useMemoryGame'
+import './MemoryGame.css'
 
 const MemoryGame = ({
   category,
@@ -24,47 +23,42 @@ const MemoryGame = ({
 }) => {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const { isMuted } = useAudio() 
+  const { isMuted } = useAudio()
 
   // fallback to email prefix when displayName is unavailable
-  const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
+  const playerName =
+    user?.displayName || user?.email?.split('@')[0] || t('guest')
 
   const containerRef = useRef(null)
 
   // animate game container on mount
   useEffect(() => {
-  gsap.from(containerRef.current, {
-    opacity: 0,
-    y: 30,
-    duration: 1,
-    ease: "power3.out",
-  })
+    gsap.from(containerRef.current, {
+      opacity: 0,
+      y: 30,
+      duration: 1,
+      ease: 'power3.out',
+    })
   }, [])
 
-  const {
-  playFlip,
-  playMatch,
-  playWin,
-  playClick,
-  } = useAudioEffects(isMuted)
+  const { playFlip, playMatch, playWin, playClick } = useAudioEffects(isMuted)
 
   // normalize route difficulty values into a consistent format
   const difficulty = normalizeDifficulty(propDifficulty)
 
   const {
-  cards,
-  gameWon,
-  setGameWon,
-  time,
-  clickCount,
-  score,
-  setScore,
-  scoreSaved,
-  setScoreSaved,
-  resetGame,
-  handleCardClick,
+    cards,
+    gameWon,
+    setGameWon,
+    time,
+    clickCount,
+    score,
+    setScore,
+    scoreSaved,
+    setScoreSaved,
+    resetGame,
+    handleCardClick,
   } = useMemoryGame(category, difficulty)
-
 
   useEffect(() => {
     // detect game completion and persist final score
@@ -72,7 +66,7 @@ const MemoryGame = ({
 
     if (allMatched && !scoreSaved) {
       setGameWon(true)
-      
+
       playWin()
 
       // calculate score based on time and move efficiency
@@ -98,38 +92,44 @@ const MemoryGame = ({
 
       setScoreSaved(true)
     }
-  }, [cards,
-      time,
-      clickCount,
-      scoreSaved,
-      category,
-      difficulty,
-      playerName,
-      onGameComplete,
-      user,
-      playWin,
-      setGameWon,
-      setScore,
-      setScoreSaved,
-      ])
-
+  }, [
+    cards,
+    time,
+    clickCount,
+    scoreSaved,
+    category,
+    difficulty,
+    playerName,
+    onGameComplete,
+    user,
+    playWin,
+    setGameWon,
+    setScore,
+    setScoreSaved,
+  ])
 
   const handleBack = () => {
-  playClick()
-  window.history.back()
- }
+    playClick()
+    window.history.back()
+  }
 
   const handlePlayAgain = () => {
-  playClick()
-  resetGame()
-}
+    playClick()
+    resetGame()
+  }
 
   return (
     <Layout title={`${category} - ${difficulty}`} onBackClick={handleBack}>
       <div className="stats-container">
-        <p>🕒 {t("time")}: {time}s</p>
-        <p>🖱️ {t("clicks")}: {clickCount}</p>
-        <p>👤 {t("player")}: {playerName}</p>
+        <p>
+          🕒 {t('time')}: {time}s
+        </p>
+        <p>
+          🖱️ {t('clicks')}: {clickCount}
+        </p>
+        <p>
+          👤 {t('player')}: {playerName}
+        </p>
       </div>
 
       <div ref={containerRef} className="memory-game">
@@ -137,30 +137,36 @@ const MemoryGame = ({
           <>
             <Confetti />
             <div className="win-message">
-              <h2>🎉 {t("youWon")} {playerName}!</h2>
-              <p>🏆 {t("yourScore")}: {score}</p>
+              <h2>
+                🎉 {t('youWon')} {playerName}!
+              </h2>
+              <p>
+                🏆 {t('yourScore')}: {score}
+              </p>
 
-              <button onClick={handlePlayAgain}>{t("playAgain")}</button>
+              <button onClick={handlePlayAgain}>{t('playAgain')}</button>
             </div>
           </>
         )}
 
-        <div className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? "blurred" : ""}`}>
+        <div
+          className={`card-grid ${difficulty.toLowerCase()} ${gameWon ? 'blurred' : ''}`}
+        >
           {cards.map((card, index) => (
-            <div key={card.id}
-                className="card" 
-                // delegate game logic and audio handling to custom hook
-                onClick={() =>
-                  handleCardClick(
-                    index,
-                    onMoveCount,
-                    playFlip,
-                    playMatch
-                  )
-               }  
+            <div
+              key={card.id}
+              className="card"
+              // delegate game logic and audio handling to custom hook
+              onClick={() =>
+                handleCardClick(index, onMoveCount, playFlip, playMatch)
+              }
             >
-              <div className={`card-inner ${card.flipped || card.matched ? "flipped" : ""}`}>
-                <div className={`card-front ${card.matched ? "matched" : ""} ${card.highlight ? "highlight" : ""}`}>
+              <div
+                className={`card-inner ${card.flipped || card.matched ? 'flipped' : ''}`}
+              >
+                <div
+                  className={`card-front ${card.matched ? 'matched' : ''} ${card.highlight ? 'highlight' : ''}`}
+                >
                   <img src={card.image} alt="front" />
                 </div>
                 <div className="card-back">

@@ -1,16 +1,16 @@
 export const normalizeDifficulty = (difficulty) => {
   switch (difficulty?.toLowerCase()) {
-    case "easy":
-      return "Easy"
+    case 'easy':
+      return 'Easy'
 
-    case "medium":
-    case "normal":
-      return "Medium"
+    case 'medium':
+    case 'normal':
+      return 'Medium'
 
-    case "hard":
-      return "Hard"
+    case 'hard':
+      return 'Hard'
 
     default:
-      return "Easy"
+      return 'Easy'
   }
 }

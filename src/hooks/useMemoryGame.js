@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react"
-import { generateCards } from "../utils/generateCards"
+import { useState, useEffect, useCallback } from 'react'
+import { generateCards } from '../utils/generateCards'
 
 export const useMemoryGame = (category, difficulty) => {
   const [cards, setCards] = useState([])
@@ -39,11 +39,11 @@ export const useMemoryGame = (category, difficulty) => {
   const handleCardClick = (index, onMoveCount, playFlip, playMatch) => {
     // prevent extra clicks during card comparison
     if (
-        flippedCards.length === 2 ||
-        cards[index].flipped ||
-        cards[index].matched
+      flippedCards.length === 2 ||
+      cards[index].flipped ||
+      cards[index].matched
     ) {
-        return
+      return
     }
 
     const newClicks = clickCount + 1
@@ -51,7 +51,7 @@ export const useMemoryGame = (category, difficulty) => {
 
     // notify parent component when move count changes
     if (onMoveCount) {
-        onMoveCount(newClicks)
+      onMoveCount(newClicks)
     }
 
     const updated = [...cards]
@@ -64,40 +64,40 @@ export const useMemoryGame = (category, difficulty) => {
     setFlippedCards(newFlipped)
 
     if (newFlipped.length === 2) {
-        const [a, b] = newFlipped
+      const [a, b] = newFlipped
 
-        // delay comparison so players can briefly see both cards
-        setTimeout(() => {
+      // delay comparison so players can briefly see both cards
+      setTimeout(() => {
         if (updated[a].image === updated[b].image) {
-            updated[a].matched = true
-            updated[b].matched = true
+          updated[a].matched = true
+          updated[b].matched = true
 
-            // highlight matched cards before removing the effect
-            updated[a].highlight = true
-            updated[b].highlight = true
+          // highlight matched cards before removing the effect
+          updated[a].highlight = true
+          updated[b].highlight = true
 
-            playMatch()
+          playMatch()
 
-            setCards([...updated])
+          setCards([...updated])
 
-            setTimeout(() => {
+          setTimeout(() => {
             updated[a].highlight = false
             updated[b].highlight = false
 
             setCards([...updated])
-            }, 600)
+          }, 600)
         } else {
-            // flip cards back when they don't match
-            updated[a].flipped = false
-            updated[b].flipped = false
+          // flip cards back when they don't match
+          updated[a].flipped = false
+          updated[b].flipped = false
 
-            setCards([...updated])
+          setCards([...updated])
         }
 
         setFlippedCards([])
-        }, 700)
-      }
+      }, 700)
     }
+  }
 
   return {
     cards,

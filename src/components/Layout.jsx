@@ -1,21 +1,20 @@
-"use client"
+'use client'
 
-import { useRef } from "react"
-import { useTranslation } from "react-i18next"
-import { useAuth } from "../context/AuthContext"
-import { useAudio } from "../context/AudioContext"
-
+import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useAuth } from '../context/AuthContext'
+import { useAudio } from '../context/AudioContext'
 
 const Layout = ({ children, title, onBackClick }) => {
   const { t } = useTranslation()
   const { isAuthenticated, logout } = useAuth()
-  const { isMuted, setIsMuted } = useAudio() 
+  const { isMuted, setIsMuted } = useAudio()
 
-  const clickSound = useRef(new Audio("/sounds/click.wav"))
+  const clickSound = useRef(new Audio('/sounds/click.wav'))
 
   // prevent click sounds while muted
   const playClickSound = () => {
-    if (clickSound.current && !isMuted) { 
+    if (clickSound.current && !isMuted) {
       clickSound.current.currentTime = 0
       clickSound.current.play()
     }
@@ -29,7 +28,7 @@ const Layout = ({ children, title, onBackClick }) => {
   const toggleMute = () => {
     const nextMuteState = !isMuted
     setIsMuted(nextMuteState)
-    
+
     // only play feedback sound when enabling audio
     if (!nextMuteState && clickSound.current) {
       clickSound.current.currentTime = 0
@@ -41,34 +40,36 @@ const Layout = ({ children, title, onBackClick }) => {
     <div className="mainContainer">
       <header className="navbarContainer">
         {onBackClick && (
-          <button 
-            className="navbarContainer-back-button" 
+          <button
+            className="navbarContainer-back-button"
             onClick={() => {
               playClickSound()
               onBackClick()
             }}
           >
-            {"<"}
+            {'<'}
           </button>
         )}
-        
+
         <h1 className="navbarContainer-title">{title}</h1>
-        
-        <div className="navbarContainer-actions" style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          
-          <button 
-            className={`navbarContainer-mute-button ${isMuted ? "muted" : ""}`} 
+
+        <div
+          className="navbarContainer-actions"
+          style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}
+        >
+          <button
+            className={`navbarContainer-mute-button ${isMuted ? 'muted' : ''}`}
             onClick={toggleMute}
             aria-label="Toggle Sound"
             style={{
-              background: "none",
-              border: "none",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-              userSelect: "none"
+              background: 'none',
+              border: 'none',
+              fontSize: '1.5rem',
+              cursor: 'pointer',
+              userSelect: 'none',
             }}
           >
-            {isMuted ? "🔇" : "🔊"}
+            {isMuted ? '🔇' : '🔊'}
           </button>
 
           {isAuthenticated && (
@@ -76,12 +77,12 @@ const Layout = ({ children, title, onBackClick }) => {
               className="navbarContainer-logout-button"
               onClick={handleLogout}
             >
-              {t("logout")}
+              {t('logout')}
             </button>
           )}
         </div>
       </header>
-      
+
       <main className="contentContainer">{children}</main>
     </div>
   )
