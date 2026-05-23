@@ -21,7 +21,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('lang') || 'en', // ✅ Default or saved language
+    lng: localStorage.getItem('lang') || 'en', // default or saved language
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,

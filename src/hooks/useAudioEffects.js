@@ -7,6 +7,7 @@ export const useAudioEffects = (isMuted) => {
   const matchSound = useRef(new Audio("/sounds/match-sound.mp3"))
   const backgroundMusic = useRef(new Audio("/sounds/play.mp3"))
 
+  // shared audio playback handler with mute protection
   const playSound = (audioRef) => {
     if (isMuted || !audioRef.current) return
 
@@ -14,6 +15,7 @@ export const useAudioEffects = (isMuted) => {
     audioRef.current.play()
   }
 
+  // start and cleanup looping background music
   useEffect(() => {
     const music = backgroundMusic.current
 

@@ -1,23 +1,21 @@
-/* components/GameComplete.css */
-
 .game-complete-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem; /* Espacio entre secciones */
+  gap: 2.5rem;
   padding: 1.5rem;
   box-sizing: border-box;
   font-family: inherit;
-  min-height: calc(100vh - var(--navbar-container-height)); /* Ajusta a la altura disponible */
+  min-height: calc(100vh - var(--navbar-container-height));
   width: 100%;
-  max-width: 700px; /* Ancho máximo para el contenido */
+  max-width: 700px;
   margin: 0 auto;
-  color: var(--button-color); /* Color de texto general */
+  color: var(--button-color);
   text-align: center;
 }
 
-.game-complete-container h1{
-  margin:100px 0 0;
+.game-complete-container h1 {
+  margin: 100px 0 0;
 }
 
 .game-complete-heading {
@@ -28,7 +26,7 @@
 }
 
 .score-summary-card {
-  background-color: var(--primary-color); /* Fondo oscuro para la tarjeta de resumen */
+  background-color: var(--primary-color);
   padding: 25px;
   border-radius: 15px;
   margin: 20px 0;
@@ -55,7 +53,6 @@
   color: var(--secondary-color);
 }
 
-/* Save Status */
 .save-status-message {
   margin: 20px 0;
   font-size: 1.1rem;
@@ -63,34 +60,32 @@
 }
 
 .save-status-message.saving {
-  color: #007bff; /* Azul */
+  color: #007bff;
 }
 
 .save-status-message.success {
-  color: #28a745; /* Verde */
+  color: #28a745;
 }
 
 .save-status-message.error {
-  color: #dc3545; /* Rojo */
+  color: #dc3545;
 }
 
-/* Action Buttons Container */
 .action-buttons-container {
   margin-top: 30px;
   display: flex;
   justify-content: center;
-  gap: 20px; /* Espacio entre botones */
+  gap: 20px;
   flex-wrap: wrap;
 }
 
-/* Primary Action Button (Play Again) - Reutilizando el estilo de GameSelection */
 .primary-action-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  width: 250px; /* Ancho del botón */
-  height: 60px; /* Altura del botón */
+  width: 250px;
+  height: 60px;
   background-color: var(--accent);
   color: var(--button-color);
   border: none;
@@ -98,7 +93,9 @@
   font-size: 1.5rem;
   text-align: center;
   text-decoration: none;
-  transition: background 0.3s ease, transform 0.1s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.1s ease;
   cursor: pointer;
   padding: 0 20px;
 }
@@ -108,7 +105,6 @@
   transform: translateY(-3px);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .game-complete-container {
     gap: 2rem;
@@ -137,8 +133,8 @@
   .game-complete-container {
     gap: 1.5rem;
     padding: 0.8rem;
-    justify-content: flex-start; /* Alinea al inicio en móviles */
-    padding-top: 30px; /* Espaciado superior */
+    justify-content: flex-start;
+    padding-top: 30px;
   }
   .game-complete-heading {
     font-size: 1.8rem;

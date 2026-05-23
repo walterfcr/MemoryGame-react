@@ -26,6 +26,7 @@ export const generateCards = (category, difficulty) => {
 
   const selectedImages = shuffle(allImages).slice(0, numPairs)
 
+  // duplicate each image to create matching pairs
   const pairedCards = selectedImages.flatMap((img) => {
     const path = `/images/${category}/${img}`
 

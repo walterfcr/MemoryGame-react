@@ -32,9 +32,9 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     playClickSound()
-    setFormError(null) // Limpiar errores anteriores
+    setFormError(null) 
 
-    // Validaciones del lado del cliente
+    // prevent unnecessary auth requests with basic client-side validation
     if (!username || !email || !password || !confirmPassword) {
       setFormError(t("allFieldsRequired"))
       return
@@ -45,12 +45,13 @@ function Register() {
       return
     }
 
+    // enforce simple username rules before sending data to firebase
     if (username.length < 3) {
       setFormError(t("usernameTooShort"))
       return
     }
 
-    if (username.length > 30) {
+    if (username.length > 10) {
       setFormError(t("usernameTooLong"))
       return
     }
@@ -60,6 +61,7 @@ function Register() {
       return
     }
 
+    // ensure users confirm their password correctly
     if (password !== confirmPassword) {
       setFormError(t("passwordsDoNotMatch"))
       return
@@ -67,10 +69,11 @@ function Register() {
 
     const result = await register(username, email, password)
     if (!result.success) {
-      // Usar el error específico del backend si existe, de lo contrario, un genérico
+
+      // fallback to generic translation when backend error code is unavailable
       setFormError(t(result.error) || t("registrationFailed"))
     } else {
-       navigate("/menu") // o "/login" si prefieres
+       navigate("/menu") 
        }
   }
 

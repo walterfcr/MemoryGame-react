@@ -12,6 +12,7 @@ function LanguageSelector() {
   const clickSound = useRef(new Audio("/sounds/click.wav"));
   const [language, setLanguage] = useState(i18n.language || 'en');
 
+  // animate page entrance on mount
   useEffect(() => {
     gsap.from(containerRef.current, {
       x: "100vw",
@@ -33,8 +34,12 @@ function LanguageSelector() {
 
   const changeLanguage = (lng) => {
     playClickSound();
+
+    // sync local UI state with i18next language changes
     setLanguage(lng);
     i18n.changeLanguage(lng);
+    
+    // persist selected language across sessions
     localStorage.setItem('lang', lng);
   };
 

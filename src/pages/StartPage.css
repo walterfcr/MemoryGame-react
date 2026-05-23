@@ -1,29 +1,26 @@
 .startPageContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
-/* Logo styles */
 .logoImage {
-  margin-bottom: 2rem; /* Adjust margin as necessary */
+  margin-bottom: 2rem;
   filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
 }
 
-/* Container for the tabs */
 .tabsContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
   max-width: 500px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
-/* Tab button styles */
 .tabButton {
   width: 150px;
   height: 60px;
@@ -43,10 +40,9 @@
   background-color: var(--hover-color);
 }
 
-/* Play button styles */
 .playButton {
   width: 100%;
-  max-width: 480px; /* Three buttons width + gaps */
+  max-width: 480px;
   height: 70px;
   background-color: var(--accent);
   color: white;
@@ -76,27 +72,25 @@
     width: 300px !important;
   }
   .playButton {
-    max-width: 320px; /* Three buttons width + gaps */
+    max-width: 320px;
   }
   .tabButton {
     font-size: 1rem;
   }
 }
 
-@media (min-width:320px) and (max-width: 400px) {
-
+@media (min-width: 320px) and (max-width: 400px) {
   .startPageContainer img {
     width: 250px !important;
   }
   .playButton {
-    max-width: 280px; /* Three buttons width + gaps */
+    max-width: 280px;
     height: 60px;
   }
 
   .tabButton {
-  width: 130px;
-  height: 50px;
-  background-color: var(--accent);
-}
-
+    width: 130px;
+    height: 50px;
+    background-color: var(--accent);
+  }
 }

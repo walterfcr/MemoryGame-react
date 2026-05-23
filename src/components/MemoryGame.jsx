@@ -24,15 +24,14 @@ const MemoryGame = ({
 }) => {
   const { t } = useTranslation()
   const { user } = useAuth()
-  const { isMuted } = useAudio() // ✅ FIX: Extract live mute flag
+  const { isMuted } = useAudio() 
 
-  // Use Firebase Auth displayName or email prefix as playerName
+  // fallback to email prefix when displayName is unavailable
   const playerName = user?.displayName || user?.email?.split("@")[0] || t("guest")
-
-
 
   const containerRef = useRef(null)
 
+  // animate game container on mount
   useEffect(() => {
   gsap.from(containerRef.current, {
     opacity: 0,
@@ -49,7 +48,7 @@ const MemoryGame = ({
   playClick,
   } = useAudioEffects(isMuted)
 
-
+  // normalize route difficulty values into a consistent format
   const difficulty = normalizeDifficulty(propDifficulty)
 
   const {
@@ -68,6 +67,7 @@ const MemoryGame = ({
 
 
   useEffect(() => {
+    // detect game completion and persist final score
     const allMatched = cards.length > 0 && cards.every((c) => c.matched)
 
     if (allMatched && !scoreSaved) {
@@ -75,6 +75,7 @@ const MemoryGame = ({
       
       playWin()
 
+      // calculate score based on time and move efficiency
       const finalScore = calculateScore(time, clickCount)
       setScore(finalScore)
 
@@ -89,8 +90,8 @@ const MemoryGame = ({
         uid: user?.uid,
       }
 
+      // persist score locally and in Firestore
       saveLocalScore(newScore)
-
       saveScore(newScore)
 
       if (onGameComplete) onGameComplete(clickCount)
@@ -148,6 +149,7 @@ const MemoryGame = ({
           {cards.map((card, index) => (
             <div key={card.id}
                 className="card" 
+                // delegate game logic and audio handling to custom hook
                 onClick={() =>
                   handleCardClick(
                     index,

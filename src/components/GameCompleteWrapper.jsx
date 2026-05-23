@@ -1,6 +1,5 @@
-// GameCompleteWrapper.jsx
-import { useLocation, useNavigate } from "react-router-dom";
-import GameComplete from "./GameComplete";
+import { useLocation, useNavigate } from "react-router-dom"
+import GameComplete from "./GameComplete"
 
 const GameCompleteWrapper = () => {
   const { state } = useLocation();
@@ -23,4 +22,4 @@ const GameCompleteWrapper = () => {
   );
 };
 
-export default GameCompleteWrapper;
+export default GameCompleteWrapper

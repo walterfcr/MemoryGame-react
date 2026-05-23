@@ -1,30 +1,31 @@
-import React, { useEffect, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
-import Layout from '../components/Layout'; // Import the Layout component
-import { gsap } from 'gsap'; // Import GSAP for animation
-import { useTranslation } from 'react-i18next';
-import './Credits.css';
+import React, { useEffect, useRef } from 'react'
+import { useNavigate } from "react-router-dom"
+import Layout from '../components/Layout'
+import { gsap } from 'gsap'
+import { useTranslation } from 'react-i18next'
+import './Credits.css'
 
 
 export function Credits() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const containerRef = useRef(null); // Ref for animation
-  const clickSound = useRef(new Audio("/sounds/click.wav")); // Sound reference
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const containerRef = useRef(null)
+  const clickSound = useRef(new Audio("/sounds/click.wav"))
 
+   // animate page entrance on mount
   useEffect(() => {
     gsap.from(containerRef.current, {
-      x: "100vw",        // Start off-screen to the right
-      opacity: 0,        // Fade in
-      duration: 0.6,     // Animation duration
-      ease: "power3.out" // Easing function for smooth animation
+      x: "100vw",   
+      opacity: 0,      
+      duration: 0.6, 
+      ease: "power3.out"
     });
   }, []);
 
   const handleBack = () => {
-    clickSound.current.currentTime = 0;
-    clickSound.current.play();
-    navigate("/menu");
+    clickSound.current.currentTime = 0
+    clickSound.current.play()
+    navigate("/menu")
   };
 
     return (
@@ -67,4 +68,4 @@ export function Credits() {
     );
 }
 
-export default Credits;
+export default Credits

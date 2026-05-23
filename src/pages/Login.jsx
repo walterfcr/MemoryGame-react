@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next"
 import "./Login.css"
 
 
-
-
 function Login() {
   const { t } = useTranslation()
   const [email, setEmail] = useState("")
@@ -35,6 +33,7 @@ function Login() {
     playClickSound()
     setFormError(null)
 
+    // prevent unnecessary auth requests with basic client-side validation
     if (!email || !password) {
       setFormError(t("allFieldsRequired"))
       return
@@ -47,10 +46,11 @@ function Login() {
 
     const result = await login(email, password)
 
+    // fallback to generic translation when backend error code is unavailable
     if (!result || !result.success) {
       setFormError(t(result?.error) || t("loginFailed"))
     } else {
-      navigate("/") // ✅ CHANGE ROUTE HERE IF NEEDED ("/play", "/menu", etc.)
+      navigate("/") 
     }
   }
 

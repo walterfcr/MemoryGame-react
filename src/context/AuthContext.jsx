@@ -8,7 +8,6 @@ import {
 } from "firebase/auth"
 import { auth } from "../firebase"
 
-
 const AuthContext = createContext()
 export const useAuth = () => useContext(AuthContext)
 
@@ -16,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // 👂 ESCUCHAR SESIÓN DE FIREBASE
+  // keep authentication state synced across refreshes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser)
@@ -31,24 +30,25 @@ export const AuthProvider = ({ children }) => {
       await signInWithEmailAndPassword(auth, email, password)
       return { success: true }
     } catch (error) {
-      console.error("🔥 Login error:", error.code)
-      return { success: false, error: error.code }
+      console.error(" Login error:", error.code)
+      return { success: false, error: error.code } 
     }
   }
 
   const register = async (username, email, password) => {
     setLoading(true);
     try {
-      // Step 1: Create the baseline credentials with Firebase
+     
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // ✅ Step 2: IMMEDIATELY save the username as the profile's displayName!
+      // store username in Firebase Auth profile
       await updateProfile(user, {
         displayName: username.trim()
       });
 
-      // Step 3: Refresh local state tracking parameters so React catches the change instantly
+   
+      // update local auth state immediately after registration
       setUser({
         ...user,
         displayName: username.trim()

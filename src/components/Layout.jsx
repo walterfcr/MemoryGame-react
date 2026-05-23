@@ -3,18 +3,17 @@
 import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
-import { useAudio } from "../context/AudioContext" // Hooks into central audio control
-import { useNavigate } from "react-router-dom"
+import { useAudio } from "../context/AudioContext"
+
 
 const Layout = ({ children, title, onBackClick }) => {
   const { t } = useTranslation()
   const { isAuthenticated, logout } = useAuth()
   const { isMuted, setIsMuted } = useAudio() 
-  const navigate = useNavigate()
 
   const clickSound = useRef(new Audio("/sounds/click.wav"))
 
-  // Check global mute state before playing layout clicks
+  // prevent click sounds while muted
   const playClickSound = () => {
     if (clickSound.current && !isMuted) { 
       clickSound.current.currentTime = 0
@@ -31,7 +30,7 @@ const Layout = ({ children, title, onBackClick }) => {
     const nextMuteState = !isMuted
     setIsMuted(nextMuteState)
     
-    // Play confirmation click ONLY if we are unmuting
+    // only play feedback sound when enabling audio
     if (!nextMuteState && clickSound.current) {
       clickSound.current.currentTime = 0
       clickSound.current.play()
@@ -57,7 +56,6 @@ const Layout = ({ children, title, onBackClick }) => {
         
         <div className="navbarContainer-actions" style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           
-          {/* Mute toggle button */}
           <button 
             className={`navbarContainer-mute-button ${isMuted ? "muted" : ""}`} 
             onClick={toggleMute}

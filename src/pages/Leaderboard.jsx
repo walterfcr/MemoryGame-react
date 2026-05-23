@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import Layout from "../components/Layout"
 import "./Leaderboard.css"
 import { useAuth } from "../context/AuthContext"
-import { collection, getDocs, query, orderBy, limit, where } from "firebase/firestore" // 🚨 Added 'where'
+import { collection, getDocs, query, orderBy, limit, where } from "firebase/firestore" 
 import { db } from "../firebase"
 
 const Leaderboard = () => {
@@ -17,7 +17,6 @@ const Leaderboard = () => {
   const [scores, setScores] = useState([])
   const [loading, setLoading] = useState(true)
   
-  // 🚨 State to keep track of the selected filter tab
   const [activeTab, setActiveTab] = useState("All")
 
   const clickSound = useRef(new Audio("/sounds/click.wav"))
@@ -32,21 +31,20 @@ const Leaderboard = () => {
     navigate("/menu")
   }
 
-  // 🚨 Modified to take the filter parameter directly
+  // fetch top scores globally or filtered by difficulty
   const loadScores = async (difficultyFilter) => {
     setLoading(true)
     try {
       let q;
       
+      // apply firestore filters only when a specific difficulty is selected
       if (difficultyFilter === "All") {
-        // Fetch top overall scores
         q = query(
           collection(db, "scores"),
           orderBy("score", "desc"),
           limit(12)
         )
       } else {
-        // 🚨 Filter results by specific difficulty string matching your localStorage values
         q = query(
           collection(db, "scores"),
           where("difficulty", "==", difficultyFilter),
@@ -69,7 +67,7 @@ const Leaderboard = () => {
     }
   }
 
-  // 🚨 Reload high scores every single time the filter tab switches
+  // reload leaderboard whenever the selected tab changes
   useEffect(() => {
     loadScores(activeTab)
   }, [activeTab])
@@ -79,12 +77,14 @@ const Leaderboard = () => {
     setActiveTab(tabName)
   }
 
+  // format seconds into mm:ss display format
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
     return `${mins}:${secs.toString().padStart(2, "0")}`
   }
 
+  // assign medal emojis to top 3 players
   const getRankEmoji = (index) => {
     if (index === 0) return "🥇"
     if (index === 1) return "🥈"
@@ -92,14 +92,12 @@ const Leaderboard = () => {
     return `#${index + 1}`
   }
 
-  // Safely extract the profile indicator matching user context definitions
   const currentUsername = user?.displayName || user?.email?.split("@")[0]
 
   return (
     <Layout title={t("leaderboard")} onBackClick={handleBack}>
       <div className="leaderboard-container">
         
-        {/* 🚨 FILTER TABS BAR CONTAINER */}
         <div className="leaderboard-tabs">
           <button 
             className={`tab-btn ${activeTab === "All" ? "active" : ""}`}
@@ -137,6 +135,8 @@ const Leaderboard = () => {
   {scores.map((score, index) => (
     <div
       key={score.id}
+
+      // highlight the current authenticated player's score
       className={`leaderboard-card ${
         isAuthenticated && currentUsername === score.playerName
           ? "highlight-row"

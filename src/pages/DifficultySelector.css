@@ -1,83 +1,75 @@
-
-
 .difficultyContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
-  
-  /* Tab button styles */
+.tabButtonDifficulty {
+  width: 400px;
+  height: 60px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  text-align: center;
+  line-height: 60px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.tabButtonDifficulty:hover {
+  background-color: #8c014a;
+}
+
+.difficultyContainer h1 {
+  display: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .difficultyContainer {
+    justify-content: none;
+    height: auto;
+    padding-top: 0 !important;
+    gap: 1.5rem;
+  }
+
+  .difficultyContainer h1 {
+    display: block;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--secondary-color);
+  }
+
+  .difficultyContainer img {
+    width: 60%;
+  }
+
   .tabButtonDifficulty {
-    width: 400px;
-    height: 60px;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    text-align: center;
-    line-height: 60px;
-    text-decoration: none; 
-    transition: background 0.3s ease;
-    cursor: pointer;
+    width: 250px;
+    height: 50px;
+    font-size: 1.2rem;
+    line-height: 50px;
   }
-  
-  .tabButtonDifficulty:hover {
-    background-color: #8c014a;
+}
+
+@media (min-width: 320px) and (max-width: 400px) {
+  .difficultyContainer h1 {
+    font-size: 1.9rem;
   }
 
-  .difficultyContainer h1{
-      display:none;
+  .difficultyContainer img {
+    width: 30%;
   }
 
-
-  @media (min-width:320px) and (max-width:480px){
-
-    .difficultyContainer {
-      justify-content: none;
-      height: auto;
-      padding-top: 0 !important;
-      gap: 1.5rem;
-    }
-
-    .difficultyContainer h1{
-      display:block;
-      color: #fff;
-      font-size: 2rem;
-      text-shadow: 0 0 10px var(--secondary-color);
-   }
-
-    .difficultyContainer img{
-      width:60%;
-    }
-
-    .tabButtonDifficulty {
-        width: 250px;
-        height: 50px;
-        font-size: 1.2rem;
-        line-height: 50px;
-    }
-  } 
-
-   @media (min-width:320px) and (max-width:400px){
-
-
-    .difficultyContainer h1{
-      font-size: 1.9rem;
-   }
-
-    .difficultyContainer img{
-      width:30%;
-    }
-
-    .tabButtonDifficulty {
-        width: 230px;
-        height: 50px;
-        font-size: 1.2rem;
-        line-height: 40px;
-    }
-  } 
+  .tabButtonDifficulty {
+    width: 230px;
+    height: 50px;
+    font-size: 1.2rem;
+    line-height: 40px;
+  }
+}

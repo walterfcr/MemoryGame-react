@@ -1,12 +1,11 @@
-import { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAudio } from "../context/AudioContext"; // ✅ Hooks into central control tower
-import { gsap } from "gsap";
-import { useTranslation } from "react-i18next";
-import Layout from "../components/Layout";
-import "./WelcomePage.css";
+import { useRef, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAudio } from "../context/AudioContext"
+import { gsap } from "gsap"
+import { useTranslation } from "react-i18next"
+import Layout from "../components/Layout"
+import "./WelcomePage.css"
 
-// Array of character images (transparent PNGs/WebPs)
 const CHARACTER_IMAGES = [
   "/images/logo.png", 
   "/images/preview-card1.webp",  
@@ -21,51 +20,47 @@ const CHARACTER_IMAGES = [
 ];
 
 const WelcomePage = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation()
+  const navigate = useNavigate()
   
-  // ✅ Fetching the persistent welcome sound from central audio context control tower
-  const { welcomeSoundtrack } = useAudio();
+  const { welcomeSoundtrack } = useAudio()
   
-  // DOM References
-  const containerRef = useRef(null);
-  const cardFrameRef = useRef(null);   
-  const characterRef = useRef(null);   
-  const overlayRef = useRef(null);     
+  const containerRef = useRef(null)
+  const cardFrameRef = useRef(null) 
+  const characterRef = useRef(null) 
+  const overlayRef = useRef(null)   
 
-  // Sound Effects References
-  const clickSound = useRef(new Audio("/sounds/click.wav"));
+  const clickSound = useRef(new Audio("/sounds/click.wav"))
   
-  // Component State
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0)
 
-  // Unlocks browser audio context smoothly when player triggers the overlay
+  // block interaction until the user enables audio playback
+  const [hasInteracted, setHasInteracted] = useState(false)
+
+  // browsers require user interaction before playing audio
   const handleEnterGame = () => {
     setHasInteracted(true);
 
     if (welcomeSoundtrack && welcomeSoundtrack.current) {
-      welcomeSoundtrack.current.loop = true;
-      welcomeSoundtrack.current.volume = 1;
-      welcomeSoundtrack.current.play().catch((err) => console.log("Audio play failed:", err));
+      welcomeSoundtrack.current.loop = true
+      welcomeSoundtrack.current.volume = 1
+      welcomeSoundtrack.current.play().catch((err) => console.log("Audio play failed:", err))
     }
 
-    // Smoothly fade out the initial overlay screen
+    // fade out intro overlay before revealing the main content
     gsap.to(overlayRef.current, {
       opacity: 0,
       duration: 0.4,
       onComplete: () => {
-        // Reveal main screen elements nicely
         gsap.fromTo(containerRef.current, 
           { opacity: 0, scale: 0.95 },
           { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }
-        );
+        )
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    // 1. Continuous card hover float and neon pulse loop
     const floatingAnimation = gsap.to(cardFrameRef.current, {
       boxShadow: "0 0 35px rgba(141, 191, 255, 0.6)",
       scale: 1.02,
@@ -74,62 +69,60 @@ const WelcomePage = () => {
       ease: "power1.inOut",
       yoyo: true,
       repeat: -1,
-    });
+    })
 
-    // 2. Continuous smooth crossfade carousel for character art inside the card frame
+    // continuously rotate preview images with a fade transition
     const characterTimeline = setInterval(() => {
       gsap.to(characterRef.current, {
         opacity: 0,
         duration: 0.4,
         ease: "power1.inOut",
         onComplete: () => {
-          setCurrentImgIndex((prevIndex) => (prevIndex + 1) % CHARACTER_IMAGES.length);
+          setCurrentImgIndex((prevIndex) => (prevIndex + 1) % CHARACTER_IMAGES.length)
           
           gsap.to(characterRef.current, {
             opacity: 1,
             duration: 0.4,
             ease: "power1.inOut",
-          });
+          })
         },
-      });
-    }, 4000);
+      })
+    }, 4000)
 
-    // Clean up timers and loops when leaving page
+    // cleanup animations and intervals on component unmount
     return () => {
-      clearInterval(characterTimeline);
-      floatingAnimation.kill();
-    };
-  }, []);
+      clearInterval(characterTimeline)
+      floatingAnimation.kill()
+    }
+  }, [])
 
-  // Action to smoothly transition user into the main menu dashboard
   const handleStart = () => {
     if (clickSound.current) {
-      clickSound.current.currentTime = 0;
-      clickSound.current.play();
+      clickSound.current.currentTime = 0
+      clickSound.current.play()
     }
     
-    // Fade out the looping welcome track volume along with exit animation
     if (welcomeSoundtrack && welcomeSoundtrack.current) {
       gsap.to(welcomeSoundtrack.current, {
         volume: 0,
         duration: 0.4,
         ease: "power1.inOut"
-      });
+      })
     }
 
+    // fade soundtrack out smoothly before navigation
     gsap.to(containerRef.current, {
       opacity: 0,
       y: -50,
       duration: 0.4,
       ease: "power2.inOut",
       onComplete: () => navigate("/menu"),
-    });
-  };
+    })
+  }
 
   return (
     <Layout title={t("memoryGame")} onBackClick={null}>
       
-      {/* 1. THE AUDIO OVERLAY: Blocks view until clicked to satisfy browser safety parameters */}
       {!hasInteracted && (
         <div className="audioUnlockOverlay" ref={overlayRef} onClick={handleEnterGame}>
           <div className="pulsingPrompt">
@@ -139,7 +132,6 @@ const WelcomePage = () => {
         </div>
       )}
 
-      {/* 2. THE MAIN LANDING CONTENT CONTAINER */}
       <div 
         className="welcomePageContainer" 
         ref={containerRef} 
@@ -151,7 +143,6 @@ const WelcomePage = () => {
           </p>
         </div>
 
-        {/* Visual Card Showcase Display */}
         <div className="gamePreviewContainer">
           <div className="previewCardFrame" ref={cardFrameRef}>
             <img 
@@ -163,7 +154,6 @@ const WelcomePage = () => {
           </div>
         </div>
 
-        {/* Start Action Call-to-Action */}
         <button onClick={handleStart} className="hugePlayButton">
           {t("pressToStart")}
         </button>
@@ -173,4 +163,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default WelcomePage

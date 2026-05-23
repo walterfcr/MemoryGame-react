@@ -7,7 +7,6 @@ import WelcomePage from "./pages/WelcomePage"
 import StartPage from "./pages/StartPage"
 import DifficultySelector from "./pages/DifficultySelector"
 import CategorySelector from "./pages/CategorySelector"
-import ScoreBoard from "./pages/ScoreBoard"
 import LanguageSelector from "./pages/LanguageSelector"
 import Credits from "./pages/Credits"
 import Login from "./pages/Login"
@@ -32,7 +31,6 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/difficulty" element={<DifficultySelector />} />
           <Route path="/categories" element={<CategorySelector />} />
-          <Route path="/score" element={<ScoreBoard />} />
           <Route path="/language" element={<LanguageSelector />} />
           <Route path="/credits" element={<Credits />} />
 

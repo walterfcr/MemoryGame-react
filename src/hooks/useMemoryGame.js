@@ -10,6 +10,7 @@ export const useMemoryGame = (category, difficulty) => {
   const [score, setScore] = useState(0)
   const [scoreSaved, setScoreSaved] = useState(false)
 
+  // resets the game whenever category or difficulty changes
   const resetGame = useCallback(() => {
     setCards(generateCards(category, difficulty))
     setFlippedCards([])
@@ -24,6 +25,7 @@ export const useMemoryGame = (category, difficulty) => {
     resetGame()
   }, [resetGame])
 
+  // keep timer running only while the game is active
   useEffect(() => {
     if (gameWon) return
 
@@ -35,6 +37,7 @@ export const useMemoryGame = (category, difficulty) => {
   }, [gameWon])
 
   const handleCardClick = (index, onMoveCount, playFlip, playMatch) => {
+    // prevent extra clicks during card comparison
     if (
         flippedCards.length === 2 ||
         cards[index].flipped ||
@@ -46,6 +49,7 @@ export const useMemoryGame = (category, difficulty) => {
     const newClicks = clickCount + 1
     setClickCount(newClicks)
 
+    // notify parent component when move count changes
     if (onMoveCount) {
         onMoveCount(newClicks)
     }
@@ -62,11 +66,13 @@ export const useMemoryGame = (category, difficulty) => {
     if (newFlipped.length === 2) {
         const [a, b] = newFlipped
 
+        // delay comparison so players can briefly see both cards
         setTimeout(() => {
         if (updated[a].image === updated[b].image) {
             updated[a].matched = true
             updated[b].matched = true
 
+            // highlight matched cards before removing the effect
             updated[a].highlight = true
             updated[b].highlight = true
 
@@ -81,6 +87,7 @@ export const useMemoryGame = (category, difficulty) => {
             setCards([...updated])
             }, 600)
         } else {
+            // flip cards back when they don't match
             updated[a].flipped = false
             updated[b].flipped = false
 

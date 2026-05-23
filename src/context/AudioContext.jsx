@@ -1,53 +1,57 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { createContext, useContext, useEffect, useRef, useState } from "react"
+import { useLocation } from "react-router-dom"
 
 const AudioContext = createContext(null);
 
 export const AudioProvider = ({ children }) => {
   const location = useLocation();
   
-  // 1. Core global state for managing muting preferences
+  // persist mute preference across sessions
   const [isMuted, setIsMuted] = useState(() => {
-    // Persistent memory: stays muted even if the page is refreshed!
-    return localStorage.getItem("gameMuted") === "true";
+  
+    return localStorage.getItem("gameMuted") === "true"
   });
 
-  const menuSoundtrack = useRef(new Audio("/sounds/soundtrack.mp3"));
-  const welcomeSoundtrack = useRef(new Audio("/sounds/welcomePage.mp3"));
+  // persistent audio instances shared across the application
+  const menuSoundtrack = useRef(new Audio("/sounds/soundtrack.mp3"))
+  const welcomeSoundtrack = useRef(new Audio("/sounds/welcomePage.mp3"))
 
-  // 2. Whenever muting state changes, update the volume settings instantly
+  // sync mute state with active audio tracks and localStorage
   useEffect(() => {
-    menuSoundtrack.current.muted = isMuted;
-    welcomeSoundtrack.current.muted = isMuted;
-    localStorage.setItem("gameMuted", isMuted);
-  }, [isMuted]);
+    menuSoundtrack.current.muted = isMuted
+    welcomeSoundtrack.current.muted = isMuted
+    localStorage.setItem("gameMuted", isMuted)
+  }, [isMuted])
 
+  // control soundtrack playback based on current route
   useEffect(() => {
     menuSoundtrack.current.loop = true;
     welcomeSoundtrack.current.loop = true;
 
-    // Synchronize current muting flags on path updates
     menuSoundtrack.current.muted = isMuted;
     welcomeSoundtrack.current.muted = isMuted;
 
     const currentPath = location.pathname.toLowerCase();
 
+    // disable menu music during gameplay
     if (currentPath === "/play") {
-      menuSoundtrack.current.pause();
-      welcomeSoundtrack.current.pause();
+      menuSoundtrack.current.pause()
+      welcomeSoundtrack.current.pause()
     }
+    // play landing page soundtrack on home screen
     else if (currentPath === "/" || currentPath === "") {
-      menuSoundtrack.current.pause();
-      welcomeSoundtrack.current.play().catch(() => {});
+      menuSoundtrack.current.pause()
+      welcomeSoundtrack.current.play().catch(() => {})
     }
     else {
-      welcomeSoundtrack.current.pause();
+      welcomeSoundtrack.current.pause()
+      // restart soundtrack when re-entering menu routes
       if (menuSoundtrack.current.paused) {
-        menuSoundtrack.current.currentTime = 0;
+        menuSoundtrack.current.currentTime = 0
       }
-      menuSoundtrack.current.play().catch(() => {});
+      menuSoundtrack.current.play().catch(() => {})
     }
-  }, [location, isMuted]); // Keeps routing and mute states fully unified
+  }, [location, isMuted]); 
 
   return (
     <AudioContext.Provider value={{ menuSoundtrack, welcomeSoundtrack, isMuted, setIsMuted }}>

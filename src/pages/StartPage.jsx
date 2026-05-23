@@ -6,7 +6,7 @@ import { gsap } from "gsap"
 import "./StartPage.css"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "../context/AuthContext"
-import Layout from "../components/Layout" // IMPORTAR EL COMPONENTE LAYOUT
+import Layout from "../components/Layout" 
 
 const StartPage = () => {
   const { t } = useTranslation()
@@ -14,7 +14,6 @@ const StartPage = () => {
   const containerRef = useRef(null)
   const { isAuthenticated, user } = useAuth()
 
-  // Sound effect
   const clickSound = useRef(new Audio("/sounds/click.wav"))
   const playSound = () => {
     if (clickSound.current) {
@@ -23,6 +22,7 @@ const StartPage = () => {
     }
   }
 
+  // animate page transition before route navigation
   const handleNavigate = (path) => {
     playSound()
     gsap.to(containerRef.current, {
@@ -34,6 +34,7 @@ const StartPage = () => {
     })
   }
 
+  // animate page entrance on mount
   useEffect(() => {
     gsap.from(containerRef.current, {
       opacity: 0,
@@ -44,10 +45,9 @@ const StartPage = () => {
   }, [])
 
   return (
-    // ENVOLVER CON LAYOUT Y PASAR EL TÍTULO
+    
     <Layout title={t("memoryGame")} onBackClick={null}>
       {" "}
-      {/* StartPage no tiene botón de volver */}
       <div className="startPageContainer" ref={containerRef}>
         <img src="/images/logo.png" alt="Logo" className="logoImage" />
         <div className="tabsContainer">

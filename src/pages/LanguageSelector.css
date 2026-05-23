@@ -1,86 +1,79 @@
 .languageContainer {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
-  
-  /* Tab button styles */
+.tabButtonLanguage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  width: 400px;
+  height: 60px;
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.tabButtonLanguage:hover {
+  background-color: #8c014a;
+}
+
+.languageContainer h1 {
+  display: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
   .tabButtonLanguage {
-    display: flex;                   /* Enable flexbox */
-    align-items: center;            /* Vertical centering */
-    justify-content: center;        /* Horizontal centering (text + image together) */
-    gap: 0.8rem;                    /* Space between image and text */
-    width: 400px;
-    height: 60px;
-    background-color: var(--accent);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    text-align: center;
-    text-decoration: none;
-    transition: background 0.3s ease;
-    cursor: pointer;
-  }
-  
-  
-  .tabButtonLanguage:hover {
-    background-color: #8c014a;
+    width: 250px;
+    height: 50px;
+    font-size: 1.2rem;
+    line-height: 50px;
   }
 
-  .languageContainer h1{
-    display: none;
+  .languageContainer h1 {
+    display: block;
+    color: #fff;
+    font-size: 2rem;
+    text-shadow: 0 0 10px var(--secondary-color);
   }
 
-  @media (min-width:320px) and (max-width:480px){
-    .tabButtonLanguage {
-        width: 250px;
-        height: 50px;
-        font-size: 1.2rem;
-        line-height: 50px;
-    }
-
-    .languageContainer h1{
-      display:block;
-      color: #fff;
-      font-size: 2rem;
-      text-shadow: 0 0 10px var(--secondary-color);
-    }
-
-    .languageContainer {
-      justify-content: none;
-      height: auto;
-      padding-top: 30px !important;
-      gap: 1.4rem;
-    }
-
-    .languageContainer img{
-      width:80%;
-      filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
-    }
+  .languageContainer {
+    justify-content: none;
+    height: auto;
+    padding-top: 30px !important;
+    gap: 1.4rem;
   }
 
-   @media (min-width:320px) and (max-width:400px){
+  .languageContainer img {
+    width: 80%;
+    filter: drop-shadow(0 0 10px rgba(141, 191, 255, 0.3));
+  }
+}
 
+@media (min-width: 320px) and (max-width: 400px) {
+  .languageContainer h1 {
+    font-size: 1.9rem;
+  }
 
-    .languageContainer h1{
-      font-size: 1.9rem;
-   }
+  .languageContainer img {
+    width: 45%;
+  }
 
-    .languageContainer img{
-      width:45%;
-    }
-
-    .tabButtonLanguage {
-        width: 230px;
-        height: 50px;
-        font-size: 1.2rem;
-        line-height: 40px;
-    }
-  } 
-
-
+  .tabButtonLanguage {
+    width: 230px;
+    height: 50px;
+    font-size: 1.2rem;
+    line-height: 40px;
+  }
+}

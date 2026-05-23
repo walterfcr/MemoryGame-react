@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom"
 import Layout from "./Layout"
 import "./GameComplete.css"
 import { useTranslation } from "react-i18next"
-
-// Firebase
 import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { db } from "../firebase"
 import { useAuth } from "../context/AuthContext"
@@ -16,7 +14,7 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
   const navigate = useNavigate()
   const { user } = useAuth()
   
-  // Use Firebase Auth displayName or email prefix as playerName
+  // fallback to email name or guest if displayName is unavailable
   const playerName = user?.displayName || user?.email?.split("@")[0] || "Guest"
 
   const [saveStatus, setSaveStatus] = useState("idle")
@@ -30,9 +28,9 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
 
   useEffect(() => {
     const saveScore = async () => {
-      if (saveStatus !== "idle") return
+      if (saveStatus !== "idle") return  // prevent duplicate score submissions on re-render
 
-      // Only save to Firebase if user is authenticated
+      // skip persistence for unauthenticated users
       if (!user?.uid) {
         console.log("Skipping Firebase save - user not authenticated")
         setSaveStatus("error")
@@ -56,7 +54,8 @@ function GameComplete({ category, difficulty, gameTime, totalMoves, onPlayAgain 
         }
 
         console.log("Saving to Firebase:", scoreData)
-
+        
+        // use Firestore server time to avoid client-side clock differences
         await addDoc(collection(db, "scores"), {
           ...scoreData,
           createdAt: serverTimestamp(),

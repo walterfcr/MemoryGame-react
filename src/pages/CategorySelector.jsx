@@ -4,16 +4,19 @@ import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import Layout from "../components/Layout"
 import { gsap } from "gsap"
-import "./CategorySelector.css" // Este archivo CSS ya existe y no se modificará
+import "./CategorySelector.css" 
 import { useTranslation } from "react-i18next"
 
 const CategorySelector = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const containerRef = useRef(null) // Ref for animation
-  const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem("selectedCategory") || "heroes")
+  const containerRef = useRef(null) 
 
-  // Button click sound using useRef to avoid reloading
+  // persist last selected category between sessions
+  const [selectedCategory, setSelectedCategory] = useState(
+    localStorage.getItem("selectedCategory") || "heroes"
+  )
+
   const buttonClickSound = useRef(new Audio("/sounds/click.wav"))
   const playSound = () => {
     buttonClickSound.current.currentTime = 0
@@ -28,9 +31,11 @@ const CategorySelector = () => {
 
   const handleBackClick = () => {
     playSound()
-    setTimeout(() => navigate("/menu"), 150) // Delay navigation to let sound play
+    // delay navigation slightly so the click sound can finish playing
+    setTimeout(() => navigate("/menu"), 150) 
   }
 
+  // animate page entrance on mount
   useEffect(() => {
     gsap.from(containerRef.current, {
       x: "100vw",

@@ -41,9 +41,9 @@ function Profile() {
     navigate("/Leaderboard")
   }
 
-  // ✅ LOAD USER DATA FROM FIREBASE
   useEffect(() => {
     const loadUserData = async () => {
+      // skip firestore requests when user session is unavailable
       if (!isAuthenticated || !user || !user.uid) {
         setLoading(false)
         return
@@ -53,9 +53,12 @@ function Profile() {
       setError(null)
 
       try {
+        // dynamically import firestore modules only when profile data is needed
         const { collection, query, where, getDocs, orderBy, limit } = await import("firebase/firestore")
-        const { db } = await import("../firebase")
 
+        const { db } = await import("../firebase")
+        
+        // fetch the user's most recent scores
         const q = query(
           collection(db, "scores"),
           where("uid", "==", user.uid),
@@ -72,7 +75,7 @@ function Profile() {
 
         setRecentScores(scores)
 
-        // ✅ CALCULATE STATS (FIXED clicks instead of moves)
+        // calculate profile statistics from recent matches
         if (scores.length > 0) {
           const totalGames = scores.length
           const bestTime = Math.min(...scores.map((s) => s.time))
@@ -85,6 +88,7 @@ function Profile() {
             return acc
           }, {})
 
+          // determine most played difficulty
           const favoriteCategory = Object.keys(categoryCount).reduce((a, b) =>
             categoryCount[a] > categoryCount[b] ? a : b
           )
@@ -145,6 +149,7 @@ function Profile() {
     return emojis[category] || "🎯"
   }
 
+  // prevent rendering profile content for unauthenticated users
   if (!isAuthenticated || !user) {
     return null
   }
@@ -169,7 +174,7 @@ function Profile() {
 
         {!loading && !error && (
           <>
-            {/* USER INFO */}
+
             <div className="profile-card">
               <div className="profile-avatar">
                 <div className="avatar-circle">
@@ -186,7 +191,6 @@ function Profile() {
               </div>
             </div>
 
-            {/* STATS */}
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon">🎮</div>
@@ -211,7 +215,6 @@ function Profile() {
               </div>
             </div>
 
-            {/* RECENT SCORES */}
             <div className="recent-scores-section">
               <h3 className="section-title">{t("recentScores")}</h3>
 
@@ -245,7 +248,6 @@ function Profile() {
               )}
             </div>
 
-            {/* ACTIONS */}
             <div className="profile-actions">
               <button onClick={handleViewAllScores} className="primary-button">
                 📊 {t("viewAllScores")}

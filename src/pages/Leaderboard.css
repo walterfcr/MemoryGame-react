@@ -1,23 +1,19 @@
-
-
 .leaderboard-container {
   display: flex;
   flex-direction: column;
-  /* Eliminamos justify-content: center; aquí para que el contenido fluya desde arriba */
-  align-items: stretch; 
-  gap: 2rem; /* Space between sections */
+  align-items: stretch;
+  gap: 2rem;
   padding: 2rem;
   box-sizing: border-box;
   font-family: inherit;
-  min-height: calc(100vh - 60px); /* Mantiene la altura mínima para cuando el contenido es corto */
+  min-height: calc(100vh - 60px);
   width: 100%;
   max-width: 1400px;
   box-sizing: border-box;
-  margin: 0 auto; /* Center the container itself */
+  margin: 0 auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
+  -webkit-overflow-scrolling: touch;
 }
-
 
 .leaderboard-title {
   text-align: center;
@@ -27,7 +23,6 @@
   color: var(--text-color);
 }
 
-/* Status messages (loading/error) */
 .status-message {
   text-align: center;
   padding: 40px;
@@ -46,14 +41,13 @@
   color: #dc3545;
 }
 
-/* Primary Button Style (matching tabButtonLanguage) */
 .primary-button {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  width: 200px; /* Adjusted for general use, can be overridden */
-  height: 50px; /* Adjusted for general use */
+  width: 200px;
+  height: 50px;
   background-color: var(--accent) !important;
   color: white;
   border: none;
@@ -63,28 +57,27 @@
   text-decoration: none;
   transition: background 0.3s ease;
   cursor: pointer;
-  padding: 0 15px; /* Add padding for text */
+  padding: 0 15px;
 }
 
 .primary-button:hover {
-  background-color: var(--hover-color); /* Usando la nueva variable */
+  background-color: var(--hover-color);
 }
 
-/* Filters Section */
 .filters {
   display: flex;
   gap: 20px;
   justify-content: center;
   margin-bottom: 30px;
   flex-wrap: wrap;
-  width: 100%; /* Allow filters to take full width */
-  max-width: 600px; /* Limit filter section width */
+  width: 100%;
+  max-width: 600px;
 }
 
 .filter-label {
   margin-right: 10px;
   font-weight: bold;
-  color: #fff; /* Manteniendo tu cambio a blanco */
+  color: #fff;
 }
 
 .filter-select {
@@ -103,7 +96,6 @@
   border-color: var(--accent);
 }
 
-/* Stats Summary */
 .stats-summary {
   display: flex;
   justify-content: center;
@@ -119,15 +111,15 @@
   padding: 15px;
   background-color: var(--light-gray);
   border-radius: 10px;
-  flex: 1; /* Allow cards to grow */
-  min-width: 150px; /* Minimum width for cards */
+  flex: 1;
+  min-width: 150px;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  color: var(--primary-color); /* Use primary color for values */
+  color: var(--primary-color);
   margin-bottom: 5px;
 }
 
@@ -136,11 +128,10 @@
   color: #666;
 }
 
-/* No Scores Message */
 .no-scores-message {
   text-align: center;
   padding: 40px;
-  color: #fff; /* Manteniendo tu cambio a blanco */
+  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,11 +143,10 @@
   margin-bottom: 20px;
 }
 
-/* Footer */
 .leaderboard-footer {
   text-align: center;
   margin-top: 30px;
-  color: #fff; /* Manteniendo tu cambio */
+  color: #fff;
   font-size: 14px;
 }
 
@@ -166,7 +156,6 @@
   gap: 1.5rem;
   width: 100%;
 }
-
 
 .leaderboard-card {
   width: 100%;
@@ -183,15 +172,13 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
 
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .leaderboard-card:hover {
   transform: translateY(-3px);
 
-  box-shadow:
-    0 8px 18px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 .leaderboard-card-top {
@@ -207,7 +194,7 @@
 .leaderboard-rank {
   font-size: 2rem;
   min-width: 50px;
-  color:#fff;
+  color: #fff;
 }
 
 .leaderboard-player-info {
@@ -223,7 +210,7 @@
 .leaderboard-player-info p {
   margin-top: 0.3rem;
 
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
 
   font-size: 0.95rem;
 }
@@ -253,11 +240,9 @@
 .highlight-row {
   outline: 3px solid #ffd700;
 
-  box-shadow:
-    0 0 15px rgba(255,215,0,0.5);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
-/* Container for the tab buttons */
 .leaderboard-tabs {
   display: flex;
   justify-content: center;
@@ -266,7 +251,6 @@
   width: 100%;
 }
 
-/* Base tab button style */
 .tab-btn {
   min-width: 120px;
   padding: 0 1.5rem;
@@ -289,20 +273,22 @@
   cursor: pointer;
 }
 
-/* Hover effect */
 .tab-btn:hover {
   background-color: var(--hover-color);
   transform: translateY(-2px);
 }
 
-/* Active tab */
 .tab-btn.active {
   background-color: var(--primary-color);
   color: #fff;
   box-shadow: 0 0 12px rgba(234, 238, 5, 0.4);
 }
 
-/* Mobile */
+.highlight-row {
+  background-color: rgba(255, 204, 0, 0.12) !important;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   .leaderboard-tabs {
     flex-wrap: wrap;
@@ -317,13 +303,6 @@
   }
 }
 
-/* Row highlight matching the current logged-in player */
-.highlight-row {
-  background-color: rgba(255, 204, 0, 0.12) !important;
-  font-weight: bold;
-}
-
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .leaderboard-container {
     gap: 1.5rem;
@@ -339,7 +318,7 @@
   .filter-select,
   .primary-button {
     width: 100%;
-    max-width: 300px; /* Limit width on smaller screens */
+    max-width: 300px;
   }
 
   .stat-card {
@@ -358,16 +337,14 @@
   .leaderboard-score {
     font-size: 1.5rem;
   }
-
 }
-
 
 @media (max-width: 480px) {
   .leaderboard-container {
     padding: 10px;
-    justify-content: flex-start; /* Re-añadido para asegurar que el contenido empiece arriba en móviles */
-    height: auto; /* Re-añadido para que la altura se ajuste al contenido */
-    padding-top: 30px !important; /* Ajustado para tu padding-top */
+    justify-content: flex-start;
+    height: auto;
+    padding-top: 30px !important;
   }
 
   .status-icon,
@@ -379,8 +356,4 @@
     height: 45px;
     font-size: 1rem;
   }
-
 }
-
-
-

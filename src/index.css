@@ -14,39 +14,31 @@ body {
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   letter-spacing: 0.2rem;
-
 }
 
 html,
 body {
-  height: 100%; /* Asegura que ocupen toda la altura disponible */
+  height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; 
-  -webkit-overflow-scrolling: touch; /* Para un scroll más suave en iOS */
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
   scroll-behavior: auto;
 }
 
-/* Your variables and other styles go here */
 :root {
- --main-background-color: #162031; 
-  --primary-color: #243454; 
-  --secondary-color: #8dbfff; 
-  --accent: #e60b81; 
-  --hover-color: #bd096a; 
-  --complementary-color: #ffd700; 
-  
-
-  /* Layout y UI */
+  --main-background-color: #162031;
+  --primary-color: #243454;
+  --secondary-color: #8dbfff;
+  --accent: #e60b81;
+  --hover-color: #bd096a;
+  --complementary-color: #ffd700;
   --navbar-container-height: 70px;
   --button-color: #ffffff;
   --button-background-color: var(--accent);
   --play-view-hub-height: 60px;
-  
-  /* EXTRA: Añade sombras coherentes */
   --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
-
 
 .mainContainer {
   min-height: 100vh;
@@ -78,7 +70,7 @@ body {
   cursor: pointer;
   border-radius: 50%;
   background-color: var(--button-background-color);
-  border: none; 
+  border: none;
 }
 
 .navbarContainer-title {
@@ -100,7 +92,7 @@ body {
   transition: background-color 0.3s ease;
   white-space: nowrap;
   position: fixed;
-  right: 30px; /* CAMBIO CLAVE: Aumentado el margen derecho */
+  right: 30px;
   z-index: 10;
 }
 
@@ -112,7 +104,6 @@ body {
   .navbarContainer-title {
     display: none;
   }
-
 }
 
 .contentContainer {

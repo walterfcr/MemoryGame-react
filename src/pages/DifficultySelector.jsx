@@ -4,22 +4,24 @@ import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { gsap } from "gsap"
 import Layout from "../components/Layout"
-import "./DifficultySelector.css" // Este archivo CSS ya existe y no se modificará
+import "./DifficultySelector.css" 
 import { useTranslation } from "react-i18next"
 
 const DifficultySelector = ({ onSelect }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const containerRef = useRef(null)
+
+  // persist selected difficulty between sessions
   const [selectedDifficulty, setSelectedDifficulty] = useState(localStorage.getItem("selectedDifficulty") || null)
 
-  // Sound effect
   const clickSound = useRef(new Audio("/sounds/click.wav"))
   const playSound = () => {
     clickSound.current.currentTime = 0
     clickSound.current.play()
   }
 
+  // animate page entrance on mount
   useEffect(() => {
     document.title = "Memory Game - Select Difficulty"
     gsap.from(containerRef.current, {
@@ -52,7 +54,8 @@ const DifficultySelector = ({ onSelect }) => {
 
   const handleBackClick = () => {
     playSound()
-    setTimeout(() => navigate("/menu"), 150) // Slight delay to let the sound play
+    // delay navigation slightly so the click sound can finish playing
+    setTimeout(() => navigate("/menu"), 150) 
   }
 
   return (
